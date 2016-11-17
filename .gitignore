@@ -1,4 +1,4 @@
 node_modules
-config/*
+config
 quickstart.js
 client_secret.json
