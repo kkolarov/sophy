@@ -1,0 +1,4 @@
+./node_modules
+./config/*
+./quickstart.js
+./client_secret.json

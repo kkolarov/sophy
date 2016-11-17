@@ -1,0 +1,46 @@
+{
+  "name": "sophy",
+  "version": "1.0.0",
+  "description": "It is a general-purpose bot that serves as an assistant for booking.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "./node_modules/.bin/mocha -u bdd -R spec -t 500 --recursive --watch"
+  },
+  "author": "kamen.kolarov",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "chalk": "^1.1.3",
+    "config": "^1.21.0",
+    "crypto": "0.0.3",
+    "ejs": "^2.5.2",
+    "express": "^4.13.0",
+    "google-auth-library": "^0.9.9",
+    "googleapis": "^14.1.0",
+    "https": "^1.0.0",
+    "lodash": "^4.16.4",
+    "moment": "^2.15.2",
+    "moment-business-days": "0.0.10",
+    "mongoose": "^4.6.5",
+    "node-fetch": "^1.6.3",
+    "node-rules": "^3.1.0",
+    "node-wit": "^4.1.0",
+    "request": "^2.75.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.1",
+    "gulp-mocha": "^3.0.1",
+    "gulp-node-inspector": "^0.1.0",
+    "gulp-nodemon": "^2.2.1",
+    "gulp-spawn-mocha": "^3.1.0",
+    "istanbul": "^0.4.5",
+    "jshint": "^2.9.3",
+    "jshint-stylish": "^2.2.1",
+    "mocha": "^3.1.2",
+    "mockgoose": "^6.0.8",
+    "sinon": "^1.17.6"
+  }
+}
