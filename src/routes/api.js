@@ -54,4 +54,15 @@ router.post('/', (req, res) => {
   res.sendStatus(200);
 });
 
+router.post('/oracle/predict', (req, res) => {
+  const { text, clientId } = req.body;
+
+  console.log(req.body);
+
+  oracle.think(clientId);
+  oracle.predict(clientId, text);
+
+  res.sendStatus(200);
+});
+
 module.exports = router;

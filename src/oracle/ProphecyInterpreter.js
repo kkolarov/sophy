@@ -11,11 +11,11 @@ const formulas = require('../spell');
 class ProphecyInterpreter {
 
   constructor() {
-    this._prophecyEngine = new RuleEngine(formulas);
+    this._formulaEngine = new RuleEngine(formulas);
   }
 
   /**
-  * This interpret method aims to determine which reply template will be returned to a client.
+  * This interpret method aims to determine which reply templates will be returned to a client.
   *
   * @param /oracle/Prophecy prophecy
   * @param Callback cb
@@ -23,7 +23,7 @@ class ProphecyInterpreter {
   * @return Callback cb
   */
   interpret(prophecy, cb) {
-    this._prophecyEngine.execute({
+    this._formulaEngine.execute({
       prophecy: prophecy
     }, (res) => {
       cb(null, res);

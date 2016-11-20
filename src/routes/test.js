@@ -3,7 +3,7 @@
 const express = require('express');
 const config = require('config');
 const moment = require('moment-business-days');
-
+const request = require('request');
 const Employee = require('../models/Employee');
 const Business = require('../models/Business');
 
@@ -39,7 +39,122 @@ const oracle = new Oracle();
 
 var router = express.Router();
 
-router.get('/booking/suggester', (err, res) => {
+router.get('/get_started_button', (req, res) => {
+  request({
+    uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
+    qs: { access_token: 'EAAFZA1E1YsYUBADZCZAcFHbQYwgXMSosteP5JpCSZCtZAQk4qS6COfrGVPUwB60TfWwES5lMVCSW7LDDU7yua2ZAP6JcISBUYlvHHqTvzJtZA2IJpcaE3Ifz5g7ItmlxcF8eKkqujePLhTxwy4IGMgNvhnpe2aNFHpGTTewrVZAyIQZDZD' },
+    method: 'POST',
+    json: {
+      setting_type:"call_to_actions",
+      thread_state:"new_thread",
+      call_to_actions: [
+        {
+          type: "postback",
+          title:"Запазване на час",
+          payload:"Искам да си запиша час"
+        }
+      ]
+    }
+  }, (err, res, body) => {
+    if (!err && res.statusCode == 200) {
+      console.log(body);
+    } else {
+      console.log(body);
+    }
+  });
+
+  res.send("Hello World");
+});
+
+router.get('/greeting_text', (req, res) => {
+  request({
+    uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
+    qs: { access_token: 'EAAFZA1E1YsYUBADZCZAcFHbQYwgXMSosteP5JpCSZCtZAQk4qS6COfrGVPUwB60TfWwES5lMVCSW7LDDU7yua2ZAP6JcISBUYlvHHqTvzJtZA2IJpcaE3Ifz5g7ItmlxcF8eKkqujePLhTxwy4IGMgNvhnpe2aNFHpGTTewrVZAyIQZDZD' },
+    method: 'POST',
+    json: {
+      setting_type:"greeting",
+      greeting:{
+        text:"Здравей {{user_first_name}}, казвам се Sophy и ще ти помогна да си запишеш час бързо и лесно!"
+      }
+    }
+  }, (err, res, body) => {
+    if (!err && res.statusCode == 200) {
+      console.log(body);
+    } else {
+      console.log(body);
+    }
+  });
+
+  res.send("Hello World");
+});
+
+
+router.get('/whitelist', (req, res) => {
+  request({
+    uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
+    qs: { access_token: 'EAAFZA1E1YsYUBADZCZAcFHbQYwgXMSosteP5JpCSZCtZAQk4qS6COfrGVPUwB60TfWwES5lMVCSW7LDDU7yua2ZAP6JcISBUYlvHHqTvzJtZA2IJpcaE3Ifz5g7ItmlxcF8eKkqujePLhTxwy4IGMgNvhnpe2aNFHpGTTewrVZAyIQZDZD' },
+    method: 'POST',
+    json: {
+      "setting_type" : "domain_whitelisting",
+      "whitelisted_domains" : ["https://c1827a08.ngrok.io"],
+      "domain_action_type": "add"
+    }
+  }, (err, res, body) => {
+    if (!err && res.statusCode == 200) {
+      console.log(body);
+    } else {
+      console.log(body);
+    }
+  });
+
+  res.send("Hello World");
+});
+
+router.get('/persistant_menu', (req, res) => {
+  request({
+    uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
+    qs: { access_token: 'EAAFZA1E1YsYUBADZCZAcFHbQYwgXMSosteP5JpCSZCtZAQk4qS6COfrGVPUwB60TfWwES5lMVCSW7LDDU7yua2ZAP6JcISBUYlvHHqTvzJtZA2IJpcaE3Ifz5g7ItmlxcF8eKkqujePLhTxwy4IGMgNvhnpe2aNFHpGTTewrVZAyIQZDZD' },
+    method: 'POST',
+    json: {
+      setting_type : "call_to_actions",
+      thread_state : "existing_thread",
+      call_to_actions:[
+        {
+          type: "postback",
+          title: "Искам да си запиша час",
+          payload: "Искам да си запиша час при зъболекар"
+        }
+      ]
+    }
+  }, (err, res, body) => {
+    if (!err && res.statusCode == 200) {
+      console.log(body);
+    } else {
+      console.log(body);
+    }
+  });
+
+  // request({
+  //   uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
+  //   qs: { access_token: 'EAAFZA1E1YsYUBADZCZAcFHbQYwgXMSosteP5JpCSZCtZAQk4qS6COfrGVPUwB60TfWwES5lMVCSW7LDDU7yua2ZAP6JcISBUYlvHHqTvzJtZA2IJpcaE3Ifz5g7ItmlxcF8eKkqujePLhTxwy4IGMgNvhnpe2aNFHpGTTewrVZAyIQZDZD' },
+  //   method: 'DELETE',
+  //   json: {
+  //     setting_type : "call_to_actions",
+  //     thread_state : "existing_thread"
+  //   }
+  // }, (err, res, body) => {
+  //   if (!err && res.statusCode == 200) {
+  //     console.log(body);
+  //   } else {
+  //     console.log(body);
+  //   }
+  // });
+
+  res.send("Hello World");
+});
+
+
+router.get('/booking/suggester', (req, res) => {
   const request = {
     calendarId: 'fetfjslqogof3759gph1krs0a4@group.calendar.google.com',
     sender: 'Kamen Kolarov',
@@ -86,7 +201,7 @@ router.get('/update_models', (req, res) => {
           },
           holiday: {
             start : "09:00", end : "18:00",
-            active: false
+            active: true
           }
         }
       });

@@ -1,0 +1,79 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <title>Изберете удобен час</title>
+
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="stylesheet" href="/vendor/pickadate/lib/themes/classic.css" />
+    <link rel="stylesheet" href="/vendor/pickadate/lib/themes/classic.time.css" />
+
+    <style>
+      body {
+        margin: 0;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+
+    <input id="time_picker" class="hidden" type="text" />
+
+    <script type="" src="/vendor/jquery/dist/jquery.min.js"></script>
+    <script type="" src="/vendor/pickadate/lib/picker.js"></script>
+    <script type="" src="/vendor/pickadate/lib/picker.time.js"></script>
+
+    <script "text/javascript">
+
+      $(document).ready(function() {
+        var response = {};
+
+        window.extAsyncInit = function() {
+          MessengerExtensions.getUserID(function success(uids) {
+            var psid = uids.psid;
+
+            response.clientId = psid;
+          }, function error(err) {
+
+          });
+        };
+
+        $('#time_picker').pickatime({
+          onSet: function(context) {
+            response.text = $('#time_picker').val()
+
+            MessengerExtensions.requestCloseBrowser(function success() {
+              $.ajax({
+                method: 'POST',
+                url: '/api/oracle/predict',
+                data: response
+              });
+            }, function error(err) {
+
+            });
+          },
+          clear: '',
+          interval: 15,
+          format: 'HH:i',
+          formatLabel: '<b>HH</b>:i'
+        });
+
+        $('#time_picker').click();
+      }
+    );
+
+    </script>
+
+    <script>
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'Messenger'));
+    </script>
+  </body>
+</html>

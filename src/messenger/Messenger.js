@@ -2,6 +2,8 @@
 
 const request = require('request');
 
+const chalk = require('chalk');
+
 /**
 *
 * @author Kamen Kolarov
@@ -13,8 +15,25 @@ class Messenger {
     this._config = config;
   }
 
+  _request(template) {
+    return new Promise((resolve, reject) => {
+      request({
+        uri: this._config.uri,
+        qs: { access_token: this._config.accessToken },
+        method: template.method,
+        json: template.reply
+      }, (err, res, body) => {
+        if (!err && res.statusCode == 200) {
+          resolve();
+        } else {
+          reject(new Error(body.error.message));
+        }
+      });
+    });
+  }
+
   /**
-  * This method is concern to deliver any prohecy message to a client in the form of specific template.
+  * This method delivers series of template responses to a client.
   *
   * @param /oracle/Prophecy prophecy
   * @param Callback cb
@@ -24,12 +43,18 @@ class Messenger {
   deliver(prophecy, cb) {
     this._prophecyInterpreter.interpret(prophecy, (err, res) => {
       if (!err) {
-        request({
-          uri: this._config.uri,
-          qs: { access_token: this._config.accessToken },
-          method: res.method,
-          json: res.template
-        }, cb);
+        let promises = [];
+
+        for (let i = 0; i < res.templates.length; ++i) {
+          let promise = this._request(res.templates[i]);
+          promises.push(promise);
+        }
+
+        Promise.all(promises).then(() => {
+          cb(null, true);
+        }).catch(exception => {
+          cb(exception, null);
+        });
       }
     });
   }

@@ -84,14 +84,13 @@ class Algorithm {
         if (employee) {
           let workingTime = {};
 
-          if (isBusinessDay(day && workWeekly(employee))) {
+          if (isBusinessDay(day) && workWeekly(employee)) {
             workingTime = employee.workingTime.weekly;
           } else if (!isBusinessDay(day) && workHoliday(employee)) {
             workingTime = employee.workingTime.holiday;
           }
 
           workingTime = this._adapter.adaptWorkingTime(day, workingTime);
-
           if (stickToWorkingTime(date, workingTime)) {
             cb(null,  true);
           } else {

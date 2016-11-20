@@ -14,9 +14,9 @@ const extractor = new EntityExtractor({
   day: true
 });
 
-function send(messenger) {
+function deliver(messenger) {
   return (req, res) => {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
       let newEntities = extractor.extract(req.entities);
 
       let prophecy = new Prophecy(
@@ -27,11 +27,15 @@ function send(messenger) {
         req.context
       );
 
-      messenger.deliver(prophecy, (err, res) => {});
+      messenger.deliver(prophecy, (exception, flag) => {
+        if (exception) {
+          console.log(exception);
+        }
+      });
 
       return resolve();
     });
   }
 }
 
-module.exports = send;
+module.exports = deliver;

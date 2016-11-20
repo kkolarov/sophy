@@ -24,6 +24,10 @@ const employeeSchema = new Schema({
       end: {
         type: String,
         required: true
+      },
+      active: {
+        type: Boolean,
+        required: true
       }
     },
     holiday: {
@@ -33,6 +37,10 @@ const employeeSchema = new Schema({
       },
       end: {
         type: String,
+        required: true
+      },
+      active: {
+        type: Boolean,
         required: true
       }
     },

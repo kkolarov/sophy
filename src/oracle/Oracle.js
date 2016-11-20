@@ -43,7 +43,12 @@ class Oracle {
   * @return void
   */
   think(clientId, on = true) {
-    this._messenger.deliver(new Prophecy(clientId, '', [], {}, { thinking: on }, (err, res) => {}));
+    this._messenger.deliver(new Prophecy(clientId, '', [], {}, { thinking: on }, (exception, flag) => {
+      console.log(flag);
+      if (exception) {
+        console.log(exception);
+      }
+    }));
   }
 
   /**
