@@ -3,7 +3,7 @@
 const _ = require('lodash');
 
 const Prophecy = require('../Prophecy');
-const EntityExtractor = require('../EntityExtractor');
+const EntityExtractor = require('./utilities/EntityExtractor');
 
 const extractor = new EntityExtractor({
   desire: true,

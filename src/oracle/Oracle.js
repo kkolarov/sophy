@@ -10,7 +10,7 @@ const Messenger = require('../messenger').Messenger;
 const Prophecy = require('./Prophecy');
 const ProphecyInterpreter = require('./ProphecyInterpreter');
 
-const helpers = require('./helpers');
+const spells = require('./spells');
 
 /**
 * This class maintains main features of the client-bot model.
@@ -27,7 +27,7 @@ class Oracle {
 
     this._wit = new Wit({
       accessToken: config.get('witAccessToken'),
-      actions: helpers(this._messenger),
+      actions: spells(this._messenger),
       logger: new log.Logger(log.DEBUG)
     });
 

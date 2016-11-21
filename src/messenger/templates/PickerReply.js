@@ -2,8 +2,9 @@
 
 class PickerReply {
 
-  constructor(recipientId, message, url) {
+  constructor(recipientId, title, message, url) {
     this._recipientId = recipientId;
+    this._title = title;
     this._message = message;
     this._url = url;
   }
@@ -23,7 +24,7 @@ class PickerReply {
                    {
                      "type": "web_url",
                      "url": this._url,
-                     "title": "Избери",
+                     "title": this._title,
                      "webview_height_ratio": "compact",
                      "messenger_extensions": true
                    }

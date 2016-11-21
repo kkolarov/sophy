@@ -39,6 +39,27 @@ const oracle = new Oracle();
 
 var router = express.Router();
 
+router.get('/book', (req, res) => {
+  const request = {
+    calendarId: 'fetfjslqogof3759gph1krs0a4@group.calendar.google.com',
+    sender: 'Kamen Kolarov',
+    description: { phone: '', complaints: 'Профилактичен преглед' },
+    day: '11/23/2016',
+    hour: '16:00',
+    estimation: { hours: 1, minutes: 30 }
+  };
+
+  assistant.book(request, (exception, date) => {
+    if (!exception) {
+      console.log(date);
+    } else {
+      console.log(exception);
+    }
+  });
+
+  res.send('Hello World');
+});
+
 router.get('/get_started_button', (req, res) => {
   request({
     uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
@@ -96,7 +117,7 @@ router.get('/whitelist', (req, res) => {
     method: 'POST',
     json: {
       "setting_type" : "domain_whitelisting",
-      "whitelisted_domains" : ["https://c1827a08.ngrok.io"],
+      "whitelisted_domains" : ["https://a4c5261a.ngrok.io"],
       "domain_action_type": "add"
     }
   }, (err, res, body) => {

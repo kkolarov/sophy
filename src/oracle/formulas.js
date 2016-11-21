@@ -7,13 +7,13 @@ const {
   ListReply,
   GalleryReply,
   TextReply
-} = require('../library/messenger/templates');
+} = require('../../library/messenger/templates');
 
 const {
   PickerReply,
-} = require('./messenger/templates');
+} = require('../messenger/templates');
 
-const Employee = require('./models/Employee');
+const Employee = require('../models/Employee');
 const config = require('config');
 
 module.exports = [
@@ -140,8 +140,9 @@ module.exports = [
     consequence: function(R) {
         const reply = new PickerReply(
           this.prophecy.getRecipientId(),
+          config.get('picker').get('day').get('title'),
           this.prophecy.getMessage(),
-          'https://c1827a08.ngrok.io/picker/day'
+          config.get('picker').get('day').get('url')
         );
 
         this.templates = [];
@@ -158,13 +159,14 @@ module.exports = [
     condition: function(R) {
         let context = this.prophecy.getContext();
 
-        R.when(context.missing_time && !context.time);
+        R.when(context.missing_time);
     },
     consequence: function(R) {
         const reply = new PickerReply(
           this.prophecy.getRecipientId(),
+          config.get('picker').get('time').get('title'),
           this.prophecy.getMessage(),
-          'https://c1827a08.ngrok.io/picker/time'
+          config.get('picker').get('time').get('url')
         );
 
         this.templates = [];
@@ -177,35 +179,30 @@ module.exports = [
     }
   },
   {
-    name: 'When a dentist property exists.',
+    name: 'When a bot books hour for a dentist.',
     condition: function(R) {
       let context = this.prophecy.getContext();
 
-      R.when(context.dentist && context.reason && context.time && context.day);
+      R.when(context.dentist && context.reason && context.time && context.day && context.validated);
     },
     consequence: function(R) {
       this.templates = [];
       let context = this.prophecy.getContext();
 
-      Employee.findEmployeeByName(context.dentist, (err, employee) => {
-        if (!err && employee) {
+      const reply = new CustomReply(
+        this.prophecy.getRecipientId(),
+        "Записан час",
+        this.prophecy.getReplies(),
+        context.dentist.pictureUrl,
+        this.prophecy.getMessage()
+      );
 
-          const reply = new CustomReply(
-            this.prophecy.getRecipientId(),
-            "Записан час",
-            this.prophecy.getReplies(),
-            employee.pictureUrl,
-            this.prophecy.getMessage()
-          );
-
-          this.templates.push({
-            method: 'POST',
-            reply: reply.getTemplate()
-          });
-
-          R.stop();
-        }
+      this.templates.push({
+        method: 'POST',
+        reply: reply.getTemplate()
       });
+
+      R.stop();
     }
   },
   {

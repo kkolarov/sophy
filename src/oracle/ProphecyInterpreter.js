@@ -2,7 +2,7 @@
 
 const RuleEngine = require('node-rules');
 
-const formulas = require('../spell');
+const formulas = require('./formulas');
 
 /**
 *
