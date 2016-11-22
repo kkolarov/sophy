@@ -3,6 +3,7 @@
 module.exports = (messenger) => {
   return {
     send: require('./deliver')(messenger),
-    book: require('./book')
+    book: require('./book'),
+    suggest: require('./suggest')
   }
 }

@@ -117,7 +117,7 @@ router.get('/whitelist', (req, res) => {
     method: 'POST',
     json: {
       "setting_type" : "domain_whitelisting",
-      "whitelisted_domains" : ["https://a4c5261a.ngrok.io"],
+      "whitelisted_domains" : ["https://sophy.ngrok.io"],
       "domain_action_type": "add"
     }
   }, (err, res, body) => {
