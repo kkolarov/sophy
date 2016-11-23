@@ -11,6 +11,7 @@ const {
 
 const {
   PickerReply,
+  SuggestionReply
 } = require('../messenger/templates');
 
 const Employee = require('../models/Employee');
@@ -25,10 +26,12 @@ module.exports = [
   //       R.when(true);
   //   },
   //   consequence: function(R) {
-  //       const reply = new PickerReply(
+  //       const reply = new SuggestionReply(
   //         this.prophecy.getRecipientId(),
-  //         this.prophecy.getMessage(),
-  //         'https://c1827a08.ngrok.io/picker/day'
+  //         'Свободни часове',
+  //         '',
+  //         'http://yonov.eu/wp-content/uploads/2016/08/DSCN1465-1.jpg',
+  //         ['11/12/2016 16:00', '11/12/2016 16:00']
   //       );
   //
   //       this.templates = [];
@@ -138,11 +141,13 @@ module.exports = [
         R.when(context.missing_day);
     },
     consequence: function(R) {
+        const dayPickerConfig = config.get('messenger_templates').get('picker').get('day');
+
         const reply = new PickerReply(
           this.prophecy.getRecipientId(),
-          config.get('picker').get('day').get('title'),
+          dayPickerConfig.get('button').get('text'),
           this.prophecy.getMessage(),
-          config.get('picker').get('day').get('url')
+          dayPickerConfig.get('webview')
         );
 
         this.templates = [];
@@ -162,11 +167,13 @@ module.exports = [
         R.when(context.missing_time);
     },
     consequence: function(R) {
+        const timePickerConfig = config.get('messenger_templates').get('picker').get('time');
+
         const reply = new PickerReply(
           this.prophecy.getRecipientId(),
-          config.get('picker').get('time').get('title'),
+          timePickerConfig.get('button').get('text'),
           this.prophecy.getMessage(),
-          config.get('picker').get('time').get('url')
+          timePickerConfig.get('webview')
         );
 
         this.templates = [];
@@ -179,7 +186,7 @@ module.exports = [
     }
   },
   {
-    name: 'When a bot books hour for a dentist.',
+    name: 'When a bot books time for a dentist.',
     condition: function(R) {
       let context = this.prophecy.getContext();
 
@@ -195,6 +202,36 @@ module.exports = [
         this.prophecy.getReplies(),
         context.dentist.pictureUrl,
         this.prophecy.getMessage()
+      );
+
+      this.templates.push({
+        method: 'POST',
+        reply: reply.getTemplate()
+      });
+
+      R.stop();
+    }
+  },
+  {
+    name: 'When a bot suggests free dates.',
+    condition: function(R) {
+      let context = this.prophecy.getContext();
+
+      R.when(context.suggestions);
+    },
+    consequence: function(R) {
+      const suggestionsConfig = config.get('messenger_templates').get('suggestions');
+
+      this.templates = [];
+      let context = this.prophecy.getContext();
+
+      const reply = new SuggestionReply(
+        this.prophecy.getRecipientId(),
+        suggestionsConfig.get('title'),
+        suggestionsConfig.get('description'),
+        context.dentist.pictureUrl,
+        suggestionsConfig.get('button').get('text'),
+        context.suggestions
       );
 
       this.templates.push({

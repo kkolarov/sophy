@@ -6,7 +6,6 @@ const BookingAssistant = require('../../../../booking').BookingAssistant;
 const assistant = new BookingAssistant(Employee);
 
 module.exports = (() => {
-
   const checkDentist = (() => {
     return {
       update: (context) => {
