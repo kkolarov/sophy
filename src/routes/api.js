@@ -3,9 +3,9 @@
 const express = require('express');
 const config = require('config');
 
-const { MessageReceived, PostbackReceived } = require('../../library/messenger/callbacks');
+const { MessageReceived, PostbackReceived } = require('../messenger/callbacks');
+const Batch = require('../messenger/Batch');
 const { Oracle } = require('../oracle');
-const Batch = require('../../library/messenger/Batch');
 
 const oracle = new Oracle();
 

@@ -2,8 +2,6 @@
 
 const request = require('request');
 
-const chalk = require('chalk');
-
 /**
 *
 * @author Kamen Kolarov

@@ -1,6 +1,6 @@
 'use strict';
 
-class PickerReply {
+class Picker {
 
   constructor(recipientId, title, message, url) {
     this._recipientId = recipientId;
@@ -38,4 +38,4 @@ class PickerReply {
   }
 }
 
-module.exports = PickerReply;
+module.exports = Picker;

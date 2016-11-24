@@ -3,46 +3,18 @@
 const {
   TypingReply,
   QuickReply,
-  CustomReply,
+  Card,
   ListReply,
-  GalleryReply,
-  TextReply
-} = require('../../library/messenger/templates');
-
-const {
-  PickerReply,
-  SuggestionReply
+  Gallery,
+  TextReply,
+  Picker,
+  Suggestions
 } = require('../messenger/templates');
 
 const Employee = require('../models/Employee');
 const config = require('config');
 
 module.exports = [
-  // {
-  //   name: 'When a bot gives the day picker to a client.',
-  //   condition: function(R) {
-  //       let context = this.prophecy.getContext();
-  //
-  //       R.when(true);
-  //   },
-  //   consequence: function(R) {
-  //       const reply = new SuggestionReply(
-  //         this.prophecy.getRecipientId(),
-  //         'Свободни часове',
-  //         '',
-  //         'http://yonov.eu/wp-content/uploads/2016/08/DSCN1465-1.jpg',
-  //         ['11/12/2016 16:00', '11/12/2016 16:00']
-  //       );
-  //
-  //       this.templates = [];
-  //       this.templates.push({
-  //         method: 'POST',
-  //         reply: reply.getTemplate()
-  //       });
-  //
-  //       R.stop();
-  //   }
-  // },
   {
     name: "When a bot process the client's response",
     condition: function(R) {
@@ -82,7 +54,7 @@ module.exports = [
         this.prophecy.getMessage()
       );
 
-      const galleryReply = new GalleryReply(
+      const gallery = new Gallery(
         this.prophecy.getRecipientId(),
         config.get('dentists')
       );
@@ -94,7 +66,7 @@ module.exports = [
       });
       this.templates.push({
         method: 'POST',
-        reply: galleryReply.getTemplate()
+        reply: gallery.getTemplate()
       });
 
       R.stop();
@@ -115,7 +87,7 @@ module.exports = [
         this.prophecy.getMessage()
       );
 
-      const galleryReply = new GalleryReply(
+      const gallery = new Gallery(
         this.prophecy.getRecipientId(),
         config.get('reasons')
       );
@@ -127,7 +99,7 @@ module.exports = [
       });
       this.templates.push({
         method: 'POST',
-        reply: galleryReply.getTemplate()
+        reply: gallery.getTemplate()
       });
 
       R.stop();
@@ -143,7 +115,7 @@ module.exports = [
     consequence: function(R) {
         const dayPickerConfig = config.get('messenger_templates').get('picker').get('day');
 
-        const reply = new PickerReply(
+        const reply = new Picker(
           this.prophecy.getRecipientId(),
           dayPickerConfig.get('button').get('text'),
           this.prophecy.getMessage(),
@@ -169,7 +141,7 @@ module.exports = [
     consequence: function(R) {
         const timePickerConfig = config.get('messenger_templates').get('picker').get('time');
 
-        const reply = new PickerReply(
+        const reply = new Picker(
           this.prophecy.getRecipientId(),
           timePickerConfig.get('button').get('text'),
           this.prophecy.getMessage(),
@@ -196,7 +168,7 @@ module.exports = [
       this.templates = [];
       let context = this.prophecy.getContext();
 
-      const reply = new CustomReply(
+      const reply = new Card(
         this.prophecy.getRecipientId(),
         "Записан час",
         this.prophecy.getReplies(),
@@ -225,7 +197,7 @@ module.exports = [
       this.templates = [];
       let context = this.prophecy.getContext();
 
-      const reply = new SuggestionReply(
+      const reply = new Suggestions(
         this.prophecy.getRecipientId(),
         suggestionsConfig.get('title'),
         suggestionsConfig.get('description'),
