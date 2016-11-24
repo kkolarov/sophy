@@ -164,7 +164,7 @@ module.exports = [
     condition: function(R) {
         let context = this.prophecy.getContext();
 
-        R.when(context.missing_time);
+        R.when(context.missing_hour);
     },
     consequence: function(R) {
         const timePickerConfig = config.get('messenger_templates').get('picker').get('time');
@@ -190,7 +190,7 @@ module.exports = [
     condition: function(R) {
       let context = this.prophecy.getContext();
 
-      R.when(context.dentist && context.reason && context.time && context.day && context.validated);
+      R.when(context.dentist && context.reason && context.hour && context.day && context.validated);
     },
     consequence: function(R) {
       this.templates = [];

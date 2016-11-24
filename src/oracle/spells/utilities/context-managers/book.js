@@ -114,15 +114,15 @@ module.exports = (() => {
     return {
       update: (context) => {
         const cleanUp = (context) => {
-          delete context.missing_time;
+          delete context.missing_hour;
         }
 
         const obligateClientToAddTime = (context) => {
-          context.missing_time = true;
+          context.missing_hour = true;
         }
 
         return new Promise((resolve, reject) => {
-          if (context.time) {
+          if (context.hour) {
             cleanUp(context);
 
             validation.update(context).then(context => {
@@ -150,7 +150,7 @@ module.exports = (() => {
               complaints: context.reason
             },
             day: context.day,
-            hour: context.time,
+            hour: context.hour,
             estimation: {
               hours: 1,
               minutes: 30
@@ -190,7 +190,7 @@ module.exports = (() => {
               complaints: context.reason
             },
             day: context.day,
-            hour: context.time,
+            hour: context.hour,
             estimation: {
               hours: 1,
               minutes: 30

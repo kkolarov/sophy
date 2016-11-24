@@ -43,14 +43,18 @@
           onSet: function(context) {
             response.text = $('#day_picker').val()
 
+            console.log(response);
+
             MessengerExtensions.requestCloseBrowser(function success() {
               $.ajax({
                 method: 'POST',
                 url: '/api/oracle/predict',
                 data: response
               });
-            }, function error(err) {
-
+            }).done(function(res) {
+              console.log(res);
+            }).fail(function(err) {
+              console.log(err);
             });
           },
           monthsFull: ['Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември'],

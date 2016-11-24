@@ -17,7 +17,7 @@ module.exports = ({ context, entities }) => {
         complaints: context.reason
       },
       day: context.day,
-      hour: context.time,
+      hour: context.hour,
       estimation: {
         hours: 1,
         minutes: 30

@@ -7,10 +7,11 @@ const EntityExtractor = require('./utilities/EntityExtractor');
 
 const extractor = new EntityExtractor({
   desire: true,
+  service: true,
   profession: true,
   dentist: true,
   reason: true,
-  time: true,
+  hour: true,
   day: true
 });
 
