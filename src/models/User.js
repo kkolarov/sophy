@@ -37,6 +37,10 @@ const userSchema = new Schema({
   }
 });
 
+userSchema.virtual('fullName').get(() => {
+  return this.firstName + " " + this.lastName;
+});
+
 userSchema.statics.findOrCreateFbUser = (fbUserId, cb) => {
   User.findOne({ fbUserId: fbUserId }, (err, user) => {
     if (!err) {
