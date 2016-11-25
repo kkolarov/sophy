@@ -50,7 +50,7 @@ router.post('/', (req, res) => {
                 if (!fbUser.error) {
                   const user = new User({
                     recipientId: userId,
-                    source: 'fb',
+                    source: 'messenger',
                     firstName: fbUser.first_name,
                     lastName: fbUser.last_name,
                     pictureUrl: fbUser.profile_pic,

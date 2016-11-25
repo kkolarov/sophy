@@ -11,7 +11,7 @@ const userSchema = new Schema({
   },
   source: {
     type: String,
-    enum: ['fb', 'app'],
+    enum: ['messenger', 'app'],
     required: true
   },
   firstName: {
@@ -27,7 +27,7 @@ const userSchema = new Schema({
     required: true
   },
   timezone: {
-    type: String,
+    type: Number,
     required: true
   },
   gender: {
