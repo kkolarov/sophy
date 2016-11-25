@@ -4,6 +4,7 @@ const express = require('express');
 const config = require('config');
 
 const { MessageReceived, PostbackReceived } = require('../messenger/callbacks');
+const User = require('../models/User');
 const Batch = require('../messenger/Batch');
 const { Oracle } = require('../oracle');
 
@@ -32,22 +33,26 @@ router.post('/', (req, res) => {
 
   batch._events.forEach(event => {
     if (event.comesFromPage()) {
-      const clientId = event.getSenderId();
+      const userId = event.getSenderId();
 
-      if (event instanceof MessageReceived && !event.isEcho()) {
-        const text = event.getText();
+      User.findOrCreateFbUser(userId, (err, user) => {
+        if (!err) {
+          if (event instanceof MessageReceived && !event.isEcho()) {
+            const text = event.getText();
 
-        oracle.think(clientId);
-        oracle.predict(clientId, text);
-      } else if (event instanceof PostbackReceived) {
-        const payload = event.getPayload();
+            oracle.think(user);
+            oracle.predict(user, text);
+          } else if (event instanceof PostbackReceived) {
+            const payload = event.getPayload();
 
-        // A Messener bug about typing bubble
-        setTimeout(() => {
-          oracle.think(clientId);
-          oracle.predict(clientId, payload);
-        }, 1000);
-      }
+            // A Messener bug about typing bubble
+            setTimeout(() => {
+              oracle.think(user);
+              oracle.predict(user, payload);
+            }, 1000);
+          }
+        }
+      });
     }
   });
 
@@ -57,10 +62,12 @@ router.post('/', (req, res) => {
 router.post('/oracle/predict', (req, res) => {
   const { text, clientId } = req.body;
 
-  console.log(req.body);
-
-  oracle.think(clientId);
-  oracle.predict(clientId, text);
+  User.findOrCreateFbUser(clientId, (err, user) => {
+    if (!err) {
+      oracle.think(user);
+      oracle.predict(user, text);
+    }
+  });
 
   res.sendStatus(200);
 });

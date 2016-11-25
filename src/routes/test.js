@@ -6,6 +6,7 @@ const moment = require('moment-business-days');
 const request = require('request');
 const Employee = require('../models/Employee');
 const Business = require('../models/Business');
+const User = require('../models/User');
 
 const { GoogleCalendar } = require('../../src/booking/calendars/google-calendar');
 const { BookingAssistant } = require('../../src/booking');
@@ -37,25 +38,36 @@ const oracle = new Oracle();
 
 var router = express.Router();
 
-router.get('/book', (req, res) => {
+router.get('/user_model', (req, res) => {
+  // User.findOrCreateFbUser(1112292508879017, (err, user) => {
+  //   if (!err) {
+  //     console.log(user);
+  //   } else {
+  //     console.log(err);
+  //   }
+  // });
 
-  console.log(moment(new Date("11/27/2016 16:00")).weekday());
-
-  // const request = {
-  //   calendarId: 'fetfjslqogof3759gph1krs0a4@group.calendar.google.com',
-  //   sender: 'Kamen Kolarov',
-  //   description: { phone: '', complaints: 'Профилактичен преглед' },
-  //   day: '11/23/2016',
-  //   hour: '16:00',
-  //   estimation: { hours: 1, minutes: 30 }
+  // const info = {
+  //   first_name: 'Kamen',
+  //   last_name: 'Kolarov',
+  //   profile_pic: 'https://scontent.xx.fbcdn.net/t31.0-1/p720x720/10506738_10150004552801856_220367501106153455_o.jpg',
+  //   locale: 'en_GB',
+  //   timezone: 2,
+  //   gender: 'male'
   // };
   //
-  // assistant.book(request, (exception, date) => {
-  //   if (!exception) {
-  //     console.log(date);
-  //   } else {
-  //     console.log(exception);
-  //   }
+  // const user = new User({
+  //   fbUserId: 1112204632166184,
+  //   firstName: info.first_name || '',
+  //   lastName: info.last_name || '',
+  //   pictureUrl: info.profile_pic || '',
+  //   locale: info.locale || '',
+  //   timezone: info.timezone || '',
+  //   gender: info.gender || ''
+  // });
+  //
+  // user.save((err, user) => {
+  //   console.log(user);
   // });
 
   res.send('Hello World');
