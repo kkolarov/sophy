@@ -19,38 +19,10 @@ const {
   UnsupportedTimeFormat
 } = require('../../../booking/exceptions');
 
+const { assertThatSuccessWith, assertThatFailWith } = require('../../assertion');
+
 const GoogleCalendar = require('../../../booking/calendars/google-calendar').GoogleCalendar;
 const BookingAssistant = require('../../../booking').BookingAssistant;
-
-const assertThatSuccessWith = (done, assertion) => {
-  return (exception, response) => {
-    if (!exception) {
-      try {
-        assertion(response);
-        done();
-      } catch(e) {
-        done(e);
-      }
-    } else {
-      done(exception);
-    }
-  }
-}
-
-const assertThatFailWith = (done, assertion) => {
-  return (exception, response) => {
-    if (exception) {
-      try {
-        assertion(exception);
-        done();
-      }catch(e) {
-        done(e);
-      }
-    } else {
-      done(new Error('There is no exception that has been raised.'));
-    }
-  }
-}
 
 describe("A client books an hour", () => {
 

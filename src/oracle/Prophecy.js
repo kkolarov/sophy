@@ -7,20 +7,15 @@
 */
 class Prophecy {
 
-  constructor(recipientId, message = '', replies = [], entities = {}, context = {}) {
+  constructor(recipientId, message, replies = [], context = {}) {
     this._recipientId = recipientId;
     this._message = message;
     this._replies = replies;
-    this._entities = entities;
     this._context = context;
   }
 
   getReplies() {
     return this._replies;
-  }
-
-  getEntities() {
-    return this._entities;
   }
 
   getContext() {

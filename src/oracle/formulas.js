@@ -25,16 +25,12 @@ module.exports = [
     consequence: function(R) {
       let context = this.prophecy.getContext();
 
-      const reply = new TypingReply(
+      const typingReply = new TypingReply(
         this.prophecy.getRecipientId(),
         context.thinking ? 'typing_on' : 'typing_off'
       );
 
-      this.templates = [];
-      this.templates.push({
-        method: 'POST',
-        reply: reply.getTemplate()
-      });
+      this.replies = [typingReply];
 
       R.stop();
     }
@@ -59,15 +55,7 @@ module.exports = [
         config.get('dentists')
       );
 
-      this.templates = [];
-      this.templates.push({
-        method: 'POST',
-        reply: textReply.getTemplate()
-      });
-      this.templates.push({
-        method: 'POST',
-        reply: gallery.getTemplate()
-      });
+      this.replies = [textReply, gallery];
 
       R.stop();
     }
@@ -92,15 +80,7 @@ module.exports = [
         config.get('reasons')
       );
 
-      this.templates = [];
-      this.templates.push({
-        method: 'POST',
-        reply: textReply.getTemplate()
-      });
-      this.templates.push({
-        method: 'POST',
-        reply: gallery.getTemplate()
-      });
+      this.replies = [textReply, gallery];
 
       R.stop();
     }
@@ -115,18 +95,14 @@ module.exports = [
     consequence: function(R) {
         const dayPickerConfig = config.get('messenger_templates').get('picker').get('day');
 
-        const reply = new Picker(
+        const picker = new Picker(
           this.prophecy.getRecipientId(),
           dayPickerConfig.get('button').get('text'),
           this.prophecy.getMessage(),
           dayPickerConfig.get('webview')
         );
 
-        this.templates = [];
-        this.templates.push({
-          method: 'POST',
-          reply: reply.getTemplate()
-        });
+        this.replies = [picker];
 
         R.stop();
     }
@@ -141,18 +117,14 @@ module.exports = [
     consequence: function(R) {
         const timePickerConfig = config.get('messenger_templates').get('picker').get('time');
 
-        const reply = new Picker(
+        const picker = new Picker(
           this.prophecy.getRecipientId(),
           timePickerConfig.get('button').get('text'),
           this.prophecy.getMessage(),
           timePickerConfig.get('webview')
         );
 
-        this.templates = [];
-        this.templates.push({
-          method: 'POST',
-          reply: reply.getTemplate()
-        });
+        this.replies = [picker];
 
         R.stop();
     }
@@ -162,13 +134,12 @@ module.exports = [
     condition: function(R) {
       let context = this.prophecy.getContext();
 
-      R.when(context.dentist && context.reason && context.hour && context.day && context.validated);
+      R.when(context.dentist && context.reason && context.day && context.hour && context.validated);
     },
     consequence: function(R) {
-      this.templates = [];
       let context = this.prophecy.getContext();
 
-      const reply = new Card(
+      const card = new Card(
         this.prophecy.getRecipientId(),
         "Записан час",
         this.prophecy.getReplies(),
@@ -176,10 +147,7 @@ module.exports = [
         this.prophecy.getMessage()
       );
 
-      this.templates.push({
-        method: 'POST',
-        reply: reply.getTemplate()
-      });
+      this.replies = [card];
 
       R.stop();
     }
@@ -194,10 +162,9 @@ module.exports = [
     consequence: function(R) {
       const suggestionsConfig = config.get('messenger_templates').get('suggestions');
 
-      this.templates = [];
       let context = this.prophecy.getContext();
 
-      const reply = new Suggestions(
+      const suggestions = new Suggestions(
         this.prophecy.getRecipientId(),
         suggestionsConfig.get('title'),
         suggestionsConfig.get('description'),
@@ -206,10 +173,7 @@ module.exports = [
         context.suggestions
       );
 
-      this.templates.push({
-        method: 'POST',
-        reply: reply.getTemplate()
-      });
+      this.replies = [suggestions];
 
       R.stop();
     }
@@ -220,18 +184,13 @@ module.exports = [
         R.when(true);
     },
     consequence: function(R) {
-        this.templates = [];
-
-        const reply = new QuickReply(
+        const quickReply = new QuickReply(
           this.prophecy.getRecipientId(),
           this.prophecy.getMessage(),
           this.prophecy.getReplies()
         );
 
-        this.templates.push({
-          method: 'POST',
-          reply: reply.getTemplate()
-        });
+        this.replies = [quickReply];
 
         R.stop();
     }

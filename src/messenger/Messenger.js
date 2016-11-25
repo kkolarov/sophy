@@ -18,8 +18,8 @@ class Messenger {
       request({
         uri: this._config.uri,
         qs: { access_token: this._config.accessToken },
-        method: template.method,
-        json: template.reply
+        method: 'POST',
+        json: template
       }, (err, res, body) => {
         if (!err && res.statusCode == 200) {
           resolve();
@@ -41,15 +41,16 @@ class Messenger {
   deliver(prophecy, cb) {
     this._prophecyInterpreter.interpret(prophecy, (err, res) => {
       if (!err) {
+        const replies = res.replies;
         let promises = [];
 
-        for (let i = 0; i < res.templates.length; ++i) {
-          let promise = this._request(res.templates[i]);
+        for (let i = 0; i < replies.length; ++i) {
+          let promise = this._request(replies[i].getTemplate());
           promises.push(promise);
         }
 
         Promise.all(promises).then(() => {
-          cb(null, true);
+          cb(null, replies);
         }).catch(exception => {
           cb(exception, null);
         });

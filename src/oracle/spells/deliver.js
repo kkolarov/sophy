@@ -18,13 +18,13 @@ const extractor = new EntityExtractor({
 function deliver(messenger) {
   return (req, res) => {
     return new Promise((resolve, reject) => {
+      // TODO: The new entities should be removed.
       let newEntities = extractor.extract(req.entities);
 
-      let prophecy = new Prophecy(
+      const prophecy = new Prophecy(
         req.context.recipientId,
         res.text,
         res.quickreplies,
-        newEntities,
         req.context
       );
 
