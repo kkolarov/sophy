@@ -7,27 +7,30 @@ class ConversationManager {
     this._conversions = {};
   }
 
-  findOrCreateConversation(fbUserId) {
-    if (!_.has(this._conversions, fbUserId)) {
-      let conversionId = new Date().toISOString();
+  findOrCreateConversation(user) {
+    if (!_.has(this._conversions, user._id)) {
+      let conversationId = new Date().toISOString();
 
-      this._conversions[fbUserId] = {
-        id: conversionId,
+      this._conversions[user._id] = {
+        id: conversationId,
         context: {
-          recipientId: fbUserId
+          recipient: {
+            id: user.recipientId,
+            name: user.fullName
+          }
         }
       }
     }
 
-    return this._conversions[fbUserId];
+    return this._conversions[user._id];
   }
 
-  removeConversation(fbUserId) {
-    delete this._conversions[fbUserId];
+  removeConversation(user) {
+    delete this._conversions[user._id];
   }
 
-  updateContext(fbUserId, context) {
-    this._conversions[fbUserId].context = context;
+  updateContext(user, context) {
+    this._conversions[user._id].context = context;
 
     return context;
   }

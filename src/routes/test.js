@@ -55,7 +55,7 @@ router.get('/user_model', (req, res) => {
   //   timezone: 2,
   //   gender: 'male'
   // };
-  //
+
   // const user = new User({
   //   fbUserId: 1112204632166184,
   //   firstName: info.first_name || '',

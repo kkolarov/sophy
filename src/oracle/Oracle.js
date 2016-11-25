@@ -40,15 +40,18 @@ class Oracle {
   * @param JSON user
   * @param Boolean on
   *
-  * @return void
+  * @return Promise
   */
   think(user, on = true) {
-    this._messenger.deliver(new Prophecy(user.fbUserId, '', [], {}, { thinking: on }, (exception, flag) => {
-      console.log(flag);
-      if (exception) {
-        console.log(exception);
-      }
-    }));
+    return new Promise((resolve, reject) => {
+      this._messenger.deliver(new Prophecy(user.recipientId, '', [], { thinking: on }, (exception, flag) => {
+        if (!exception) {
+          reject(exception);
+        } else {
+          resolve(flag);
+        }
+      }));
+    });
   }
 
   /**
@@ -60,18 +63,18 @@ class Oracle {
   * @return void
   */
   predict(user, text) {
-    const conversation = this._conversationManager.findOrCreateConversation(user.fbUserId);
+    const conversation = this._conversationManager.findOrCreateConversation(user);
 
     this._wit.runActions(conversation.id, text, conversation.context)
     .then((context) => {
         if (_.has(context, 'done')) {
           console.log('A client conversation is done.')
 
-          this._conversationManager.removeConversation(user.fbUserId);
+          this._conversationManager.removeConversation(user);
         } else {
           console.log(chalk.blue(JSON.stringify(context)));
 
-          this._conversationManager.updateContext(user.fbUserId, context);
+          this._conversationManager.updateContext(user, context);
         }
     });
   }

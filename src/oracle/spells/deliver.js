@@ -22,7 +22,7 @@ function deliver(messenger) {
       let newEntities = extractor.extract(req.entities);
 
       const prophecy = new Prophecy(
-        req.context.recipientId,
+        req.context.recipient.id,
         res.text,
         res.quickreplies,
         req.context

@@ -4,14 +4,15 @@ const config = require('config');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const FB = require('fb');
-
-FB.options({ version: config.get('fbVersion'), appSecret: config.get('appSecret') });
-FB.setAccessToken(config.get('pageAccessToken'));
-
 const userSchema = new Schema({
-  fbUserId: {
-    type: Number
+  recipientId: {
+    type: Number,
+    required: true
+  },
+  source: {
+    type: String,
+    enum: ['fb', 'app'],
+    required: true
   },
   firstName: {
     type: String,
@@ -41,35 +42,15 @@ userSchema.virtual('fullName').get(function() {
   return this.firstName + " " + this.lastName;
 });
 
-userSchema.statics.findOrCreateFbUser = (fbUserId, cb) => {
-  User.findOne({ fbUserId: fbUserId }, (err, user) => {
-    if (!err) {
-      if (!user) {
-        FB.api(`${fbUserId}`, 'get', { }, function (res) {
-          if (!res.error) {
-            const user = new User({
-              fbUserId: fbUserId,
-              firstName: res.first_name || '',
-              lastName: res.last_name || '',
-              pictureUrl: res.profile_pic || '',
-              locale: res.locale || '',
-              timezone: res.timezone || '',
-              gender: res.gender || ''
-            });
-
-            user.save((err, user) => {
-              cb(err, user);
-            });
-          } else {
-            cb(res.error, null);
-          }
-        });
+userSchema.statics.findUserByRecipientId = (recipientId) => {
+  return new Promise((resolve, reject) => {
+    User.findOne({ recipientId: recipientId }, (err, user) => {
+      if (!err) {
+        resolve(user);
       } else {
-        cb(null, user);
+        reject(err);
       }
-    } else {
-      cb(err, null);
-    }
+    });
   });
 }
 

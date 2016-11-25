@@ -144,9 +144,8 @@ module.exports = (() => {
         return new Promise((resolve, reject) => {
           const request = {
             calendarId: context.dentist.calendarId,
-            sender: 'Kamen Kolarov',
+            sender: context.recipient.name,
             description: {
-              phone: '',
               complaints: context.reason
             },
             day: context.day,
@@ -184,9 +183,8 @@ module.exports = (() => {
         return new Promise((resolve, reject) => {
           const request = {
             calendarId: context.dentist.calendarId,
-            sender: 'Kamen Kolarov',
+            sender: context.recipient.name,
             description: {
-              phone: '',
               complaints: context.reason
             },
             day: context.day,
