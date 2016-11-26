@@ -13,6 +13,13 @@ class Messenger {
     this._config = config;
   }
 
+  /**
+  * This method sends a request to a given url.
+  *
+  * @param JSON template
+  *
+  * @return Promise
+  */
   _request(template) {
     return new Promise((resolve, reject) => {
       request({

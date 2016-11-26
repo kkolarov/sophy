@@ -39,6 +39,12 @@ const oracle = new Oracle();
 var router = express.Router();
 
 router.get('/user_model', (req, res) => {
+  Employee.findEmoloyees(10)
+    .then(employees => {
+      console.log(employees);
+    });
+
+
   // User.findOrCreateFbUser(1112292508879017, (err, user) => {
   //   if (!err) {
   //     console.log(user);
@@ -215,19 +221,40 @@ router.get('/booking/suggester', (req, res) => {
 
 router.get('/update_models', (req, res) => {
   let business = new Business({
-    name: "Стамотологичен кабинет Д-р Йонов",
+    name: "Стамотологичен кабинет ...",
     domain : "дентална грижа",
     subscribe : "booking"
   });
 
   business.save((err, business) => {
     if (!err) {
-      let employee = new Employee({
-        name : "Д-р Йонов",
-        position : "dentist",
-        pictureUrl : "http://yonov.eu/wp-content/uploads/2016/08/DSCN1465-1.jpg",
-        calendarId : "fetfjslqogof3759gph1krs0a4@group.calendar.google.com",
+      let employee1 = new Employee({
+        name : 'Д-р Йонов',
+        position : 'dentist',
+        pictureUrl : 'http://yonov.eu/wp-content/uploads/2016/08/DSCN1465-1.jpg',
+        calendarId : 'fetfjslqogof3759gph1krs0a4@group.calendar.google.com',
+        aboutMe: 'Моята мисия е да предоставя висококачествено дентално лечение в съответствие с ценностите, заложени в Хипократовата клета.',
         _business : business._id,
+        workingTime : {
+          weekly: {
+            start : '09:00', end : '18:00',
+            active: true
+          },
+          holiday: {
+            start : '09:00', end : '18:00',
+            active: true
+          }
+        }
+      });
+
+      employee1.save();
+
+      let employee2 = new Employee({
+        name : "Д-р Митева",
+        position : "dentist",
+        pictureUrl : "http://dentaconsult.bg/data//uploads/media/team/6/C_52c47914c23cbda62fb9d981aa821775.jpg",
+        calendarId : "",
+        aboutMe: 'Тя е нежното лице на Denta Consult и e доказателство, че във всеки дом има по една жена, която знае как да му вдъхне живот.',
         workingTime : {
           weekly: {
             start : "09:00", end : "18:00",
@@ -240,7 +267,27 @@ router.get('/update_models', (req, res) => {
         }
       });
 
-      employee.save();
+      let employee3 = new Employee({
+        name : 'Д-р Маринов',
+        position : 'dentist',
+        pictureUrl : 'http://dentaconsult.bg/data//uploads/media/team/4/C_14f3ceb179b8ff62025759ef52a79976.jpg',
+        calendarId : '',
+        aboutMe: 'Той разбива мита, че рутината задължително върви в комплект с бели коси и дълбоки бръчки.',
+        workingTime : {
+          weekly: {
+            start : '09:00', end : '18:00',
+            active: true
+          },
+          holiday: {
+            start : '09:00', end : '18:00',
+            active: true
+          }
+        }
+      });
+
+      employee1.save();
+      employee2.save();
+      employee3.save();
     }
 
     res.send('Update Business & Employee models');

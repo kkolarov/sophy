@@ -1,5 +1,6 @@
 'use strict';
 
+const mongoose = require('mongoose');
 const config = require('config');
 
 const chai = require('chai');
@@ -13,7 +14,8 @@ const {
   Gallery,
   TextReply,
   Picker,
-  Suggestions
+  Suggestions,
+  DentistSuggestion
 } = require('../../../messenger/templates');
 
 const { assertThatSuccessWith, assertThatFailWith } = require('../../assertion');
@@ -23,6 +25,14 @@ const ProphecyInterpreter = require('../../../oracle').ProphecyInterpreter;
 const samples = require('./prophecy-samples');
 
 describe("A bot delivers templates", () => {
+
+  before('A database configuration.', (done) => {
+    mongoose.connect(config.get('mongoTestingUri'), (err, res) => {
+      if (!err) {
+        done();
+      }
+    });
+  });
 
   before('A messenger configuration.', () => {
     this.messenger = new Messenger(new ProphecyInterpreter(), {
@@ -37,7 +47,7 @@ describe("A bot delivers templates", () => {
     this.messenger.deliver(prophecy, assertThatSuccessWith(done, (templates) => {
       expect(templates).to.have.lengthOf(2);
       expect(templates[0]).instanceof(TextReply);
-      expect(templates[1]).instanceof(Gallery);
+      expect(templates[1]).instanceof(DentistSuggestion);
     }));
   });
 

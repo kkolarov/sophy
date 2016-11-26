@@ -13,6 +13,10 @@ const employeeSchema = new Schema({
     enum: ['dentist'],
     required: true
   },
+  created_date: {
+    type: Date,
+    default: Date.now
+  },
   pictureUrl: String,
   aboutMe: String,
   workingTime: {
@@ -69,6 +73,20 @@ employeeSchema.statics.findEmployeeByName = (name, cb) => {
   return Employee.findOne({
     name: name
   }, cb);
+}
+
+employeeSchema.statics.findEmployees = (position, size, order = 1) => {
+  return new Promise((resolve, reject) => {
+    Employee.find({ position: position }, (err, employees) => {
+      if (!err) {
+        resolve(employees);
+      } else {
+        reject(err);
+      }
+    })
+    .limit(size)
+    .sort({ created_date: order });
+  });
 }
 
 employeeSchema.statics.findEmployeeByCalendarId = (calendarId, cb) => {

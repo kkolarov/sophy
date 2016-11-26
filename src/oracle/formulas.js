@@ -8,7 +8,8 @@ const {
   Gallery,
   TextReply,
   Picker,
-  Suggestions
+  Suggestions,
+  DentistSuggestion
 } = require('../messenger/templates');
 
 const Employee = require('../models/Employee');
@@ -23,7 +24,7 @@ module.exports = [
       R.when(context.thinking);
     },
     consequence: function(R) {
-      let context = this.prophecy.getContext();
+      const context = this.prophecy.getContext();
 
       const typingReply = new TypingReply(
         this.prophecy.getRecipientId(),
@@ -38,26 +39,31 @@ module.exports = [
   {
     name: "When a bot suggests a collection of dentists.",
     condition: function(R) {
-      let context = this.prophecy.getContext();
+      const context = this.prophecy.getContext();
 
       R.when(context.missing_dentist);
     },
     consequence: function(R) {
-      let context = this.prophecy.getContext();
+      const context = this.prophecy.getContext();
+      const position = 'dentist';
+      const size = 10;
 
-      const textReply = new TextReply(
-        this.prophecy.getRecipientId(),
-        this.prophecy.getMessage()
-      );
+      Employee.findEmployees(position, size)
+        .then(employees => {
+          const textReply = new TextReply(
+            this.prophecy.getRecipientId(),
+            this.prophecy.getMessage()
+          );
 
-      const gallery = new Gallery(
-        this.prophecy.getRecipientId(),
-        config.get('dentists')
-      );
+          const suggestion = new DentistSuggestion(
+            this.prophecy.getRecipientId(),
+            employees
+          );
 
-      this.replies = [textReply, gallery];
+          this.replies = [textReply, suggestion];
 
-      R.stop();
+          R.stop();
+        });
     }
   },
   {
