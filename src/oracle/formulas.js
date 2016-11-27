@@ -17,7 +17,7 @@ const config = require('config');
 
 module.exports = [
   {
-    name: "When a bot process the client's response",
+    name: "When the bot process a client's response",
     condition: function(R) {
       let context = this.prophecy.getContext();
 
@@ -37,7 +37,27 @@ module.exports = [
     }
   },
   {
-    name: "When a bot suggests a collection of dentists.",
+    name: "When the bot reports that the dentist specified by a client hasn't been found.",
+    condition: function(R) {
+      const context = this.prophecy.getContext();
+
+      R.when(context.unknown_dentist);
+    },
+    consequence: function(R) {
+      const context = this.prophecy.getContext();
+
+      const textReply = new TextReply(
+        this.prophecy.getRecipientId(),
+        this.prophecy.getMessage()
+      );
+
+      this.replies = [textReply];
+
+      R.stop();
+    }
+  },
+  {
+    name: "When the bot suggests a collection of dentists.",
     condition: function(R) {
       const context = this.prophecy.getContext();
 
