@@ -6,11 +6,11 @@ const BookingAssistant = require('../../../../booking').BookingAssistant;
 const assistant = new BookingAssistant(Employee);
 
 module.exports = (() => {
-  const checkDentist = (() => {
+  const dentistStep = (() => {
     return {
       update: (context) => {
         const cleanUp = (context) => {
-          delete context.missing_dentist;
+          delete context.dentist_step;
         }
 
         const isExtened = (context) => {
@@ -18,8 +18,7 @@ module.exports = (() => {
         }
 
         const obligateClientToAddDentist = (context) => {
-          context.missing_dentist = true;
-
+          context.dentist_step = true;
         }
 
         return new Promise((resolve, reject) => {
@@ -27,7 +26,7 @@ module.exports = (() => {
             cleanUp(context);
 
             if (isExtened(context)) {
-              checkReason.update(context).then(context => {
+              reasonStep.update(context).then(context => {
                 resolve(context);
               });
             } else {
@@ -38,7 +37,7 @@ module.exports = (() => {
                   calendarId: employee.calendarId
                 };
 
-                checkReason.update(context).then(context => {
+                reasonStep.update(context).then(context => {
                   resolve(context);
                 });
               });
@@ -54,22 +53,22 @@ module.exports = (() => {
     }
   })();
 
-  const checkReason = (() => {
+  const reasonStep = (() => {
     return {
       update: (context) => {
         const cleanUp = (context) => {
-          delete context.missing_reason;
+          delete context.reason_step;
         }
 
         const obligateClientToAddReason = (context) => {
-          context.missing_reason = true;
+          context.reason_step = true;
         }
 
         return new Promise((resolve, reject) => {
           if (context.reason) {
             cleanUp(context);
 
-            checkDay.update(context).then(context => {
+            hourStep.update(context).then(context => {
               resolve(context);
             });
           } else {
@@ -82,50 +81,22 @@ module.exports = (() => {
     }
   })();
 
-  const checkDay = (() => {
+  const hourStep = (() => {
     return {
       update: (context) => {
         const cleanUp = (context) => {
-          delete context.missing_day;
-        }
-
-        const obligateClientToAddDay = (context) => {
-          context.missing_day = true;
-        }
-
-        return new Promise((resolve, reject) => {
-          if (context.day) {
-            cleanUp(context);
-
-            checkHour.update(context).then(context => {
-              resolve(context);
-            });
-          } else {
-            obligateClientToAddDay(context);
-
-            resolve(context);
-          }
-        });
-      }
-    }
-  })();
-
-  const checkHour = (() => {
-    return {
-      update: (context) => {
-        const cleanUp = (context) => {
-          delete context.missing_hour;
+          delete context.hour_step;
         }
 
         const obligateClientToAddTime = (context) => {
-          context.missing_hour = true;
+          context.hour_step = true;
         }
 
         return new Promise((resolve, reject) => {
           if (context.hour) {
             cleanUp(context);
 
-            validation.update(context).then(context => {
+            suggestionStep.update(context).then(context => {
               resolve(context);
             });
           } else {
@@ -138,40 +109,42 @@ module.exports = (() => {
     }
   })();
 
-  const validation = (() => {
+  const suggestionStep = (() => {
+    const cleanUp = (context) => {
+      delete context.suggestion_step;
+    }
+
+    const obligateClientToAddDay = (context) => {
+      context.suggestion_step = true;
+    }
+
     return {
       update: (context) => {
         return new Promise((resolve, reject) => {
-          const request = {
-            calendarId: context.dentist.calendarId,
-            sender: context.recipient.name,
-            description: {
-              complaints: context.reason
-            },
-            day: context.day,
-            hour: context.hour,
-            estimation: {
-              hours: 1,
-              minutes: 30
-            }
-          };
+          if (context.day) {
+            cleanUp(context);
 
-          console.log(request);
-
-          assistant.validate(request, (exception, date) => {
-            if (!exception) {
-              context.validated = true;
-
-              book.update(context).then(context => {
+            book.update(context)
+              .then(context => {
                 resolve(context);
-              });
-            } else {
-              console.log(exception);
+              })
+          } else {
+            obligateClientToAddDay(context);
 
-              context.reserved_time = true;
-              resolve(context);
-            }
-          });
+            resolve(context);
+          }
+        });
+      }
+    }
+  })();
+
+  const confirmationStep = (() => {
+    return {
+      update: (context) => {
+        return new Promise((resolve, reject) => {
+          context.done = true;
+
+          resolve(context);
         });
       }
     }
@@ -212,7 +185,7 @@ module.exports = (() => {
   return {
     update: (context) => {
       return new Promise((resolve, reject) => {
-        checkDentist.update(context).then((context) => {
+        dentistStep.update(context).then((context) => {
           resolve(context);
         });
       });

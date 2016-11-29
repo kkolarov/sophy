@@ -11,12 +11,11 @@ module.exports = ({ context, entities }) => {
   return new Promise((resolve, reject) => {
     const request = {
       calendarId: context.dentist.calendarId,
-      sender: 'Kamen Kolarov',
+      sender: context.recipient.name,
       description: {
-        phone: '',
         complaints: context.reason
       },
-      day: context.day,
+      day: context.day || moment().format('MM/DD/YYYY'),
       hour: context.hour,
       estimation: {
         hours: 1,

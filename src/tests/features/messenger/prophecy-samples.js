@@ -14,7 +14,7 @@ const samples = (function() {
         message,
         quickReplies,
         {
-          missing_dentist: true
+          dentist_step: true
         }
       );
     },
@@ -24,7 +24,7 @@ const samples = (function() {
         message,
         quickReplies,
         {
-          missing_reason: true
+          reason_step: true
         }
       );
     },
@@ -34,7 +34,7 @@ const samples = (function() {
         message,
         quickReplies,
         {
-          missing_day: true
+          day_step: true
         }
       );
     },
@@ -44,7 +44,7 @@ const samples = (function() {
         message,
         quickReplies,
         {
-          missing_hour: true
+          hour_step: true
         }
       );
     },
@@ -54,6 +54,7 @@ const samples = (function() {
         message,
         quickReplies,
         {
+          suggestion_step: true,
           suggestions: ['12/30/2016 15:00', '12/31/2016 16:00'],
           dentist: {
             pictureUrl: 'http://yonov.eu/wp-content/uploads/2016/08/DSCN1465-1.jpg'
@@ -70,8 +71,7 @@ const samples = (function() {
           day: '12/31/2016',
           hour: '16:00',
           dentist: {},
-          reason: {},
-          validated: true
+          reason: {}
         }
       );
     }

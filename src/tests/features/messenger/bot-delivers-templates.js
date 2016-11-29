@@ -45,9 +45,10 @@ describe("A bot delivers templates", () => {
     const prophecy = samples.getSampleWithMissingDentist();
 
     this.messenger.deliver(prophecy, assertThatSuccessWith(done, (templates) => {
-      expect(templates).to.have.lengthOf(2);
+      expect(templates).to.have.lengthOf(3);
       expect(templates[0]).instanceof(TextReply);
-      expect(templates[1]).instanceof(DentistSuggestion);
+      expect(templates[1]).instanceof(TypingReply);
+      expect(templates[2]).instanceof(DentistSuggestion);
     }));
   });
 
@@ -55,20 +56,21 @@ describe("A bot delivers templates", () => {
     const prophecy = samples.getSampleWithMissingReason();
 
     this.messenger.deliver(prophecy, assertThatSuccessWith(done, (templates) => {
-      expect(templates).to.have.lengthOf(2);
+      expect(templates).to.have.lengthOf(3);
       expect(templates[0]).instanceof(TextReply);
-      expect(templates[1]).instanceof(Gallery);
+      expect(templates[1]).instanceof(TypingReply);
+      expect(templates[2]).instanceof(Gallery);
     }));
   });
 
-  it("when the prophecy predicts missing day.", (done) => {
-    const prophecy = samples.getSampleWithMissingDay();
-
-    this.messenger.deliver(prophecy, assertThatSuccessWith(done, (templates) => {
-      expect(templates).to.have.lengthOf(1);
-      expect(templates[0]).instanceof(Picker);
-    }));
-  });
+  // it("when the prophecy predicts missing day.", (done) => {
+  //   const prophecy = samples.getSampleWithMissingDay();
+  //
+  //   this.messenger.deliver(prophecy, assertThatSuccessWith(done, (templates) => {
+  //     expect(templates).to.have.lengthOf(1);
+  //     expect(templates[0]).instanceof(Picker);
+  //   }));
+  // });
 
   it("when the prophecy predicts missing hour.", (done) => {
     const prophecy = samples.getSampleWithMissingHour();
@@ -83,8 +85,10 @@ describe("A bot delivers templates", () => {
     const prophecy = samples.getSampleWithSuggestions(done);
 
     this.messenger.deliver(prophecy, assertThatSuccessWith(done, (templates) => {
-      expect(templates).to.have.lengthOf(1);
-      expect(templates[0]).instanceof(Suggestions);
+      expect(templates).to.have.lengthOf(3);
+      expect(templates[0]).instanceof(TextReply);
+      expect(templates[1]).instanceof(TypingReply);
+      expect(templates[2]).instanceof(Suggestions);
     }));
   });
 

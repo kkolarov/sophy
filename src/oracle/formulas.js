@@ -41,7 +41,7 @@ module.exports = [
     condition: function(R) {
       const context = this.prophecy.getContext();
 
-      R.when(context.unknown_dentist);
+      R.when(context.dentist_step && context.unknown_dentist);
     },
     consequence: function(R) {
       const context = this.prophecy.getContext();
@@ -61,7 +61,7 @@ module.exports = [
     condition: function(R) {
       const context = this.prophecy.getContext();
 
-      R.when(context.missing_dentist);
+      R.when(context.dentist_step);
     },
     consequence: function(R) {
       const context = this.prophecy.getContext();
@@ -75,23 +75,28 @@ module.exports = [
             this.prophecy.getMessage()
           );
 
-          const suggestion = new DentistSuggestion(
+          // const typingReply = new TypingReply(
+          //   this.prophecy.getRecipientId(),
+          //   'typing_on'
+          // );
+
+          const suggestions = new DentistSuggestion(
             this.prophecy.getRecipientId(),
             employees
           );
 
-          this.replies = [textReply, suggestion];
+          this.replies = [textReply, suggestions];
 
           R.stop();
         });
     }
   },
   {
-    name: "When a bot asks for a reason about client's complaints.",
+    name: "When the bot asks for a reason about client's complaints.",
     condition: function(R) {
       let context = this.prophecy.getContext();
 
-      R.when(context.missing_reason);
+      R.when(context.reason_step);
     },
     consequence: function(R) {
       let context = this.prophecy.getContext();
@@ -100,6 +105,11 @@ module.exports = [
         this.prophecy.getRecipientId(),
         this.prophecy.getMessage()
       );
+
+      // const typingReply = new TypingReply(
+      //   this.prophecy.getRecipientId(),
+      //   'typing_on'
+      // );
 
       const gallery = new Gallery(
         this.prophecy.getRecipientId(),
@@ -112,33 +122,11 @@ module.exports = [
     }
   },
   {
-    name: 'When a bot gives the day picker to a client.',
+    name: 'When the bot gives a time picker to a client.',
     condition: function(R) {
         let context = this.prophecy.getContext();
 
-        R.when(context.missing_day);
-    },
-    consequence: function(R) {
-        const dayPickerConfig = config.get('messenger_templates').get('picker').get('day');
-
-        const picker = new Picker(
-          this.prophecy.getRecipientId(),
-          dayPickerConfig.get('button').get('text'),
-          this.prophecy.getMessage(),
-          dayPickerConfig.get('webview')
-        );
-
-        this.replies = [picker];
-
-        R.stop();
-    }
-  },
-  {
-    name: 'When a bot gives the time picker to a client.',
-    condition: function(R) {
-        let context = this.prophecy.getContext();
-
-        R.when(context.missing_hour);
+        R.when(context.hour_step && !context.hour);
     },
     consequence: function(R) {
         const timePickerConfig = config.get('messenger_templates').get('picker').get('time');
@@ -156,11 +144,83 @@ module.exports = [
     }
   },
   {
-    name: 'When a bot books time for a dentist.',
+    name: 'When the bot asks for confirmation about the selected hour.',
+    condition: function(R) {
+        let context = this.prophecy.getContext();
+
+        R.when(context.hour_step && context.hour);
+    },
+    consequence: function(R) {
+        const quickReply = new QuickReply(
+          this.prophecy.getRecipientId(),
+          this.prophecy.getMessage(),
+          this.prophecy.getReplies()
+        );
+
+        this.replies = [quickReply];
+
+        R.stop();
+    }
+  },
+  {
+    name: 'When the bot asks a client to wait for suggestions.',
     condition: function(R) {
       let context = this.prophecy.getContext();
 
-      R.when(context.dentist && context.reason && context.day && context.hour && context.validated);
+      R.when(context.suggestion_step && !context.suggestions);
+    },
+    consequence: function(R) {
+      const context = this.prophecy.getContext();
+
+      console.log(context);
+
+      const textReply = new TextReply(
+        this.prophecy.getRecipientId(),
+        this.prophecy.getMessage()
+      );
+
+      const typingReply = new TypingReply(
+        this.prophecy.getRecipientId(),
+        'typing_on'
+      );
+
+      this.replies = [textReply, typingReply];
+
+      R.stop();
+    }
+  },
+  {
+    name: 'When the bot suggests free dates.',
+    condition: function(R) {
+      let context = this.prophecy.getContext();
+
+      R.when(context.suggestion_step && context.suggestions);
+    },
+    consequence: function(R) {
+      const suggestionsConfig = config.get('messenger_templates').get('suggestions');
+
+      const context = this.prophecy.getContext();
+
+      const suggestions = new Suggestions(
+        this.prophecy.getRecipientId(),
+        this.prophecy.getMessage(),
+        suggestionsConfig.get('description'),
+        context.dentist.pictureUrl,
+        suggestionsConfig.get('button').get('text'),
+        context.suggestions
+      );
+
+      this.replies = [suggestions];
+
+      R.stop();
+    }
+  },
+  {
+    name: "When the bot books an appointment in a dentist's calendar",
+    condition: function(R) {
+      let context = this.prophecy.getContext();
+
+      R.when(context.dentist && context.reason && context.day && context.hour);
     },
     consequence: function(R) {
       let context = this.prophecy.getContext();
@@ -179,46 +239,22 @@ module.exports = [
     }
   },
   {
-    name: 'When a bot suggests free dates.',
-    condition: function(R) {
-      let context = this.prophecy.getContext();
-
-      R.when(context.suggestions);
-    },
-    consequence: function(R) {
-      const suggestionsConfig = config.get('messenger_templates').get('suggestions');
-
-      let context = this.prophecy.getContext();
-
-      const suggestions = new Suggestions(
-        this.prophecy.getRecipientId(),
-        suggestionsConfig.get('title'),
-        suggestionsConfig.get('description'),
-        context.dentist.pictureUrl,
-        suggestionsConfig.get('button').get('text'),
-        context.suggestions
-      );
-
-      this.replies = [suggestions];
-
-      R.stop();
-    }
-  },
-  {
     name: 'When there is no matching rule.',
     condition: function(R) {
         R.when(true);
     },
     consequence: function(R) {
-        const quickReply = new QuickReply(
-          this.prophecy.getRecipientId(),
-          this.prophecy.getMessage(),
-          this.prophecy.getReplies()
-        );
+      const context = this.prophecy.getContext();
 
-        this.replies = [quickReply];
+      const quickReply = new QuickReply(
+        this.prophecy.getRecipientId(),
+        this.prophecy.getMessage(),
+        this.prophecy.getReplies()
+      );
 
-        R.stop();
+      this.replies = [quickReply];
+
+      R.stop();
     }
   }
 ];
