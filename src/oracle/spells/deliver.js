@@ -18,8 +18,7 @@ const extractor = new EntityExtractor({
 function deliver(messenger) {
   return (req, res) => {
     return new Promise((resolve, reject) => {
-      // TODO: The new entities should be removed.
-      let newEntities = extractor.extract(req.entities);
+      const extractedEntities = extractor.extract(req.entities);
 
       const prophecy = new Prophecy(
         req.context.recipient.id,
@@ -29,12 +28,12 @@ function deliver(messenger) {
       );
 
       messenger.deliver(prophecy, (exception, flag) => {
-        if (exception) {
-          console.log(exception);
+        if (!exception) {
+          resolve();
+        } else {
+          reject(exception);
         }
       });
-
-      return resolve();
     });
   }
 }

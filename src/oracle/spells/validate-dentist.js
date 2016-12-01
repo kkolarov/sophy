@@ -5,8 +5,7 @@ const _ = require('lodash');
 const EntityExtractor = require('./utilities/EntityExtractor');
 
 const extractor = new EntityExtractor({
-  hour: true,
-  yes_no: true
+  dentist: true
 });
 
 module.exports = ({context, entities}) => {
@@ -14,14 +13,12 @@ module.exports = ({context, entities}) => {
     const extractedEntities = extractor.extract(entities);
     const mergedContext = _.merge(context, extractedEntities);
 
-    if (mergedContext.yes_no) {
-      if (mergedContext.yes_no == 'Да') {
-        delete mergedContext.hour;
-      }
-
-      delete mergedContext.yes_no;
+    if (!mergedContext.dentist) {
+      mergedContext.unknown_dentist = true;
+    } else {
+      mergedContext.validated_dentist = true;
     }
-  
+
     resolve(mergedContext);
   });
 };

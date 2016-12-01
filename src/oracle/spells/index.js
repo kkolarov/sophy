@@ -5,7 +5,10 @@ module.exports = (messenger) => {
     send: require('./deliver')(messenger),
     book: require('./book'),
     suggest: require('./suggest'),
-    check_dentist: require('./check-dentist'),
-    check_hour: require('./check-hour')
+    extend_dentist: require('./extend-dentist'),
+    validate_dentist: require('./validate-dentist'),
+    confirm_hour: require('./confirm-hour'),
+    validate_day: require('./validate-day'),
+    validate_hour: require('./validate-hour')
   }
 }
