@@ -60,8 +60,6 @@ router.post('/', (req, res) => {
                   });
 
                   user.save((err, user) => {
-                    console.log(err);
-
                     resolve(user);
                   });
                 } else {

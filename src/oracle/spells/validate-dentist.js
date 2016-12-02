@@ -16,6 +16,8 @@ module.exports = ({context, entities}) => {
     if (!mergedContext.dentist) {
       mergedContext.unknown_dentist = true;
     } else {
+      delete mergedContext.unknown_dentist;
+
       mergedContext.validated_dentist = true;
     }
 

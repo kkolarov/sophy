@@ -19,7 +19,11 @@ module.exports = ({context, entities}) => {
         mergedContext.dentist = {
           name: employee.name,
           pictureUrl: employee.pictureUrl,
-          calendarId: employee.calendarId
+          calendarId: employee.calendarId,
+          workingTime: {
+            start: employee.workingTime.weekly.start,
+            end: employee.workingTime.weekly.end
+          }
         };
 
         delete mergedContext.dentist_step;

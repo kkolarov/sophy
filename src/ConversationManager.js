@@ -8,10 +8,10 @@ class ConversationManager {
   }
 
   findOrCreateConversation(user) {
-    if (!_.has(this._conversions, user._id)) {
+    if (!_.has(this._conversions, user.recipientId)) {
       let conversationId = new Date().toISOString();
 
-      this._conversions[user._id] = {
+      this._conversions[user.recipientId] = {
         id: conversationId,
         context: {
           recipient: {
@@ -22,15 +22,15 @@ class ConversationManager {
       }
     }
 
-    return this._conversions[user._id];
+    return this._conversions[user.recipientId];
   }
 
   removeConversation(user) {
-    delete this._conversions[user._id];
+    delete this._conversions[user.recipientId];
   }
 
   updateContext(user, context) {
-    this._conversions[user._id].context = context;
+    this._conversions[user.recipientId].context = context;
 
     return context;
   }
