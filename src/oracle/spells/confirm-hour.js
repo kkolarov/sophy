@@ -19,7 +19,7 @@ module.exports = ({context, entities}) => {
     const mergedContext = _.merge(context, extractedEntities);
 
     if (mergedContext.yes_no) {
-      if (mergedContext.yes_no == 'Да') {
+      if (mergedContext.yes_no == 'Не') {
         delete mergedContext.hour;
       }
 
