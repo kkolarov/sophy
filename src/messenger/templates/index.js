@@ -4,9 +4,9 @@ const QuickReply = require('./QuickReply');
 const TypingReply = require('./TypingReply');
 const TextReply = require('./TextReply');
 const Picker = require('./custom/Picker');
-const Suggestions = require('./custom/Suggestions');
-const DentistSuggestion = require('./custom/DentistSuggestion');
-const Gallery = require('./custom/Gallery');
+const DatesGallery = require('./custom/DatesGallery');
+const DentistsGallery = require('./custom/DentistsGallery');
+const ReasonsGallery = require('./custom/ReasonsGallery');
 const Card = require('./custom/Card');
 
 module.exports = {
@@ -14,8 +14,8 @@ module.exports = {
   QuickReply: QuickReply,
   TextReply: TextReply,
   Card: Card,
-  Gallery: Gallery,
   Picker: Picker,
-  Suggestions: Suggestions,
-  DentistSuggestion: DentistSuggestion
+  ReasonsGallery: ReasonsGallery,
+  DatesGallery: DatesGallery,
+  DentistsGallery: DentistsGallery
 };

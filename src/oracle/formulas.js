@@ -5,11 +5,11 @@ const {
   QuickReply,
   Card,
   ListReply,
-  Gallery,
   TextReply,
   Picker,
-  Suggestions,
-  DentistSuggestion
+  ReasonsGallery,
+  DatesGallery,
+  DentistsGallery
 } = require('../messenger/templates');
 
 const Employee = require('../models/Employee');
@@ -75,12 +75,7 @@ module.exports = [
             this.prophecy.getMessage()
           );
 
-          // const typingReply = new TypingReply(
-          //   this.prophecy.getRecipientId(),
-          //   'typing_on'
-          // );
-
-          const suggestions = new DentistSuggestion(
+          const suggestions = new DentistsGallery(
             this.prophecy.getRecipientId(),
             employees
           );
@@ -106,14 +101,9 @@ module.exports = [
         this.prophecy.getMessage()
       );
 
-      // const typingReply = new TypingReply(
-      //   this.prophecy.getRecipientId(),
-      //   'typing_on'
-      // );
-
-      const gallery = new Gallery(
+      const gallery = new ReasonsGallery(
         this.prophecy.getRecipientId(),
-        config.get('reasons')
+        config.get('messenger_templates').get('reasons')
       );
 
       this.replies = [textReply, gallery];
@@ -177,12 +167,7 @@ module.exports = [
         this.prophecy.getMessage()
       );
 
-      const typingReply = new TypingReply(
-        this.prophecy.getRecipientId(),
-        'typing_on'
-      );
-
-      this.replies = [textReply, typingReply];
+      this.replies = [textReply];
 
       R.stop();
     }
@@ -195,16 +180,10 @@ module.exports = [
       R.when(context.suggestion_step && context.suggestions);
     },
     consequence: function(R) {
-      const suggestionsConfig = config.get('messenger_templates').get('suggestions');
-
       const context = this.prophecy.getContext();
 
-      const suggestions = new Suggestions(
+      const suggestions = new DatesGallery(
         this.prophecy.getRecipientId(),
-        this.prophecy.getMessage(),
-        suggestionsConfig.get('description'),
-        context.dentist.pictureUrl,
-        suggestionsConfig.get('button').get('text'),
         context.suggestions
       );
 
@@ -216,12 +195,12 @@ module.exports = [
   {
     name: "When the bot books an appointment in a dentist's calendar",
     condition: function(R) {
-      let context = this.prophecy.getContext();
+      const context = this.prophecy.getContext();
 
       R.when(context.dentist && context.reason && context.day && context.hour);
     },
     consequence: function(R) {
-      let context = this.prophecy.getContext();
+      const context = this.prophecy.getContext();
 
       const card = new Card(
         this.prophecy.getRecipientId(),

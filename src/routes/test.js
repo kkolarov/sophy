@@ -39,11 +39,13 @@ const oracle = new Oracle();
 var router = express.Router();
 
 router.get('/user_model', (req, res) => {
-  Employee.findEmoloyees(10)
-    .then(employees => {
-      console.log(employees);
-    });
+  // Employee.findEmoloyees(10)
+  //   .then(employees => {
+  //     console.log(employees);
+  //   });
 
+
+  console.log(config.get('messenger_templates').get('suggestions').get('mandatoryCards')[0]);
 
   // User.findOrCreateFbUser(1112292508879017, (err, user) => {
   //   if (!err) {

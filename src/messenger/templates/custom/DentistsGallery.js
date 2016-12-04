@@ -4,7 +4,7 @@
 *
 * @author Kamen Kolarov
 */
-class DentistSuggestion {
+class DentistsGallery {
 
   constructor(recipientId, dentists) {
     this._recipientId = recipientId;
@@ -54,4 +54,4 @@ class DentistSuggestion {
   }
 }
 
-module.exports = DentistSuggestion;
+module.exports = DentistsGallery;
