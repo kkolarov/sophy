@@ -14,7 +14,7 @@ const samples = (function() {
     },
     day: '',
     hour: '12:00',
-    estimation: {
+    duration: {
       hours: 1,
       minutes: 30
     }

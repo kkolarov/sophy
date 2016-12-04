@@ -35,9 +35,9 @@ class Checker {
   */
   check(req, cb) {
     if (this._isSelectedHour(req)) {
-      this._algorithms[0].isFree(req.calendarId, req.day, req.hour, req.estimation, cb);
+      this._algorithms[0].isFree(req.calendarId, req.day, req.hour, req.duration, cb);
     } else if (this._isSelectedTime(req)) {
-      this._algorithms[1].isFree(req.calendarId, req.day, req.time, req.estimation, cb);
+      this._algorithms[1].isFree(req.calendarId, req.day, req.time, req.duration, cb);
     } else {
       cb(new Error('There is no appropriate algorithm for this kind of request'), null);
     }

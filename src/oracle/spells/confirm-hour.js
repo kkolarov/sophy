@@ -5,8 +5,12 @@ const _ = require('lodash');
 const EntityExtractor = require('./utilities/EntityExtractor');
 
 const extractor = new EntityExtractor({
-  hour: true,
-  yes_no: true
+  hour: {
+    extract: true
+  },
+  yes_no: {
+    extract: true
+  }
 });
 
 module.exports = ({context, entities}) => {

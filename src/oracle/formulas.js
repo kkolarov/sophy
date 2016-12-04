@@ -172,8 +172,6 @@ module.exports = [
     consequence: function(R) {
       const context = this.prophecy.getContext();
 
-      console.log(context);
-
       const textReply = new TextReply(
         this.prophecy.getRecipientId(),
         this.prophecy.getMessage()

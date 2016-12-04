@@ -35,17 +35,17 @@ class Adapter {
   *
   * @param String day
   * @param String hour
-  * @param JSON estimation
+  * @param JSON duration
   *
   * @return JSON
   */
-  adaptEstimation(day, hour, estimation) {
+  adaptDuration(day, hour, duration) {
     let date = {};
 
     date.start = `${day}, ${hour}`;
     date.end = moment(`${day}, ${hour}`, this._dateFormat);
 
-    _.forEach(estimation, (value, key) => {
+    _.forEach(duration, (value, key) => {
       date.end.add(value, key);
     });
 

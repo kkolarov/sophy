@@ -6,13 +6,22 @@ const Prophecy = require('../Prophecy');
 const EntityExtractor = require('./utilities/EntityExtractor');
 
 const extractor = new EntityExtractor({
-  desire: true,
-  service: true,
-  profession: true,
-  dentist: true,
-  reason: true,
-  hour: true,
-  day: true
+  dentist: {
+    extract: true
+  },
+  reason: {
+    extract: true,
+    metadata: {
+      extract: true,
+      parse: true
+    }
+  },
+  hour: {
+    extract: true
+  },
+  day: {
+    extract: true
+  }
 });
 
 function deliver(messenger) {

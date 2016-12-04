@@ -3,18 +3,29 @@
 const _ = require('lodash');
 
 const BookingAssistant = require('../../booking').BookingAssistant;
+const DurationEstimator = require('../../utilities/estimators/duration').Dentist;
 
 const Employee = require('../../models/Employee');
 const EntityExtractor = require('./utilities/EntityExtractor');
 
+const durationEstimator = new DurationEstimator();
 const extractor = new EntityExtractor({
-  desire: true,
-  service: true,
-  profession: true,
-  dentist: true,
-  reason: true,
-  hour: true,
-  day: true
+  dentist: {
+    extract: true
+  },
+  reason: {
+    extract: true,
+    metadata: {
+      extract: true,
+      parse: true
+    }
+  },
+  hour: {
+    extract: true
+  },
+  day: {
+    extract: true
+  }
 });
 
 const assistant = new BookingAssistant(Employee);
@@ -123,28 +134,30 @@ const contextManager = (() => {
   const book = (() => {
     return {
       update: (context) => {
-        const request = {
-          calendarId: context.dentist.calendarId,
-          sender: context.recipient.name,
-          description: {
-            complaints: context.reason
-          },
-          day: context.day,
-          hour: context.hour,
-          estimation: {
-            hours: 1,
-            minutes: 30
-          }
-        };
-
         return new Promise((resolve, reject) => {
-          assistant.book(request, (exception, date) => {
-            if (!exception) {
-              context.done = true;
-            }
+          durationEstimator.estimate(context)
+            .then(duration => {
+              const request = {
+                calendarId: context.dentist.calendarId,
+                sender: context.recipient.name,
+                description: {
+                  complaints: context.reason
+                },
+                day: context.day,
+                hour: context.hour,
+                estimation: duration
+              };
+              assistant.book(request, (exception, date) => {
+                if (!exception) {
+                  context.done = true;
+                }
 
-            resolve(context);
-          });
+                resolve(context);
+              });
+            })
+            .catch(err => {
+              reject(err);
+            });
         });
       }
     }

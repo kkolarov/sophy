@@ -21,15 +21,15 @@ class HourAlgorithm extends Algorithm {
   * @param String calendarId
   * @param String day e.g 11/31/2016
   * @param String hour e.g 16:00
-  * @param JSON estimation
+  * @param JSON duration
   * @param Callback cb
   *
   * @return Callback cb
   */
-  isFree(calendarId, day, hour, estimation, cb) {
+  isFree(calendarId, day, hour, duration, cb) {
     this._validator.validate(day, hour, (exception, passed) => {
         if (passed) {
-          const date = this._adapter.adaptEstimation(day, hour, estimation);
+          const date = this._adapter.adaptDuration(day, hour, duration);
 
           this.checkWorkingTime(calendarId, date, day,
             (exception, res) => {

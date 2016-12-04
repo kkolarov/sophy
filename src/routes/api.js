@@ -8,12 +8,23 @@ const User = require('../models/User');
 const Batch = require('../messenger/Batch');
 const { Oracle } = require('../oracle');
 
+const ProphecyInterpreter = require('../oracle/ProphecyInterpreter');
+const ConversationManager = require('../ConversationManager');
+const Messenger = require('../messenger').Messenger;
+
 const FB = require('fb');
 
 FB.options({ version: config.get('fbVersion'), appSecret: config.get('appSecret') });
 FB.setAccessToken(config.get('pageAccessToken'));
 
-const oracle = new Oracle();
+const messenger = new Messenger(new ProphecyInterpreter(), {
+  uri: config.get('fbUri'),
+  accessToken: config.get('pageAccessToken')
+});
+
+const conversationManager = new ConversationManager();
+
+const oracle = new Oracle(conversationManager, messenger);
 
 var router = express.Router();
 
@@ -45,8 +56,6 @@ router.post('/', (req, res) => {
           if (!user) {
             return new Promise((resolve, reject) => {
               FB.api(`${userId}`, 'get', { }, function (fbUser) {
-                console.log(fbUser);
-
                 if (!fbUser.error) {
                   const user = new User({
                     recipientId: userId,
@@ -99,11 +108,12 @@ router.post('/', (req, res) => {
   res.sendStatus(200);
 });
 
-router.post('/oracle/predict', (req, res) => {
-  const { text, clientId } = req.body;
+router.post('/predict', (req, res) => {
+  const text = req.body.t;
+  const id = req.body.id;
 
   if (req.xhr) {
-    User.findUserByRecipientId(clientId)
+    User.findUserByRecipientId(id)
       .then(user => {
         oracle.think(user);
         oracle.predict(user, text);
@@ -111,6 +121,24 @@ router.post('/oracle/predict', (req, res) => {
   }
 
   res.sendStatus(200);
+});
+
+router.get('/conversations', (req, res) => {
+  const clientId = req.query.id;
+
+  User.findUserByRecipientId(clientId)
+    .then(user => {
+      if (user) {
+        const conversation = conversationManager.findOrCreateConversation(user);
+
+        res.json(conversation.context);
+      } else {
+        res.json({});
+      }
+    })
+    .catch(err => {
+      res.json({});
+    });
 });
 
 module.exports = router;

@@ -4,11 +4,7 @@ const _ = require('lodash');
 const chalk = require('chalk');
 const config = require('config');
 const { Wit, log } = require('node-wit');
-
-const ConversationManager = require('../ConversationManager');
-const Messenger = require('../messenger').Messenger;
 const Prophecy = require('./Prophecy');
-const ProphecyInterpreter = require('./ProphecyInterpreter');
 
 const spells = require('./spells');
 
@@ -19,19 +15,15 @@ const spells = require('./spells');
 */
 class Oracle {
 
-  constructor() {
-    this._messenger = new Messenger(new ProphecyInterpreter(), {
-      uri: config.get('fbUri'),
-      accessToken: config.get('pageAccessToken')
-    });
+  constructor(conversationManager, messenger) {
+    this._conversationManager = conversationManager;
+    this._messenger = messenger;
 
     this._wit = new Wit({
       accessToken: config.get('witAccessToken'),
       actions: spells(this._messenger),
       logger: new log.Logger(log.DEBUG)
     });
-
-    this._conversationManager = new ConversationManager();
   }
 
   /**

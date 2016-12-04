@@ -5,7 +5,9 @@ const _ = require('lodash');
 const EntityExtractor = require('./utilities/EntityExtractor');
 
 const extractor = new EntityExtractor({
-  dentist: true
+  dentist: {
+    extract: true
+  }
 });
 
 module.exports = ({context, entities}) => {

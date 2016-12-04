@@ -6,7 +6,9 @@ const EntityExtractor = require('./utilities/EntityExtractor');
 const Employee = require('../../models/Employee');
 
 const extractor = new EntityExtractor({
-  dentist: true
+  dentist: {
+    extract: true
+  }
 });
 
 module.exports = ({context, entities}) => {

@@ -23,7 +23,7 @@ const getHours = () => {
 const deliver = (hour) => {
   request({
     uri: 'https://api.wit.ai/entities/hour?v=20160526',
-    qs: { access_token: 'FOVEUGB5GL6K2AM6RA52XHFDOWWIEKBZ' },
+    qs: { access_token: '' },
     method: 'GET',
     json: {
       value: hour,

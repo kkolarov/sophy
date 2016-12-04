@@ -12,6 +12,14 @@ class EntityExtractor {
     this._map = map;
   }
 
+  _isPermittedEntityKey(key) {
+    return _.has(this._map, key) && this._map[key].extract;
+  }
+
+  _haveToParseEntityMetadata(key) {
+    return this._map[key].metadata && this._map[key].metadata.parse;
+  }
+
   /**
   * This methods extract entities described in the map object.
   *
@@ -20,15 +28,21 @@ class EntityExtractor {
   * @return Json
   */
   extract(entities) {
-    let newEntities = {};
+    let permittedEntities = {};
 
-    _.forEach(entities, (value, key) => {
-      if (_.has(this._map, key)) {
-        newEntities[key] = entities[key][0].value;
+    _.forEach(entities, (values, key) => {
+      if (this._isPermittedEntityKey(key)) {
+        if (this._haveToParseEntityMetadata(key)) {
+          const metadataEntities = JSON.parse(values[0].metadata);
+            permittedEntities[key] = metadataEntities;
+            permittedEntities.value = values[0].value;
+        } else {
+          permittedEntities[key] = values[0].value;
+        }
       }
     });
 
-    return newEntities;
+    return permittedEntities;
   }
 }
 
