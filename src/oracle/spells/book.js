@@ -145,8 +145,9 @@ const contextManager = (() => {
                 },
                 day: context.day,
                 hour: context.hour,
-                estimation: duration
+                duration: duration
               };
+
               assistant.book(request, (exception, date) => {
                 if (!exception) {
                   context.done = true;

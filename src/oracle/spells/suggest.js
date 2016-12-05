@@ -17,7 +17,7 @@ module.exports = ({ context, entities }) => {
           calendarId: context.dentist.calendarId,
           sender: context.recipient.name,
           description: {},
-          day: context.day || new Date(),
+          day: context.day || moment(new Date()).format('MM/DD/YYYY'),
           hour: context.hour,
           duration: duration
         };

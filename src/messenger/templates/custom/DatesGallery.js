@@ -70,7 +70,7 @@ class DatesGallery {
 
         let element = {
           title: day,
-          subtitle: suggestion,
+          subtitle: moment(new Date(suggestion)).format('На MM/DD, HH:mm часа е свободен.'),
           image_url: config.get('days').get(day).get('imageUrl'),
           buttons: [{
             type: 'postback',
