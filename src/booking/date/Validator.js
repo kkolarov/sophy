@@ -2,7 +2,7 @@
 
 const moment = require('moment');
 
-const { UnsupportedDayFormat, UnsupportedTimeFormat} = require('../exceptions');
+const { InvalidDayFormatError, InvalidHourFormatError} = require('../errors');
 
 /**
 *
@@ -41,10 +41,10 @@ class Validator {
       if (this._checkDate(date)) {
         cb(null, true);
       } else {
-        cb(new UnsupportedTimeFormat(), null);
+        cb(new InvalidHourFormatError(), null);
       }
     } else {
-      cb(new UnsupportedDayFormat(), null);
+      cb(new InvalidDayFormatError(), null);
     }
   }
 }

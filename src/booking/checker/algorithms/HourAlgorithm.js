@@ -2,7 +2,7 @@
 
 const Algorithm = require('./Algorithm');
 
-const { BusyTimeException } = require('../../exceptions');
+const { BusyTimeError } = require('../../errors');
 
 /**
 * A concrete algorithm that checks whether client's request for day & hour is already reserved or not.
@@ -40,7 +40,7 @@ class HourAlgorithm extends Algorithm {
                       if (events.length === 0) {
                         cb(null, date);
                       } else {
-                        cb(new BusyTimeException(), null);
+                        cb(new BusyTimeError(), null);
                       }
                     }).catch((exception) => {
                       cb(exception, null);

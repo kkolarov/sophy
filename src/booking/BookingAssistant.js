@@ -49,7 +49,7 @@ class BookingAssistant {
     let checker = new Checker(algorithms);
 
     this._scheduler = new Scheduler(this._calendar, checker);
-    this._suggester = new Suggester(checker, adapter, config.get('suggester'));
+    this._suggester = new Suggester(checker, adapter);
   }
 
   /**

@@ -6,7 +6,7 @@ const config = require('config');
 
 const samples = (function() {
   const prototype = {
-    calendarId: config.get('calendar').get('testing'),
+    calendarId: config.get('calendar').get('id'),
     sender: 'Kamen Kolarov',
     description: {
       phone: '+359 89 44 16 041',
@@ -32,7 +32,7 @@ const samples = (function() {
     getSampleWithInvalidDay: () => {
       let request = _.cloneDeep(prototype);
 
-      request.day = '12/31/ddd';
+      request.day = 'das/dasdsa/ddd';
       return request;
     },
     getSampleWithInvalidHour: () => {

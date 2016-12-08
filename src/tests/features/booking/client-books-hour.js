@@ -12,19 +12,19 @@ const moment = require('moment');
 const samples = require('./request-samples');
 
 const {
-  BusyTimeException,
-  OutsideWorkingTimeException,
-  PastTimeException,
-  UnsupportedDayFormat,
-  UnsupportedTimeFormat
-} = require('../../../booking/exceptions');
+  BusyTimeError,
+  OutsideWorkingTimeError,
+  ExpiredDateError,
+  InvalidDayFormatError,
+  InvalidHourFormatError
+} = require('../../../booking/errors');
 
 const { assertThatSuccessWith, assertThatFailWith } = require('../../assertion');
 
 const GoogleCalendar = require('../../../booking/calendars/google-calendar').GoogleCalendar;
 const BookingAssistant = require('../../../booking').BookingAssistant;
 
-describe("A client books an hour", () => {
+describe("A client reserves time in a dentist's calendar", () => {
 
   before("Setup", (done) => {
     const that = this;
@@ -54,7 +54,7 @@ describe("A client books an hour", () => {
   });
 
   beforeEach("Clear up calendar's events.", (done) => {
-    const calendarId = config.get('calendar').get('testing');
+    const calendarId = config.get('calendar').get('id');
     const date = {
       start: new Date(),
       end: new Date(moment().add(1, 'months').format(config.get('dateAdapter').get('dayFormat')))
@@ -66,37 +66,37 @@ describe("A client books an hour", () => {
   });
 
   context("given that a request is invalid because", () => {
-    it("a request for day doesn't comply with the appropriate format.", (done) => {
+    it("the day doesn't comply with the appropriate format.", (done) => {
       const sample = samples.getSampleWithInvalidDay();
 
       this.assistant.book(sample, assertThatFailWith(done, exception => {
-        expect(exception).instanceof(UnsupportedDayFormat);
+        expect(exception).instanceof(InvalidDayFormatError);
       }));
     });
 
-    it("a request for hour doesn't comply with the appropriate format.", (done) => {
+    it("the hour doesn't comply with the appropriate format.", (done) => {
       const sample = samples.getSampleWithInvalidHour();
 
       this.assistant.book(sample, assertThatFailWith(done, exception => {
-        expect(exception).instanceof(UnsupportedTimeFormat);
+        expect(exception).instanceof(InvalidHourFormatError);
       }));
     });
 
-    it("a request for date resides in the past.", (done) => {
+    it("the date is expired.", (done) => {
       const sample = samples.getSampleWithRequestResidesInPast();
 
       this.assistant.book(sample, assertThatFailWith(done, exception => {
-        expect(exception).instanceof(PastTimeException);
+        expect(exception).instanceof(ExpiredDateError);
       }));
     });
 
-    it("a request for date is reserved by someone else.", (done) => {
+    it("the date is reserved by someone else.", (done) => {
       const sample = samples.getSampleWithReservedHour();
 
       this.assistant.book(sample, (exception, event) => {
         if (!exception) {
           this.assistant.book(sample, assertThatFailWith(done, exception2 => {
-            expect(exception2).instanceof(BusyTimeException);
+            expect(exception2).instanceof(BusyTimeError);
           }));
         } else {
           done(exception);
@@ -104,18 +104,15 @@ describe("A client books an hour", () => {
       });
     });
 
-    it("a request for date resides outside the employee's working time.", (done) => {
+    it("the date resides in the outside working time.", (done) => {
       const sample = samples.getSampleWithRequestResidesOutsideWorkingTime();
 
       this.assistant.book(sample, assertThatFailWith(done, exception => {
-        expect(exception).instanceof(OutsideWorkingTimeException);
+        expect(exception).instanceof(OutsideWorkingTimeError);
       }));
     });
   });
 
-  context("given that a request cannot be processed because", () => {
-
-  });
 
   it("given that a request is valid", (done) => {
     const sample = samples.getSampleWithValidRequest();

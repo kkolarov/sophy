@@ -1,9 +1,9 @@
 'use strict';
 
 const moment = require('moment');
-
+const config = require('config');
 /**
-* This module suggests free dates according to a client's request for day & hour.
+* This module suggests free dates according to a client's request.
 *
 * @author Kamen Kolarov
 */
@@ -15,10 +15,10 @@ class Suggester {
   * @param Object adapter This module adaptes client's request for day & hour.
   * @param Object config
   */
-  constructor(checker, adapter, config) {
+  constructor(checker, adapter) {
     this._checker = checker;
     this._adapter = adapter;
-    this._config = config;
+    this._config = config.get('suggester');
   }
 
   /**
@@ -54,8 +54,8 @@ class Suggester {
 
       req.day = that._newDay(req.day, 1);
 
-      that._checker.check(req, (exception, date) => {
-        if (!exception) {
+      that._checker.check(req, (err, date) => {
+        if (!err) {
           suggestions.push(date);
 
           if (suggestions.length == that._config.get('maxSuggestions')) {
@@ -64,7 +64,7 @@ class Suggester {
             nextDay(++days);
           }
         } else {
-          nextDay(++days);
+          cb(err, null);
         }
       });
     })(1);

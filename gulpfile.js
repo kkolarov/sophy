@@ -4,7 +4,6 @@ let mocha = require('gulp-spawn-mocha');
 let jshint = require('gulp-jshint');
 let stylish = require('jshint-stylish');
 
-
 var paths = {
   'scripts': ['./src/**/*.js'],
   'tests': ['./src/tests/**/*.js']
@@ -18,7 +17,14 @@ gulp.task('jshint', () => {
 
 gulp.task('mocha-tests', () => {
   return gulp.src(paths.tests)
-    .pipe(mocha({ R: 'spec', t: 5000 }));
+    .pipe(mocha({
+      R: 'spec',
+      t: 5000 ,
+      env: {
+        NODE_ENV: 'testing',
+        ALLOW_CONFIG_MUTATIONS: true
+      }
+    }));
 });
 
 gulp.task('watch-scripts', () => {
@@ -31,11 +37,11 @@ gulp.task('watch-tests', () => {
 
 gulp.task('watch-app', () => {
   nodemon({
-    'script': 'app.js',
-    'ext': 'html css js',
-    'env': {
-      'NODE_ENV': 'development',
-      'PORT': 3000
+    script: 'app.js',
+    ext: 'html css js',
+    env: {
+      NODE_ENV: 'development',
+      PORT: 3000
     }
   });
 });

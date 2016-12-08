@@ -41,6 +41,7 @@
     "jshint": "^2.9.3",
     "jshint-stylish": "^2.2.1",
     "mocha": "^3.1.2",
+    "mock-require": "^2.0.0",
     "mockgoose": "^6.0.8",
     "sinon": "^1.17.6"
   }

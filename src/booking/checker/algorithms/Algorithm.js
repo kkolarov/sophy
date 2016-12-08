@@ -3,11 +3,9 @@
 const moment = require('moment-business-days');
 
 const {
-  OutsideWorkingTimeException,
-  PastTimeException,
-  DatabaseException,
-  CustomerNotFoundException
-} = require('../../exceptions');
+  OutsideWorkingTimeError,
+  ExpiredDateError
+} = require('../../errors');
 
 /**
 * An abstract algorithm that checks whether client's request is already reserved or not.
@@ -44,7 +42,7 @@ class Algorithm {
     if (date.start >= now && date.end >= now) {
       cb(null, true);
     } else {
-      cb(new PastTimeException(), null);
+      cb(new ExpiredDateError(), null);
     }
   }
 
@@ -94,13 +92,13 @@ class Algorithm {
           if (stickToWorkingTime(date, workingTime)) {
             cb(null,  true);
           } else {
-            cb(new OutsideWorkingTimeException(), null);
+            cb(new OutsideWorkingTimeError(), null);
           }
         } else {
-          cb(new CustomerNotFoundException(), null);
+          cb(err, null);
         }
       } else {
-        cb(new DatabaseException(), null);
+        cb(err, null);
       }
     });
   }

@@ -12,14 +12,6 @@ const { GoogleCalendar } = require('../../src/booking/calendars/google-calendar'
 const { BookingAssistant } = require('../../src/booking');
 const { Oracle } = require('../oracle');
 
-const {
-  BusyTimeException,
-  OutsideWorkingTimeException,
-  PastTimeException,
-  UnsupportedDayFormat,
-  UnsupportedTimeFormat
-} = require('../../src/booking/exceptions');
-
 const calendar = new GoogleCalendar(
   config.get('googleAppClientId'),
   config.get('googleAppClientSecret'),
