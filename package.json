@@ -5,7 +5,10 @@
   "main": "app.js",
   "author": "kamen.kolarov",
   "license": "ISC",
-  "cacheDirectories": ["node_modules", "public/vendor" ],
+  "cacheDirectories": [
+    "node_modules",
+    "public/vendor"
+  ],
   "engines": {
     "node": "6.0.0",
     "npm": "3.8.x"
@@ -15,14 +18,15 @@
     "postinstall": "bower install"
   },
   "dependencies": {
-    "fb": "^1.1.1",
-    "chai": "^3.5.0",
     "body-parser": "^1.15.2",
+    "bower": "^1.8.0",
+    "chai": "^3.5.0",
     "chalk": "^1.1.3",
     "config": "^1.21.0",
     "crypto": "0.0.3",
     "ejs": "^2.5.2",
     "express": "^4.13.0",
+    "fb": "^1.1.1",
     "google-auth-library": "^0.9.9",
     "googleapis": "^14.1.0",
     "https": "^1.0.0",
