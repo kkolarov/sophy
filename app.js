@@ -22,6 +22,8 @@ app.use('/api', apiRoute);
 app.use('/picker', pickerRoute);
 app.use('/test', testRoute);
 
+console.log("TEST");
+
 mongoose.connect(config.get('database').get('mongoUri'));
 
 app.listen(config.get('port'));
