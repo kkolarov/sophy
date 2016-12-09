@@ -5,9 +5,10 @@
   "main": "app.js",
   "author": "kamen.kolarov",
   "license": "ISC",
+  "cacheDirectories": ["node_modules", "public/vendor" ],
   "engines": {
     "node": "6.0.0",
-    "npm": "2.1.x"
+    "npm": "3.8.x"
   },
   "scripts": {
     "start": "node app.js"
