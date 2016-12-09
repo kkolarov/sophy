@@ -3,11 +3,16 @@
   "version": "1.0.0",
   "description": "It is a general-purpose bot that serves as an assistant for booking.",
   "main": "app.js",
+  "author": "kamen.kolarov",
+  "license": "ISC",
+  "engines": {
+    "node": "6.0.0",
+    "npm": "2.1.x"
+  },
   "scripts": {
     "start": "node app.js"
   },
-  "author": "kamen.kolarov",
-  "license": "ISC",
+  "postinstall": "bower install",
   "dependencies": {
     "fb": "^1.1.1",
     "chai": "^3.5.0",
