@@ -1,0 +1,126 @@
+{
+  "services": {
+    "facebook": {
+      "version": "v2.4",
+      "messagesUri": "https://graph.facebook.com/v2.6/me/messages"
+    },
+    "google": {
+      "projectId": "sophia-147509",
+      "appAuthUri": "localhost:3000/oauth2cb",
+      "appTokenUri": ""
+    }
+  },
+  "messenger_templates": {
+    "picker": {
+      "day": {
+        "webview": "https://sophy.ngrok.io/picker/day",
+        "button": {
+          "text": "Избери ден"
+        }
+      },
+      "time": {
+        "webview": "https://sophy.ngrok.io/picker/time",
+        "button": {
+          "text": "Избери час"
+        }
+      }
+    },
+    "reasons": [
+      {
+        "title": "Профилактичен преглед",
+        "subtitle": "Искам да направя профилактичен тест на зъбите си.",
+        "image_url": "http://sophy.ngrok.io/images/15310573_10211211129333510_2132849533_n.jpg",
+        "buttons": [
+          {
+            "type": "postback",
+            "title": "Профилактичен преглед",
+            "payload": "Профилактичен преглед"
+          }
+        ]
+      },
+      {
+        "title": "Лека болка в зъба",
+        "subtitle": "Изпитвам лека болка в зъба.",
+        "image_url": "http://sophy.ngrok.io/images/15417080_10211234849246493_1156245693_n.jpg",
+        "buttons": [
+          {
+            "type": "postback",
+            "title": "Лека болка в зъба",
+            "payload": "Лека болка в зъба"
+          }
+        ]
+      },
+      {
+        "title": "Счупен зъб",
+        "subtitle": "Счупи ми се част от зъба.",
+        "image_url": "http://sophy.ngrok.io/images/15416940_10211234849566501_1633643311_n.jpg",
+        "buttons": [
+          {
+            "type": "postback",
+            "title": "Счупен зъб",
+            "payload": "Счупен зъб"
+          }
+        ]
+      }
+    ],
+    "suggestions": {
+      "days": {
+        "Понеделник": {
+          "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
+        },
+        "Вторник": {
+          "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
+        },
+        "Сряда": {
+          "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
+        },
+        "Четвъртък": {
+          "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
+        },
+        "Петък": {
+          "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
+        },
+        "Събота": {
+          "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
+        },
+        "Неделя": {
+          "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
+        }
+      },
+      "mandatoryCards" : [
+        {
+          "title": "Промяна на часа",
+          "subtitle": "Тази опция ви позволява да промените часа на посещение при зъболекаря.",
+          "image_url": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg",
+          "buttons": [
+            {
+              "type": "postback",
+              "title": "Промени часа",
+              "payload": "Искам да променя часа на посещение при зъболекаря."
+            }
+          ]
+        },
+        {
+          "title": "Обаждане",
+          "subtitle": "Тази опция ви позволява да се обадите на зъболекаря по телефона.",
+          "image_url": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg",
+          "buttons": [
+            {
+              "type": "phone_number",
+              "title": "Обади се",
+              "payload": "+359894416041"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "suggester": {
+    "maxDays": 30,
+    "maxSuggestions": 7
+  },
+  "dateAdapter": {
+    "dayFormat": "MM/DD/YYYY",
+    "dateFormat": "MM-DD-YYYY HH:mm"
+  }
+}

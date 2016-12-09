@@ -1,0 +1,31 @@
+{
+  "port": "PORT",
+  "database": {
+    "mongoUri": "MONGO_URI"
+  },
+  "services": {
+    "facebook": {
+      "appSecret": "FACEBOOK_APP_SECRET",
+      "pageAccessToken": "PAGE_ACCESS_TOKEN",
+      "pageValidationToken": "PAGE_VALIDATION_TOKEN"
+    },
+    "google": {
+      "appId": "GOOGLE_APP_ID",
+      "appSecret": "GOOGLE_APP_SECRET",
+      "users": {
+        "sophy": {
+          "accessToken": "GOOGLE_SOPHY_ACCESS_TOKEN",
+          "refreshToken": "GOOGLE_SOPHY_REFRESH_TOKEN",
+          "tokenType": "GOOGLE_SOPHY_TOKEN_TYPE",
+          "expiryDate": "GOOGLE_SOPHY_EXPIRY_DATE"
+        }
+      }
+    },
+    "wit": {
+      "accessToken": "WIT_ACCESS_TOKEN"
+    }
+  },
+  "calendars": {
+    "id": "CALENDAR_ID"
+  }
+}
