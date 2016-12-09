@@ -11,9 +11,9 @@
     "npm": "3.8.x"
   },
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "postinstall": "bower install"
   },
-  "postinstall": "bower install",
   "dependencies": {
     "fb": "^1.1.1",
     "chai": "^3.5.0",
