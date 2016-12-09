@@ -12,14 +12,7 @@
   },
   "messenger_templates": {
     "picker": {
-      "day": {
-        "webview": "https://sophy.ngrok.io/picker/day",
-        "button": {
-          "text": "Избери ден"
-        }
-      },
       "time": {
-        "webview": "https://sophy.ngrok.io/picker/time",
         "button": {
           "text": "Избери час"
         }

@@ -3,6 +3,13 @@
   "database": {
     "mongoUri": "MONGO_URI"
   },
+  "messenger_templates": {
+    "picker": {
+      "time": {
+        "webview": "TIME_PICKER_WEBVIEW"
+      }
+    }
+  },
   "services": {
     "facebook": {
       "appSecret": "FACEBOOK_APP_SECRET",
