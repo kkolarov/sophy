@@ -20,7 +20,7 @@ class Oracle {
     this._messenger = messenger;
 
     this._wit = new Wit({
-      accessToken: config.get('witAccessToken'),
+      accessToken: config.get('services').get('wit').get('accessToken'),
       actions: spells(this._messenger),
       logger: new log.Logger(log.DEBUG)
     });

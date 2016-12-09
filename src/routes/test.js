@@ -13,17 +13,12 @@ const { BookingAssistant } = require('../../src/booking');
 const { Oracle } = require('../oracle');
 
 const calendar = new GoogleCalendar(
-  config.get('googleAppClientId'),
-  config.get('googleAppClientSecret'),
-  config.get('googleAppAuthURI')
+  config.get('services').get('google').get('appId'),
+  config.get('services').get('google').get('appSecret'),
+  config.get('services').get('google').get('appAuthUri')
 );
 
-calendar.setToken(
-  config
-  .get('googleApp')
-  .get('users')
-  .get('kamen_kolarov')
-);
+calendar.setToken(config.get('services').get('google').get('users').get('sophy'));
 
 const assistant = new BookingAssistant(Employee, calendar);
 const oracle = new Oracle();

@@ -11,7 +11,6 @@ var app = express();
 
 app.set('views', __dirname + '/src/views');
 app.set('view engine', 'ejs');
-app.set('port', process.env.PORT);
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({
@@ -23,6 +22,6 @@ app.use('/api', apiRoute);
 app.use('/picker', pickerRoute);
 app.use('/test', testRoute);
 
-mongoose.connect(config.get('mongoUri'));
+mongoose.connect(config.get('database').get('mongoUri'));
 
-app.listen(app.get('port'));
+app.listen(config.get('port'));

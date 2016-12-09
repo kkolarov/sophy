@@ -33,18 +33,13 @@ describe("A client reserves time in a dentist's calendar", () => {
       if (!err) {
         const Employee = require('../../../models/Employee');
 
-        that.calendar = new GoogleCalendar(
-          config.get('googleAppClientId'),
-          config.get('googleAppClientSecret'),
-          config.get('googleAppAuthURI')
+        this.calendar = new GoogleCalendar(
+          config.get('services').get('google').get('appId'),
+          config.get('services').get('google').get('appSecret'),
+          config.get('services').get('google').get('appAuthUri')
         );
 
-        that.calendar.setToken(
-          config
-          .get('googleApp')
-          .get('users')
-          .get('kamen_kolarov')
-        );
+        this.calendar.setToken(config.get('services').get('google').get('users').get('sophy'));
 
         that.assistant = new BookingAssistant(Employee, this.calendar);
 
@@ -54,7 +49,7 @@ describe("A client reserves time in a dentist's calendar", () => {
   });
 
   beforeEach("Clear up calendar's events.", (done) => {
-    const calendarId = config.get('calendar').get('id');
+    const calendarId = config.get('calendars').get('id');
     const date = {
       start: new Date(),
       end: new Date(moment().add(1, 'months').format(config.get('dateAdapter').get('dayFormat')))

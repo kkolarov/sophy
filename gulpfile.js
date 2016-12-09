@@ -1,3 +1,6 @@
+'use strict';
+
+const config = require('config');
 let gulp = require('gulp');
 let nodemon = require('gulp-nodemon');
 let mocha = require('gulp-spawn-mocha');
@@ -20,10 +23,7 @@ gulp.task('mocha-tests', () => {
     .pipe(mocha({
       R: 'spec',
       t: 5000 ,
-      env: {
-        NODE_ENV: 'testing',
-        ALLOW_CONFIG_MUTATIONS: true
-      }
+      env: config.get('environment')
     }));
 });
 
@@ -39,10 +39,7 @@ gulp.task('watch-app', () => {
   nodemon({
     script: 'app.js',
     ext: 'html css js',
-    env: {
-      NODE_ENV: 'development',
-      PORT: 3000
-    }
+    env: config.get('environment')
   });
 });
 

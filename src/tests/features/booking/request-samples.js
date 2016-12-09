@@ -6,7 +6,7 @@ const config = require('config');
 
 const samples = (function() {
   const prototype = {
-    calendarId: config.get('calendar').get('id'),
+    calendarId: config.get('calendars').get('id'),
     sender: 'Kamen Kolarov',
     description: {
       phone: '+359 89 44 16 041',

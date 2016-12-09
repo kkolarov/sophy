@@ -14,12 +14,16 @@ const Messenger = require('../messenger').Messenger;
 
 const FB = require('fb');
 
-FB.options({ version: config.get('fbVersion'), appSecret: config.get('appSecret') });
-FB.setAccessToken(config.get('pageAccessToken'));
+FB.options({
+  version: config.get('services').get('facebook').get('version'),
+  appSecret: config.get('services').get('facebook').get('appSecret')
+});
+
+FB.setAccessToken(config.get('services').get('facebook').get('pageAccessToken'));
 
 const messenger = new Messenger(new ProphecyInterpreter(), {
-  uri: config.get('fbUri'),
-  accessToken: config.get('pageAccessToken')
+  uri: config.get('services').get('facebook').get('messagesUri'),
+  accessToken: config.get('services').get('facebook').get('pageAccessToken')
 });
 
 const conversationManager = new ConversationManager();
@@ -30,7 +34,7 @@ var router = express.Router();
 
 router.get('/', (req, res) => {
   if (req.query['hub.mode'] === 'subscribe' &&
-      req.query['hub.verify_token'] === config.get('validationToken')) {
+      req.query['hub.verify_token'] === config.get('services').get('facebook').get('pageValidationToken')) {
 
     console.log("Validating webhook");
 

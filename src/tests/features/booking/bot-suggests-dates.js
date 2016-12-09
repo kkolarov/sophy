@@ -27,17 +27,12 @@ const GoogleCalendar = require('../../../booking/calendars/google-calendar').Goo
 const BookingAssistant = require('../../../booking').BookingAssistant;
 
 const calendar = new GoogleCalendar(
-  config.get('googleAppClientId'),
-  config.get('googleAppClientSecret'),
-  config.get('googleAppAuthURI')
+  config.get('services').get('google').get('appId'),
+  config.get('services').get('google').get('appSecret'),
+  config.get('services').get('google').get('appAuthUri')
 );
 
-calendar.setToken(
-  config
-  .get('googleApp')
-  .get('users')
-  .get('kamen_kolarov')
-);
+calendar.setToken(config.get('services').get('google').get('users').get('sophy'));
 
 const maxDays = config.get('suggester').get('maxDays');
 
@@ -58,7 +53,7 @@ describe("The bot suggests dates that are free for reservation", () => {
   });
 
   beforeEach("Clear up calendar's events.", (done) => {
-    const calendarId = config.get('calendar').get('id');
+    const calendarId = config.get('calendars').get('id');
 
     const date = {
       start: new Date(),

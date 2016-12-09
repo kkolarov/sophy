@@ -1,6 +1,8 @@
-node_modules
-public/vendor
-config
+node_modules/
+public/vendor/
+config/
+!config/default.json
+!config/custom-environment-variables.json
 quickstart.js
 client_secret.json
-.DS_Store
+**/.DS_Store

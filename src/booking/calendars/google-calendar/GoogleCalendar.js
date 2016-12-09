@@ -18,12 +18,12 @@ class GoogleCalendar {
     this._calendar = google.calendar('v3');
   }
 
-  setToken(token) {
+  setToken({ accessToken, refreshToken, tokenType, expiryDate }) {
     this._oauth2Client.credentials = {
-      access_token: token.access_token,
-      refresh_token: token.refresh_token,
-      token_type: token.token_type,
-      expiry_date: token.expiry_date
+      access_token: accessToken,
+      refresh_token: refreshToken,
+      token_type: tokenType,
+      expiry_date: expiryDate
     };
   }
 

@@ -22,23 +22,19 @@ class BookingAssistant {
 
     if (!this._calendar) {
       this._calendar = new GoogleCalendar(
-        config.get('googleAppClientId'),
-        config.get('googleAppClientSecret'),
-        config.get('googleAppAuthURI')
+        config.get('services').get('google').get('appId'),
+        config.get('services').get('google').get('appSecret'),
+        config.get('services').get('google').get('appAuthUri')
       );
 
-      this._calendar.setToken(
-        config
-        .get('googleApp')
-        .get('users')
-        .get('kamen_kolarov')
-      );
+      this._calendar.setToken(config.get('services').get('google').get('users').get('sophy'));
     }
 
     const adapter = new DateAdapter(
       config.get('dateAdapter').get('dayFormat'),
       config.get('dateAdapter').get('dateFormat')
     );
+
     const validator = new DateValidator();
 
     const algorithms = [
