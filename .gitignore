@@ -6,3 +6,4 @@ config/*
 quickstart.js
 client_secret.json
 **/.DS_Store
+npm-debug.log
