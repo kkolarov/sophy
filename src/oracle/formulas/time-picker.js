@@ -15,7 +15,6 @@ module.exports = ({ name, priority }) => {
     consequence: function(R) {
         const timePickerConfig = config.get('messenger_templates').get('picker').get('time');
 
-
         const picker = new Picker(
           this.prophecy.getRecipientId(),
           timePickerConfig.get('button').get('text'),

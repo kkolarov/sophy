@@ -2,6 +2,13 @@
 
 const moment = require('moment');
 const config = require('config');
+
+const {
+  ExpiredDateError,
+  InvalidDayFormatError,
+  InvalidHourFormatError
+} = require('./errors');
+
 /**
 * This module suggests free dates according to a client's request.
 *
@@ -55,7 +62,15 @@ class Suggester {
       req.day = that._newDay(req.day, 1);
 
       that._checker.check(req, (err, date) => {
-        if (!err) {
+        if (err) {
+          if (err instanceof ExpiredDateError ||
+                err instanceof InvalidDayFormatError ||
+                err instanceof InvalidHourFormatError) {
+            cb(err, null);
+          } else {
+            nextDay(++days);
+          }
+        } else {
           suggestions.push(date);
 
           if (suggestions.length == that._config.get('maxSuggestions')) {
@@ -63,8 +78,6 @@ class Suggester {
           } else {
             nextDay(++days);
           }
-        } else {
-          cb(err, null);
         }
       });
     })(1);

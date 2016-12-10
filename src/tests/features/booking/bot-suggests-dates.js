@@ -93,14 +93,6 @@ describe("The bot suggests dates that are free for reservation", () => {
         expect(exception).instanceof(ExpiredDateError);
       }));
     });
-
-    it("the date resides in the outside working time.", (done) => {
-      const sample = samples.getSampleWithRequestResidesOutsideWorkingTime();
-
-      this.assistant.suggest(sample, assertThatFailWith(done, exception => {
-        expect(exception).instanceof(OutsideWorkingTimeError);
-      }));
-    });
   });
 
   context("given that a request is valid", () => {

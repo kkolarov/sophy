@@ -22,8 +22,6 @@ module.exports = ({ context, entities }) => {
           duration: duration
         };
 
-        console.log(request);
-
         assistant.suggest(request, (exception, suggestions) => {
           if (!exception) {
             let formatedSuggestions = [];
@@ -34,6 +32,7 @@ module.exports = ({ context, entities }) => {
 
             context.suggestions = formatedSuggestions;
           }
+
           resolve(context);
         });
       })

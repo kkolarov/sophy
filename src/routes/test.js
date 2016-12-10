@@ -71,7 +71,7 @@ router.get('/user_model', (req, res) => {
 router.get('/get_started_button', (req, res) => {
   request({
     uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
-    qs: { access_token: 'EAAFZA1E1YsYUBADZCZAcFHbQYwgXMSosteP5JpCSZCtZAQk4qS6COfrGVPUwB60TfWwES5lMVCSW7LDDU7yua2ZAP6JcISBUYlvHHqTvzJtZA2IJpcaE3Ifz5g7ItmlxcF8eKkqujePLhTxwy4IGMgNvhnpe2aNFHpGTTewrVZAyIQZDZD' },
+    qs: { access_token: 'EAAUOJNOMzfwBAP7RwbfYoVJY1RkvAjCiqpLssEn6ykFGp1um919dOdY1bGW1BzkZBcAXXOFzXIQNBb9rUd2OvDJSDIkSZAFl5pGH39ObwzmcyKLgDhYb56DT8cLCFKkk1rXRaUugPsYWBSo6Mn9Cg5KwvLzc0TaKei99yx9AZDZD' },
     method: 'POST',
     json: {
       setting_type:"call_to_actions",
@@ -80,7 +80,7 @@ router.get('/get_started_button', (req, res) => {
         {
           type: "postback",
           title:"Запазване на час",
-          payload:"Искам да си запиша час"
+          payload:"Искам да си запиша час при зъболекар"
         }
       ]
     }
@@ -98,7 +98,7 @@ router.get('/get_started_button', (req, res) => {
 router.get('/greeting_text', (req, res) => {
   request({
     uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
-    qs: { access_token: 'EAAFZA1E1YsYUBADZCZAcFHbQYwgXMSosteP5JpCSZCtZAQk4qS6COfrGVPUwB60TfWwES5lMVCSW7LDDU7yua2ZAP6JcISBUYlvHHqTvzJtZA2IJpcaE3Ifz5g7ItmlxcF8eKkqujePLhTxwy4IGMgNvhnpe2aNFHpGTTewrVZAyIQZDZD' },
+    qs: { access_token: 'EAAUOJNOMzfwBAP7RwbfYoVJY1RkvAjCiqpLssEn6ykFGp1um919dOdY1bGW1BzkZBcAXXOFzXIQNBb9rUd2OvDJSDIkSZAFl5pGH39ObwzmcyKLgDhYb56DT8cLCFKkk1rXRaUugPsYWBSo6Mn9Cg5KwvLzc0TaKei99yx9AZDZD' },
     method: 'POST',
     json: {
       setting_type:"greeting",
@@ -121,7 +121,7 @@ router.get('/greeting_text', (req, res) => {
 router.get('/whitelist', (req, res) => {
   request({
     uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
-    qs: { access_token: 'EAAFZA1E1YsYUBADZCZAcFHbQYwgXMSosteP5JpCSZCtZAQk4qS6COfrGVPUwB60TfWwES5lMVCSW7LDDU7yua2ZAP6JcISBUYlvHHqTvzJtZA2IJpcaE3Ifz5g7ItmlxcF8eKkqujePLhTxwy4IGMgNvhnpe2aNFHpGTTewrVZAyIQZDZD' },
+    qs: { access_token: 'EAAUOJNOMzfwBAP7RwbfYoVJY1RkvAjCiqpLssEn6ykFGp1um919dOdY1bGW1BzkZBcAXXOFzXIQNBb9rUd2OvDJSDIkSZAFl5pGH39ObwzmcyKLgDhYb56DT8cLCFKkk1rXRaUugPsYWBSo6Mn9Cg5KwvLzc0TaKei99yx9AZDZD' },
     method: 'POST',
     json: {
       "setting_type" : "domain_whitelisting",
@@ -142,7 +142,7 @@ router.get('/whitelist', (req, res) => {
 router.get('/persistant_menu', (req, res) => {
   request({
     uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
-    qs: { access_token: 'EAAFZA1E1YsYUBADZCZAcFHbQYwgXMSosteP5JpCSZCtZAQk4qS6COfrGVPUwB60TfWwES5lMVCSW7LDDU7yua2ZAP6JcISBUYlvHHqTvzJtZA2IJpcaE3Ifz5g7ItmlxcF8eKkqujePLhTxwy4IGMgNvhnpe2aNFHpGTTewrVZAyIQZDZD' },
+    qs: { access_token: 'EAAUOJNOMzfwBAP7RwbfYoVJY1RkvAjCiqpLssEn6ykFGp1um919dOdY1bGW1BzkZBcAXXOFzXIQNBb9rUd2OvDJSDIkSZAFl5pGH39ObwzmcyKLgDhYb56DT8cLCFKkk1rXRaUugPsYWBSo6Mn9Cg5KwvLzc0TaKei99yx9AZDZD' },
     method: 'POST',
     json: {
       setting_type : "call_to_actions",
