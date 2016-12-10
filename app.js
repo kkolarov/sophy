@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 const config = require('config');
 
-const { pickerRoute, apiRoute, testRoute } = require('./src/routes');
+const { pickerRoute, apiRoute } = require('./src/routes');
 
 var app = express();
 
@@ -20,7 +20,6 @@ app.use(bodyParser.json());
 
 app.use('/api', apiRoute);
 app.use('/picker', pickerRoute);
-app.use('/test', testRoute);
 
 mongoose.connect(config.get('database').get('mongoUri'));
 
