@@ -29,7 +29,7 @@ describe("A client reserves time in a dentist's calendar", () => {
   before("Setup", (done) => {
     const that = this;
 
-    mongoose.connect('mongodb://localhost/sophy-testing', (err) => {
+    mongoose.connect(config.get('database').get('mongoUri'), (err) => {
       if (!err) {
         const Employee = require('../../../models/Employee');
 

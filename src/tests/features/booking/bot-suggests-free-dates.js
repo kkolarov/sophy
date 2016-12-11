@@ -41,7 +41,7 @@ describe("The bot suggests dates that are free for reservation", () => {
   before("Setup", (done) => {
     const that = this;
 
-    mongoose.connect('mongodb://localhost/sophy-testing', (err) => {
+    mongoose.connect(config.get('database').get('mongoUri'), (err) => {
       if (!err) {
         const Employee = require('../../../models/Employee');
 
