@@ -7,19 +7,20 @@ let mocha = require('gulp-spawn-mocha');
 let jshint = require('gulp-jshint');
 let stylish = require('jshint-stylish');
 
-var paths = {
+var path = {
   'scripts': ['./src/**/*.js'],
-  'tests': ['./src/tests/**/*.js']
+  'tests': ['./src/tests/**/*.js'],
+  'features': './src/tests/features/**/*.js'
 };
 
 gulp.task('jshint', () => {
-  return gulp.src(paths.scripts)
+  return gulp.src(path.scripts)
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
 gulp.task('mocha-tests', () => {
-  return gulp.src(paths.tests)
+  return gulp.src(path.tests)
     .pipe(mocha({
       R: 'spec',
       t: 5000 ,
@@ -28,11 +29,11 @@ gulp.task('mocha-tests', () => {
 });
 
 gulp.task('watch-scripts', () => {
-  gulp.watch(paths.scripts, ['jshint'])
+  gulp.watch(path.scripts, ['jshint'])
 });
 
 gulp.task('watch-tests', () => {
-  gulp.watch(paths.scripts, ['mocha-tests']);
+  gulp.watch(path.scripts, ['mocha-tests']);
 });
 
 gulp.task('watch-app', () => {
@@ -41,6 +42,14 @@ gulp.task('watch-app', () => {
     ext: 'html css js',
     env: config.get('environment')
   });
+});
+
+gulp.task('production-tests', () => {
+  return gulp.src(path.features)
+    .pipe(mocha({
+      R: 'spec',
+      t: 5000
+    }));
 });
 
 gulp.task('default', ['watch-app', 'watch-scripts', 'mocha-tests', 'watch-tests']);

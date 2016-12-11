@@ -85,14 +85,6 @@ describe("The bot suggests dates that are free for reservation", () => {
         expect(exception).instanceof(InvalidHourFormatError);
       }));
     });
-
-    it("the date is expired.", (done) => {
-      const sample = samples.getSampleWithRequestResidesInPast();
-
-      this.assistant.suggest(sample, assertThatFailWith(done, exception => {
-        expect(exception).instanceof(ExpiredDateError);
-      }));
-    });
   });
 
   context("given that a request is valid", () => {
@@ -107,7 +99,7 @@ describe("The bot suggests dates that are free for reservation", () => {
       }));
     });
 
-    it("whether the number of returned suggestions is zero when the configuration property maxDays is set to zero too.", (done) => {
+    it("whether the number of returned suggestions is 0 when the configuration property maxDays=0.", (done) => {
       const sample = samples.getSampleWithValidRequest();
 
       config.suggester.maxDays = 0;

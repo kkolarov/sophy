@@ -1,7 +1,7 @@
 node_modules/
 public/vendor/
 config/*
-scripts/
+scripts/**
 !config/default.json
 !config/custom-environment-variables.json
 quickstart.js

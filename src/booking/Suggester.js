@@ -35,8 +35,8 @@ class Suggester {
   *
   * @return String date
   */
-  _newDay(date, days) {
-    return moment(date, this._adapter.getDateFormat()).add(days, 'days').format(this._adapter.getDayFormat());
+  _tomorrow(date) {
+    return moment(date, this._adapter.getDateFormat()).add(1, 'days').format(this._adapter.getDayFormat());
   }
 
   /**
@@ -59,15 +59,13 @@ class Suggester {
         return;
       }
 
-      req.day = that._newDay(req.day, 1);
-
       that._checker.check(req, (err, date) => {
         if (err) {
-          if (err instanceof ExpiredDateError ||
-                err instanceof InvalidDayFormatError ||
+          if (err instanceof InvalidDayFormatError ||
                 err instanceof InvalidHourFormatError) {
             cb(err, null);
           } else {
+            req.day = that._tomorrow(req.day);
             nextDay(++days);
           }
         } else {
@@ -76,6 +74,7 @@ class Suggester {
           if (suggestions.length == that._config.get('maxSuggestions')) {
             cb(null, suggestions);
           } else {
+            req.day = that._tomorrow(req.day);
             nextDay(++days);
           }
         }

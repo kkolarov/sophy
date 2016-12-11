@@ -1,5 +1,11 @@
 language: node_js
 node_js:
   - "6.0"
+branches:
+  only:
+    - master
+    - staging
 before_script:
   - npm install -g gulp
+script:
+  - gulp production-tests
