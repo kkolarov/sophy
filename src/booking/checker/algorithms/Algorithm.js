@@ -95,7 +95,7 @@ class Algorithm {
             cb(new OutsideWorkingTimeError(), null);
           }
         } else {
-          cb(err, null);
+          cb(new Error('There is no employee.'), null);
         }
       } else {
         cb(err, null);
