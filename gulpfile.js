@@ -10,7 +10,7 @@ let stylish = require('jshint-stylish');
 var path = {
   'scripts': ['./src/**/*.js'],
   'tests': ['./src/tests/**/*.js'],
-  'features': './src/tests/features/booking/bot-suggests-free-dates.js'
+  'features': './src/tests/features/**/*.js'
 };
 
 gulp.task('jshint', () => {
