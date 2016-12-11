@@ -1,16 +1,15 @@
 'use strict';
 
 const config = require('config');
-let gulp = require('gulp');
-let nodemon = require('gulp-nodemon');
-let mocha = require('gulp-spawn-mocha');
-let jshint = require('gulp-jshint');
-let stylish = require('jshint-stylish');
+const gulp = require('gulp');
+const nodemon = require('gulp-nodemon');
+const mocha = require('gulp-spawn-mocha');
+const jshint = require('gulp-jshint');
+const stylish = require('jshint-stylish');
 
-var path = {
+const path = {
   'scripts': ['./src/**/*.js'],
-  'tests': ['./src/tests/**/*.js'],
-  'features': './src/tests/features/**/*.js'
+  'devTests': ['./src/tests/**/*.js']
 };
 
 gulp.task('jshint', () => {
@@ -19,8 +18,8 @@ gulp.task('jshint', () => {
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
-gulp.task('mocha-tests', () => {
-  return gulp.src(path.tests)
+gulp.task('tests', () => {
+  return gulp.src(path.devTests)
     .pipe(mocha({
       R: 'spec',
       t: 5000 ,
@@ -28,12 +27,20 @@ gulp.task('mocha-tests', () => {
     }));
 });
 
-gulp.task('watch-scripts', () => {
-  gulp.watch(path.scripts, ['jshint'])
+gulp.task('production-tests', () => {
+  return gulp.src(path.devTests)
+    .pipe(mocha({
+      R: 'spec',
+      t: 5000
+    }));
 });
 
 gulp.task('watch-tests', () => {
-  gulp.watch(path.scripts, ['mocha-tests']);
+  gulp.watch(path.scripts, ['tests']);
+});
+
+gulp.task('watch-scripts', () => {
+  gulp.watch(path.scripts, ['jshint'])
 });
 
 gulp.task('watch-app', () => {
@@ -44,12 +51,6 @@ gulp.task('watch-app', () => {
   });
 });
 
-gulp.task('production-tests', () => {
-  return gulp.src(path.features)
-    .pipe(mocha({
-      R: 'spec',
-      t: 5000
-    }));
-});
+gulp.task('run-tests', ['tests', 'watch-tests']);
 
-gulp.task('default', ['watch-app', 'watch-scripts', 'mocha-tests', 'watch-tests']);
+gulp.task('default', ['watch-app', 'watch-scripts']);
