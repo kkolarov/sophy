@@ -2,7 +2,11 @@
   "services": {
     "facebook": {
       "version": "v2.4",
-      "messagesUri": "https://graph.facebook.com/v2.6/me/messages"
+      "messenger": {
+        "API": {
+          "messages": "https://graph.facebook.com/v2.6/me/messages"
+        }
+      }
     },
     "google": {
       "projectId": "sophia-147509",

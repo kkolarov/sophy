@@ -1,6 +1,6 @@
 'use strict';
 
-const QuickReply = require('../../messenger/templates').QuickReply;
+const QuickReply = require('@fanatic/messenger').templates.QuickReply;
 
 module.exports = ({ name, priority }) => {
   return {

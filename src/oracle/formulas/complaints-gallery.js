@@ -1,7 +1,9 @@
 'use strict';
 
 const config = require('config');
-const { TextReply, ReasonsGallery } = require('../../messenger/templates');
+
+const TextReply = require('@fanatic/messenger').templates.TextReply;
+const ReasonsGallery = require('../../messenger/templates').ReasonsGallery;
 
 module.exports = ({ name, priority }) => {
   return {

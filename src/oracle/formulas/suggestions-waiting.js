@@ -1,4 +1,6 @@
-const TextReply = require('../../messenger/templates').TextReply;
+'use strict';
+
+const TextReply = require('@fanatic/messenger').templates.TextReply;
 
 module.exports = ({ name, priority }) => {
   return {

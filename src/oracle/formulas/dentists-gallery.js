@@ -1,6 +1,7 @@
 'use strict';
 
-const { TextReply, DentistsGallery } = require('../../messenger/templates');
+const TextReply = require('@fanatic/messenger').templates.TextReply;
+const DentistsGallery = require('../../messenger/templates').DentistsGallery;
 
 const Employee = require('../../models/Employee');
 

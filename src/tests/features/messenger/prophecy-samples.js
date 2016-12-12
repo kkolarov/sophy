@@ -14,7 +14,7 @@ const samples = (function() {
         message,
         quickReplies,
         {
-          dentist_step: true
+          dentist_step: true,
         }
       );
     },

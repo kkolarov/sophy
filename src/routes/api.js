@@ -3,14 +3,15 @@
 const express = require('express');
 const config = require('config');
 
-const { MessageReceived, PostbackReceived } = require('../messenger/callbacks');
+const { MessageReceived, PostbackReceived } = require('@fanatic/messenger').callbacks;
+const Messenger = require('@fanatic/messenger').Messenger;
+const Batch = require('@fanatic/messenger').Batch;
+
 const User = require('../models/User');
-const Batch = require('../messenger/Batch');
 const { Oracle } = require('../oracle');
 
 const ProphecyInterpreter = require('../oracle/ProphecyInterpreter');
 const ConversationManager = require('../ConversationManager');
-const Messenger = require('../messenger').Messenger;
 
 const FB = require('fb');
 
@@ -21,10 +22,8 @@ FB.options({
 
 FB.setAccessToken(config.get('services').get('facebook').get('pageAccessToken'));
 
-const messenger = new Messenger(new ProphecyInterpreter(), {
-  uri: config.get('services').get('facebook').get('messagesUri'),
-  accessToken: config.get('services').get('facebook').get('pageAccessToken')
-});
+const messenger = new Messenger(new ProphecyInterpreter());
+messenger.setAccessToken(config.get('services').get('facebook').get('pageAccessToken'));
 
 const conversationManager = new ConversationManager();
 
