@@ -13,18 +13,20 @@ module.exports = ({ name, priority }) => {
         R.when(context.hour_step && !context.hour);
     },
     consequence: function(R) {
-        const timePickerConfig = config.get('messenger_templates').get('picker').get('time');
+      let configuration = config.get('messenger_templates').get('picker').get('time');
 
-        const picker = new Picker(
-          this.prophecy.getRecipientId(),
-          timePickerConfig.get('button').get('text'),
-          this.prophecy.getMessage(),
-          timePickerConfig.get('webview')
-        );
+      const picker = new Picker(
+        this.prophecy.getRecipientId(),
+        configuration.get('title'),
+        configuration.get('description'),
+        configuration.get('imageUrl'),
+        configuration.get('webview').get('url'),
+        configuration.get('button').get('text')
+      );
 
-        this.replies = [picker];
+      this.replies = [picker];
 
-        R.stop();
+      R.stop();
     }
   }
 }

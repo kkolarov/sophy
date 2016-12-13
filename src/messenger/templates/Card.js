@@ -23,7 +23,7 @@ class Card {
         attachment: {
           type: 'template',
           payload: {
-            template_type: "generic",
+            template_type: 'generic',
             elements: [{
               title: this._message,
               subtitle: this._description,

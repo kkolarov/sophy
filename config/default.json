@@ -17,6 +17,9 @@
   "messenger_templates": {
     "picker": {
       "time": {
+        "title": "Избери удобен за вас час.",
+        "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg",
+        "description": "",
         "button": {
           "text": "Избери час"
         }
@@ -25,36 +28,36 @@
     "reasons": [
       {
         "title": "Профилактичен преглед",
-        "subtitle": "Искам да направя профилактичен тест на зъбите си.",
+        "subtitle": "",
         "image_url": "http://sophy.ngrok.io/images/15310573_10211211129333510_2132849533_n.jpg",
         "buttons": [
           {
             "type": "postback",
-            "title": "Профилактичен преглед",
+            "title": "Избери",
             "payload": "Профилактичен преглед"
           }
         ]
       },
       {
         "title": "Лека болка в зъба",
-        "subtitle": "Изпитвам лека болка в зъба.",
+        "subtitle": "",
         "image_url": "http://sophy.ngrok.io/images/15417080_10211234849246493_1156245693_n.jpg",
         "buttons": [
           {
             "type": "postback",
-            "title": "Лека болка в зъба",
+            "title": "Избери",
             "payload": "Лека болка в зъба"
           }
         ]
       },
       {
         "title": "Счупен зъб",
-        "subtitle": "Счупи ми се част от зъба.",
+        "subtitle": "",
         "image_url": "http://sophy.ngrok.io/images/15416940_10211234849566501_1633643311_n.jpg",
         "buttons": [
           {
             "type": "postback",
-            "title": "Счупен зъб",
+            "title": "Избери",
             "payload": "Счупен зъб"
           }
         ]

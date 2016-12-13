@@ -18,9 +18,9 @@ class DentistsGallery {
       },
       message: {
         attachment: {
-          type: "template",
+          type: 'template',
           payload: {
-            template_type: "generic",
+            template_type: 'generic',
             elements: []
           }
         }

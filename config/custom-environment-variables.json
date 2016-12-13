@@ -6,7 +6,9 @@
   "messenger_templates": {
     "picker": {
       "time": {
-        "webview": "TIME_PICKER_WEBVIEW"
+        "webview": {
+          "url": "TIME_PICKER_WEBVIEW"
+        }
       }
     }
   },
