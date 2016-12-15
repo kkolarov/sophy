@@ -1,6 +1,6 @@
 'use strict';
 
-const Prophecy = require('../../../oracle/Prophecy');
+const Prophecy = require('@fanatic/oracle').Prophecy;
 
 const samples = (function() {
   const clientId = 1112292508879017; // sophia.virtual.assistant@gmail.com

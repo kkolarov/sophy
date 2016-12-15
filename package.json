@@ -21,6 +21,7 @@
   "dependencies": {
     "@fanatic/reservation": "^1.0.0",
     "@fanatic/messenger": "^1.0.2",
+    "@fanatic/oracle": "^1.0.0",
     "body-parser": "^1.15.2",
     "bower": "^1.8.0",
     "chai": "^3.5.0",

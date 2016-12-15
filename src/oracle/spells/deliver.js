@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 
-const Prophecy = require('../Prophecy');
+const Prophecy = require('@fanatic/oracle').Prophecy;
 const EntityExtractor = require('./utilities/EntityExtractor');
 
 const extractor = new EntityExtractor({
