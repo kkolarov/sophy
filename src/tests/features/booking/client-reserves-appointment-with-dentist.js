@@ -17,12 +17,12 @@ const {
   ExpiredDateError,
   InvalidDayFormatError,
   InvalidHourFormatError
-} = require('../../../booking/errors');
+} = require('@fanatic/reservation').errors;
 
 const { assertThatSuccessWith, assertThatFailWith } = require('../../assertion');
 
-const GoogleCalendar = require('../../../booking/calendars/google-calendar').GoogleCalendar;
-const BookingAssistant = require('../../../booking').BookingAssistant;
+const Assistant = require('@fanatic/reservation').Assistant;
+const { GoogleCalendar } = require('@fanatic/reservation').calendars;
 
 describe("A client reserves time in a dentist's calendar", () => {
 
@@ -34,14 +34,14 @@ describe("A client reserves time in a dentist's calendar", () => {
         const Employee = require('../../../models/Employee');
 
         this.calendar = new GoogleCalendar(
-          config.get('services').get('google').get('appId'),
-          config.get('services').get('google').get('appSecret'),
-          config.get('services').get('google').get('appAuthUri')
+          config.services.google.appId,
+          config.services.google.appSecret,
+          config.services.google.appAuthUri
         );
 
-        this.calendar.setToken(config.get('services').get('google').get('users').get('sophy'));
+        this.calendar.setToken(config.services.google.users.sophy);
 
-        that.assistant = new BookingAssistant(Employee, this.calendar);
+        that.assistant = new Assistant(Employee, this.calendar);
 
         done();
       }
@@ -49,10 +49,11 @@ describe("A client reserves time in a dentist's calendar", () => {
   });
 
   beforeEach("Clear up calendar's events.", (done) => {
-    const calendarId = config.get('calendars').get('id');
+    const calendarId = config.calendars.id;
+
     const date = {
       start: new Date(),
-      end: new Date(moment().add(1, 'months').format(config.get('dateAdapter').get('dayFormat')))
+      end: new Date(moment().add(1, 'months').format(config.reservation.adapter.date.format.day))
     };
 
     this.calendar.deleteEvents(calendarId, date).then((flag) => {

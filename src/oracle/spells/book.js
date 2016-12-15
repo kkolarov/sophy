@@ -1,14 +1,16 @@
 'use strict';
 
+const config = require('config');
 const _ = require('lodash');
 
-const BookingAssistant = require('../../booking').BookingAssistant;
-const DurationEstimator = require('../../utilities/estimators/duration').Dentist;
+const Assistant = require('@fanatic/reservation').Assistant;
+const { GoogleCalendar } = require('@fanatic/reservation').calendars;
+const { DentalVisitEstimator } = require('../../reservation/estimators');
 
 const Employee = require('../../models/Employee');
 const EntityExtractor = require('./utilities/EntityExtractor');
 
-const durationEstimator = new DurationEstimator();
+const estimator = new DentalVisitEstimator();
 const extractor = new EntityExtractor({
   dentist: {
     extract: true
@@ -28,7 +30,15 @@ const extractor = new EntityExtractor({
   }
 });
 
-const assistant = new BookingAssistant(Employee);
+const calendar = new GoogleCalendar(
+  config.services.google.appId,
+  config.services.google.appSecret,
+  config.services.google.appAuthUri
+);
+
+calendar.setToken(config.get('services').get('google').get('users').get('sophy'));
+
+const assistant = new Assistant(Employee, calendar);
 
 const contextManager = (() => {
 
@@ -135,7 +145,7 @@ const contextManager = (() => {
     return {
       update: (context) => {
         return new Promise((resolve, reject) => {
-          durationEstimator.estimate(context)
+          estimator.estimate(context)
             .then(duration => {
               const request = {
                 calendarId: context.dentist.calendarId,

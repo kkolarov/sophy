@@ -1,17 +1,29 @@
 'use strict';
 
+const config = require('config');
 const moment = require('moment');
+const _ = require('lodash');
 
-const BookingAssistant = require('../../booking').BookingAssistant;
+const { Assistant } = require('@fanatic/reservation');
+const { GoogleCalendar } = require('@fanatic/reservation').calendars;
+const { DentalVisitEstimator } = require('../../reservation/estimators');
+
 const Employee = require('../../models/Employee');
-const DurationEstimator = require('../../utilities/estimators/duration').Dentist;
 
-const assistant = new BookingAssistant(Employee);
-const durationEstimator = new DurationEstimator();
+const calendar = new GoogleCalendar(
+  config.services.google.appId,
+  config.services.google.appSecret,
+  config.services.google.appAuthUri
+);
+
+calendar.setToken(config.services.google.users.sophy);
+
+const assistant = new Assistant(Employee, calendar);
+const estimator = new DentalVisitEstimator();
 
 module.exports = ({ context, entities }) => {
   return new Promise((resolve, reject) => {
-    durationEstimator.estimate(context)
+    estimator.estimate(context)
       .then(duration => {
         const request = {
           calendarId: context.dentist.calendarId,
@@ -22,15 +34,11 @@ module.exports = ({ context, entities }) => {
           duration: duration
         };
 
-        assistant.suggest(request, (exception, suggestions) => {
-          if (!exception) {
-            let formatedSuggestions = [];
-
-            for (let i = 0; i < suggestions.length; ++i) {
-              formatedSuggestions.push(moment(suggestions[i].start).format('MM/DD/YYYY HH:mm'));
-            }
-
-            context.suggestions = formatedSuggestions;
+        assistant.suggest(request, (err, suggestions) => {
+          if (!err) {
+            context.suggestions = _.flatMap(suggestions, (suggestion) => {
+              return moment(suggestion.start).format('MM/DD/YYYY HH:mm')
+            });
           }
 
           resolve(context);

@@ -115,12 +115,18 @@
       ]
     }
   },
-  "suggester": {
-    "maxDays": 30,
-    "maxSuggestions": 7
-  },
-  "dateAdapter": {
-    "dayFormat": "MM/DD/YYYY",
-    "dateFormat": "MM-DD-YYYY HH:mm"
+  "reservation": {
+    "adapter": {
+      "date": {
+        "format": {
+          "day": "MM/DD/YYYY",
+          "date": "MM-DD-YYYY HH:mm"
+        }
+      }
+    },
+    "suggester": {
+      "maxDays": 30,
+      "maxSuggestions": 7
+    }
   }
 }

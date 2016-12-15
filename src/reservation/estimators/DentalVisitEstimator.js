@@ -6,7 +6,7 @@ const _ = require('lodash');
 *
 * @author Kamen Kolarov
 */
-class DentistDurationEstimator {
+class DentalVisitEstimator {
 
   constructor() {
 
@@ -44,4 +44,4 @@ class DentistDurationEstimator {
   }
 }
 
-module.exports = DentistDurationEstimator;
+module.exports = DentalVisitEstimator;

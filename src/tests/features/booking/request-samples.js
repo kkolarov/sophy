@@ -6,7 +6,7 @@ const config = require('config');
 
 const samples = (function() {
   const prototype = {
-    calendarId: config.get('calendars').get('id'),
+    calendarId: config.calendars.id,
     sender: 'Kamen Kolarov',
     description: {
       phone: '+359 89 44 16 041',
@@ -21,11 +21,11 @@ const samples = (function() {
   };
 
   const tomorrow = () => {
-    return moment().add(1, 'days').format(config.get('dateAdapter').get('dayFormat'));
+    return moment().add(1, 'days').format(config.reservation.adapter.date.format.day);
   }
 
   const yesterday = () => {
-    return moment().subtract(1, 'days').format(config.get('dateAdapter').get('dayFormat'));
+    return moment().subtract(1, 'days').format(config.reservation.adapter.date.format.day);
   }
 
   return {

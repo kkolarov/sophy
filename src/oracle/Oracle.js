@@ -60,8 +60,6 @@ class Oracle {
     this._wit.runActions(conversation.id, text, conversation.context)
     .then((context) => {
         if (_.has(context, 'done')) {
-          console.log('A client conversation is done.')
-
           this._conversationManager.removeConversation(user);
         } else {
           console.log(chalk.blue(JSON.stringify(context)));
