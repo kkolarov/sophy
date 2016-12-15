@@ -15,7 +15,11 @@ const Batch = require('@fanatic/messenger').Batch;
 
 const User = require('../models/User');
 
-const ConversationManager = require('../ConversationManager');
+if (config.util.getEnv('NODE_ENV') === 'development') {
+  var ConversationManager = require('@fanatic/conversations').NativeConversationManager;
+} else {
+  var ConversationManager = require('@fanatic/conversations').NativeConversationManager;
+}
 
 FB.options({
   version: config.services.facebook.version,
@@ -31,7 +35,7 @@ const conversationManager = new ConversationManager();
 
 const oracle = new Oracle(spells, messenger, conversationManager);
 
-var router = express.Router();
+const router = express.Router();
 
 router.get('/', (req, res) => {
   if (req.query['hub.mode'] === 'subscribe' &&
