@@ -33,19 +33,19 @@
           response.id = uids.psid;
 
           $.ajax({
-            url: '/api/conversations?id=' + encodeURIComponent(response.id)
+            url: '/conversations/' + encodeURIComponent(response.id)
           })
           .done(function(context) {
 
             $('#time_picker').pickatime({
               onSet: function(context) {
-                response.t = $('#time_picker').val();
-
                 MessengerExtensions.requestCloseBrowser(function success() {
                   $.ajax({
-                    url: '/api/predict',
+                    url: '/predictions/' + encodeURIComponent(response.id),
                     method: 'POST',
-                    data: response
+                    data: {
+                      text: $('#time_picker').val()
+                    }
                   });
                 }, function error(err) {
 

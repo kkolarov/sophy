@@ -1,9 +1,7 @@
 'use strict';
 
 const express = require('express');
-const config = require('config');
-
-var router = express.Router();
+const router = express.Router();
 
 router.get('/time', (req, res) => {
   res.render('time-picker');

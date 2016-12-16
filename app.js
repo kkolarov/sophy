@@ -1,13 +1,19 @@
 'use strict';
 
-var express = require('express');
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const config = require('config');
 
-const { pickerRoute, apiRoute } = require('./src/routes');
+const ConversationManager = require(config.paths.ConversationManager);
 
-var app = express();
+const Messenger = require('@fanatic/messenger').Messenger;
+
+const { Oracle, ProphecyInterpreter } = require('@fanatic/oracle');
+const formulas = require('./src/oracle/formulas');
+const spells = require('./src/oracle/spells');
+
+const app = express();
 
 app.set('views', __dirname + '/src/views');
 app.set('view engine', 'ejs');
@@ -18,8 +24,24 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-app.use('/api', apiRoute);
-app.use('/picker', pickerRoute);
+const conversationManager = new ConversationManager();
+
+const messenger = new Messenger(new ProphecyInterpreter(formulas));
+messenger.setAccessToken(config.services.facebook.pageAccessToken);
+
+const oracle = new Oracle(spells, messenger, conversationManager);
+
+const {
+  fbRouter,
+  pickersRouter,
+  predictionsRouter,
+  conversationsRouter
+} = require('./src/routers')(oracle, conversationManager);
+
+app.use('/fb', fbRouter);
+app.use('/pickers', pickersRouter);
+app.use('/predictions', predictionsRouter);
+app.use('/conversations', conversationsRouter);
 
 mongoose.connect(config.get('database').get('mongoUri'));
 

@@ -36,5 +36,8 @@
   },
   "calendars": {
     "id": "CALENDAR_ID"
+  },
+  "paths": {
+    "ConversationManager": "CONVERSATION_MANAGER_PATH"
   }
 }
