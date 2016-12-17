@@ -1,32 +1,23 @@
-'use strict';
+'use strict'
 
 const express = require('express');
 
 const User = require('../models/User');
 
-function predictionsRouter(oracle) {
-
+function predictionsRouter(oracle, conversationManager) {
   const router = express.Router();
 
-  router.param('fbUser', (req, res, next, id) => {
-    User.findUserByRecipientId(id)
-      .then(user => {
-        req.user = user;
-
-        next();
-      }).catch(err => {
-        req.user = null;
-
-        next();
-      });
-  });
-
-  router.post('/:fbUser', (req, res) => {
+  router.post('/:userId', (req, res) => {
     const text = req.body.text;
 
-    if (req.xhr && req.user) {
-      oracle.think(req.user);
-      oracle.predict(req.user, text);
+    if (req.xhr) {
+      const userId = req.params.userId;
+
+      conversationManager.findConversationByUserId(userId)
+        .then(conversation => {
+          oracle.think(userId, conversation);
+          oracle.predict(userId, text, conversation);
+        });
     }
 
     res.sendStatus(200);

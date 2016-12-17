@@ -7,15 +7,15 @@ module.exports = ({ name, priority }) => {
     name: name,
     priority: priority,
     condition: function(R) {
-        let context = this.prophecy.getContext();
+        let context = this.prophecy.context;
 
         R.when(context.hour_step && context.hour);
     },
     consequence: function(R) {
         const quickReply = new QuickReply(
-          this.prophecy.getRecipientId(),
-          this.prophecy.getMessage(),
-          this.prophecy.getReplies()
+          this.prophecy.recipientId,
+          this.prophecy.message,
+          this.prophecy.quickReplies
         );
 
         this.replies = [quickReply];

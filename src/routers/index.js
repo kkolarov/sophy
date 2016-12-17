@@ -11,7 +11,7 @@ function Routers(oracle, conversationManager) {
       fbRouter: fbRouter(oracle, conversationManager),
       pickersRouter: pickersRouter,
       conversationsRouter: conversationsRouter(conversationManager),
-      predictionsRouter: predictionsRouter(oracle)
+      predictionsRouter: predictionsRouter(oracle, conversationManager)
   }
 }
 

@@ -8,19 +8,19 @@ module.exports = ({ name, priority }) => {
     name: name,
     priority: priority,
     condition: function(R) {
-      let context = this.prophecy.getContext();
+      let context = this.prophecy.context;
 
       R.when(context.suggestion_step && context.suggestions);
     },
     consequence: function(R) {
-      const context = this.prophecy.getContext();
+      const context = this.prophecy.context;
 
       const textReply = new TextReply(
-        this.prophecy.getRecipientId(),
+        this.prophecy.recipientId,
         "Първите свободни дни, в които можете да посетите кабинета."
       );
       const suggestions = new DatesGallery(
-        this.prophecy.getRecipientId(),
+        this.prophecy.recipientId,
         context.suggestions
       );
 

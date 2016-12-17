@@ -10,12 +10,12 @@ module.exports = ({ name, priority }) => {
         R.when(true);
     },
     consequence: function(R) {
-      const context = this.prophecy.getContext();
+      const context = this.prophecy.context;
 
       const quickReply = new QuickReply(
-        this.prophecy.getRecipientId(),
-        this.prophecy.getMessage(),
-        this.prophecy.getReplies()
+        this.prophecy.recipientId,
+        this.prophecy.message,
+        this.prophecy.quickReplies
       );
 
       this.replies = [quickReply];

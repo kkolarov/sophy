@@ -8,7 +8,7 @@ module.exports = ({ name, priority }) => {
     name: name,
     priority: priority,
     condition: function(R) {
-        let context = this.prophecy.getContext();
+        let context = this.prophecy.context;
 
         R.when(context.hour_step && !context.hour);
     },
@@ -16,7 +16,7 @@ module.exports = ({ name, priority }) => {
       let configuration = config.get('messenger_templates').get('picker').get('time');
 
       const picker = new Picker(
-        this.prophecy.getRecipientId(),
+        this.prophecy.recipientId,
         configuration.get('title'),
         configuration.get('description'),
         configuration.get('imageUrl'),

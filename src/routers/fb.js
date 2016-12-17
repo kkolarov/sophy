@@ -9,6 +9,7 @@ const { MessageReceived, PostbackReceived } = require('@fanatic/messenger').call
 const Batch = require('@fanatic/messenger').Batch;
 
 const User = require('../models/User');
+const Business = require('../models/Business');
 
 FB.options({
   version: config.services.facebook.version,
@@ -42,59 +43,58 @@ function fbRouter(oracle, conversationManager) {
 
     batch._events.forEach(event => {
       if (event.comesFromPage()) {
+        const pageId = event.getPageId();
         const userId = event.getSenderId();
 
-        User.findUserByRecipientId(userId)
-          .then(user => {
-            if (!user) {
-              return new Promise((resolve, reject) => {
-                FB.api(`${userId}`, 'get', { }, function (fbUser) {
-                  if (!fbUser.error) {
-                    const user = new User({
-                      recipientId: userId,
-                      source: 'messenger',
-                      firstName: fbUser.first_name,
-                      lastName: fbUser.last_name,
-                      pictureUrl: fbUser.profile_pic,
-                      locale: fbUser.locale,
-                      timezone: fbUser.timezone,
-                      gender: fbUser.gender
-                    });
-
-                    user.save((err, user) => {
-                      resolve(user);
-                    });
-                  } else {
-                    reject(fbUser.error);
-                  }
-                });
-              });
-            }
-
+        conversationManager.findConversationByUserId(userId)
+          .then(conversation => {
             return new Promise((resolve, reject) => {
-              resolve(user);
+              if (conversation) {
+                resolve(conversation);
+              } else {
+                User.findUserByRecipientId(userId)
+                  .then(user => {
+                    Business.findBusinessByPageId(pageId)
+                      .then(business => {
+                        const context = {
+                          recipient: {
+                            id: user.recipientId
+                          }
+                        };
+
+                        const metadata = {
+                          user: user,
+                          business: business
+                        };
+
+                        conversationManager.createConversation(userId, context, metadata)
+                          .then(conversation => {
+                            resolve(conversation);
+                          });
+                      });
+                  });
+              }
             });
-          })
-          .then(user => {
+          }).
+          then(conversation => {
             if (event instanceof MessageReceived && !event.isEcho()) {
               const text = event.getText();
 
-              oracle.think(user);
-              oracle.predict(user, text);
+              oracle.think(userId, conversation);
+              oracle.predict(userId, text, conversation);
             } else if (event instanceof PostbackReceived) {
               const payload = event.getPayload();
 
               // A Messener bug about typing bubble
               setTimeout(() => {
-                oracle.think(user);
-                oracle.predict(user, payload);
+                oracle.think(userId, conversation);
+                oracle.predict(userId, payload, conversation);
               }, 1000);
             }
-          })
-          .catch(err => {
+          }).
+          catch(err => {
             console.log(err);
           });
-
       }
     });
 

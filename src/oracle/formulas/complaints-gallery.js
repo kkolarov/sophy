@@ -10,20 +10,20 @@ module.exports = ({ name, priority }) => {
     name: name,
     priority: priority,
     condition: function(R) {
-      let context = this.prophecy.getContext();
+      let context = this.prophecy.context;
 
       R.when(context.reason_step);
     },
     consequence: function(R) {
-      let context = this.prophecy.getContext();
+      let context = this.prophecy.context;
 
       const textReply = new TextReply(
-        this.prophecy.getRecipientId(),
-        this.prophecy.getMessage()
+        this.prophecy.recipientId,
+        this.prophecy.message
       );
 
       const gallery = new ReasonsGallery(
-        this.prophecy.getRecipientId(),
+        this.prophecy.recipientId,
         config.get('messenger_templates').get('reasons')
       );
 

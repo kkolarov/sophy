@@ -7,15 +7,15 @@ module.exports = ({ name, priority }) => {
     name: name,
     priority: priority,
     condition: function(R) {
-      let context = this.prophecy.getContext();
+      let context = this.prophecy.context;
 
       R.when(context.thinking);
     },
     consequence: function(R) {
-      const context = this.prophecy.getContext();
+      const context = this.prophecy.context;
 
       const typingReply = new TypingReply(
-        this.prophecy.getRecipientId(),
+        this.prophecy.recipientId,
         context.thinking ? 'typing_on' : 'typing_off'
       );
 

@@ -10,16 +10,36 @@ const businessSchema = new Schema({
   },
   domain: {
     type: String,
-    required: true
+    required: true,
+    enum: ['dentistry']
   },
-  subscribe: {
-    type: String,
-    enum: ['booking'],
-    required: true
+  fbPage: {
+    id: {
+      type: Number
+    },
+    accessToken: {
+      type: String
+    },
+    validationToken: {
+      type: String
+    },
+    fbAppSecret: {
+      type: String
+    }
   }
 }, {
   collection: 'businesses'
 });
+
+businessSchema.statics.findBusinessByPageId = (pageId) => {
+  return new Promise((resolve, reject) => {
+    Business.findOne({
+      'fbPage.id': pageId
+    }, (err, business) => {
+      resolve(business);
+    });
+  });
+}
 
 const Business = mongoose.model('Business', businessSchema);
 

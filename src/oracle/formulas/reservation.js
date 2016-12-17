@@ -7,19 +7,19 @@ module.exports = ({ name, priority }) => {
     name: name,
     priority: priority,
     condition: function(R) {
-      const context = this.prophecy.getContext();
+      const context = this.prophecy.context;
 
       R.when(context.dentist && context.reason && context.day && context.hour);
     },
     consequence: function(R) {
-      const context = this.prophecy.getContext();
+      const context = this.prophecy.context;
 
       const card = new Card(
-        this.prophecy.getRecipientId(),
+        this.prophecy.recipientId,
         "Записан час",
-        this.prophecy.getReplies(),
+        [],
         context.dentist.pictureUrl,
-        this.prophecy.getMessage()
+        this.prophecy.message
       );
 
       this.replies = [card];

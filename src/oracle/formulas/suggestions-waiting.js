@@ -7,16 +7,16 @@ module.exports = ({ name, priority }) => {
     name: name,
     priority: priority,
     condition: function(R) {
-      const context = this.prophecy.getContext();
+      const context = this.prophecy.context;
 
       R.when(context.suggestion_step && !context.suggestions);
     },
     consequence: function(R) {
-      const context = this.prophecy.getContext();
+      const context = this.prophecy.context;
 
       const textReply = new TextReply(
-        this.prophecy.getRecipientId(),
-        this.prophecy.getMessage()
+        this.prophecy.recipientId,
+        this.prophecy.message
       );
 
       this.replies = [textReply];
