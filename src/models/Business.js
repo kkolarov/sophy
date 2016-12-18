@@ -12,34 +12,10 @@ const businessSchema = new Schema({
     type: String,
     required: true,
     enum: ['dentistry']
-  },
-  fbPage: {
-    id: {
-      type: Number
-    },
-    accessToken: {
-      type: String
-    },
-    validationToken: {
-      type: String
-    },
-    fbAppSecret: {
-      type: String
-    }
   }
 }, {
   collection: 'businesses'
 });
-
-businessSchema.statics.findBusinessByPageId = (pageId) => {
-  return new Promise((resolve, reject) => {
-    Business.findOne({
-      'fbPage.id': pageId
-    }, (err, business) => {
-      resolve(business);
-    });
-  });
-}
 
 const Business = mongoose.model('Business', businessSchema);
 

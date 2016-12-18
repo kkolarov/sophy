@@ -1,11 +1,13 @@
 {
   "services": {
     "facebook": {
-      "version": "v2.4",
       "messenger": {
         "API": {
           "messages": "https://graph.facebook.com/v2.6/me/messages"
         }
+      },
+      "API": {
+        "graph": "https://graph.facebook.com/v2.6"
       }
     },
     "google": {
@@ -66,10 +68,10 @@
     "suggestions": {
       "days": {
         "Понеделник": {
-          "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
+          "imageUrl": "http://sophy.ngrok.io/images/cover1.png"
         },
         "Вторник": {
-          "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
+          "imageUrl": "http://sophy.ngrok.io/images/cover2.png"
         },
         "Сряда": {
           "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
