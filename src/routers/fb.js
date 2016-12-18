@@ -15,7 +15,6 @@ function fbRouter(oracle, conversationManager) {
 
   bot.settings({
     pageValidationToken: config.services.facebook.pageValidationToken,
-    pageAccessToken: config.services.facebook.pageAccessToken,
     fbGraphURI: config.services.facebook.API.graph
   });
 

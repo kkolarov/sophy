@@ -9,18 +9,9 @@ const userSchema = new Schema({
     type: Number,
     required: true
   },
-  source: {
-    type: String,
-    enum: ['messenger', 'app'],
-    required: true
-  },
-  firstName: {
+  name: {
     type: String,
     required: true
-  },
-  lastName: {
-    type: String,
-    require: true
   },
   locale: {
     type: String,
@@ -30,16 +21,13 @@ const userSchema = new Schema({
     type: Number,
     required: true
   },
-  gender: {
-    type: String
-  },
   pictureUrl: {
     type: String,
+  },
+  _page: {
+    type: Schema.Types.ObjectId,
+    ref: 'Page'
   }
-});
-
-userSchema.virtual('name').get(function() {
-  return this.firstName + " " + this.lastName;
 });
 
 userSchema.statics.findUserByRecipientId = (recipientId) => {

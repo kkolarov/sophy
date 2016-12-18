@@ -1,8 +1,8 @@
 'use strict';
 
-module.exports = (messenger) => {
+module.exports = (conversationManager, messenger) => {
   return {
-    send: require('./deliver')(messenger),
+    send: require('./deliver')(conversationManager, messenger),
     book: require('./book'),
     suggest: require('./suggest'),
     extend_dentist: require('./extend-dentist'),

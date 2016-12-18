@@ -23,28 +23,37 @@ const extractor = new EntityExtractor({
   }
 });
 
-function deliver(messenger) {
+function deliver(conversationManager, messenger) {
   return (req, res) => {
     return new Promise((resolve, reject) => {
       const extractedEntities = extractor.extract(req.entities);
+      const context = req.context;
 
-      const prophecy = {
-          recipientId: req.context.recipient.id,
-          message: res.text,
-          quickReplies: res.quickreplies,
-          context: req.context,
-          metadata: {
-            accessToken: 'EAAUOJNOMzfwBAP7RwbfYoVJY1RkvAjCiqpLssEn6ykFGp1um919dOdY1bGW1BzkZBcAXXOFzXIQNBb9rUd2OvDJSDIkSZAFl5pGH39ObwzmcyKLgDhYb56DT8cLCFKkk1rXRaUugPsYWBSo6Mn9Cg5KwvLzc0TaKei99yx9AZDZD'
-          }
-      };
+      conversationManager.findConversationByUserId(context.recipient.id)
+        .then(conversation => {
+            const pageAccessToken = conversation.metadata.page.accessToken;
 
-      messenger.deliver(prophecy, (err, flag) => {
-        if (!err) {
-          resolve();
-        } else {
-          reject(err);
-        }
-      });
+            const prophecy = {
+                recipientId: context.recipient.id,
+                message: res.text,
+                quickReplies: res.quickreplies,
+                context: context,
+                metadata: {
+                  accessToken: pageAccessToken
+                }
+            };
+
+            messenger.deliver(prophecy, (err, flag) => {
+              if (!err) {
+                resolve();
+              } else {
+                reject(err);
+              }
+            });
+        }).
+        catch(err => {
+          console.log(err);
+        });
     });
   }
 }

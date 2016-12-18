@@ -16,10 +16,6 @@ const pageSchema = new Schema({
     type: String,
     required: true
   },
-  validationToken: {
-    type: String,
-    required: true
-  },
   _business: {
     type: Schema.Types.ObjectId,
     ref: 'Business'
