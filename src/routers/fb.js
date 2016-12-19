@@ -19,7 +19,7 @@ function fbRouter(oracle, conversationManager) {
   });
 
   bot.on('message', function(event) {
-    const text = event.message;
+    const text = event.message.text;
     const userId = event.sender.id;
     const pageId = event.recipient.id;
 
