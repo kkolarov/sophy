@@ -63,21 +63,21 @@ const employeeSchema = new Schema({
 // TODO: This option has to be disabled on production environment.
 employeeSchema.set('autoIndex', true);
 
-employeeSchema.statics.findEmployeeById = (id, cb) => {
-  return Employee.findOne({
-    _id: id
-  }, cb);
-}
-
 employeeSchema.statics.findEmployeeByName = (name, cb) => {
-  return Employee.findOne({
-    name: name
-  }, cb);
+  return new Promise((resolve, reject) => {
+    Employee.findOne({ name: name }, (err, employee) => {
+      if (!err) {
+        resolve(employee);
+      } else {
+        reject(err);
+      }
+    });
+  });
 }
 
-employeeSchema.statics.findEmployees = (position, size, order = 1) => {
+employeeSchema.statics.findEmployeesByBusinessId = (businesId, size, order = 1) => {
   return new Promise((resolve, reject) => {
-    Employee.find({ position: position }, (err, employees) => {
+    Employee.find({ _business: businesId }, (err, employees) => {
       if (!err) {
         resolve(employees);
       } else {
@@ -89,8 +89,16 @@ employeeSchema.statics.findEmployees = (position, size, order = 1) => {
   });
 }
 
-employeeSchema.statics.findEmployeeByCalendarId = (calendarId, cb) => {
-  return Employee.findOne({calendarId: calendarId}, cb);
+employeeSchema.statics.findEmployeeByCalendarId = (calendarId) => {
+  return new Promise((resolve, reject) => {
+    Employee.findOne({ calendarId: calendarId }, (err, employee) => {
+      if (!err) {
+        resolve(employee);
+      } else {
+        reject(err);
+      }
+    });
+  });
 }
 
 const Employee = mongoose.model('Employee', employeeSchema);

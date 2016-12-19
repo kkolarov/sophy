@@ -17,22 +17,26 @@ module.exports = ({context, entities}) => {
     const mergedContext = _.merge(context, extractedEntities);
 
     if (!mergedContext.dentist.name) {
-      Employee.findEmployeeByName(mergedContext.dentist, (err, employee) => {
-        mergedContext.dentist = {
-          name: employee.name,
-          pictureUrl: employee.pictureUrl,
-          calendarId: employee.calendarId,
-          workingTime: {
-            start: employee.workingTime.weekly.start,
-            end: employee.workingTime.weekly.end
-          }
-        };
+      Employee.findEmployeeByName(mergedContext.dentist)
+        .then(employee => {
+          mergedContext.dentist = {
+            name: employee.name,
+            pictureUrl: employee.pictureUrl,
+            calendarId: employee.calendarId,
+            workingTime: {
+              start: employee.workingTime.weekly.start,
+              end: employee.workingTime.weekly.end
+            }
+          };
 
-        delete mergedContext.dentist_step;
-        delete mergedContext.validated_dentist;
+          delete mergedContext.dentist_step;
+          delete mergedContext.validated_dentist;
 
-        resolve(mergedContext);
-      });
+          resolve(mergedContext);
+        })
+        .catch(err => {
+          reject(err);
+        });
     } else {
       resolve(mergedContext);
     }

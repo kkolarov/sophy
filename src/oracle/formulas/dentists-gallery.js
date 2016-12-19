@@ -5,36 +5,42 @@ const DentistsGallery = require('../../messenger/templates').DentistsGallery;
 
 const Employee = require('../../models/Employee');
 
-module.exports = ({ name, priority }) => {
-  return {
-    name: name,
-    priority: priority,
-    condition: function(R) {
-      const context = this.prophecy.context;
+module.exports = (conversationManager) => {
+  return ({ name, priority }) => {
+    return {
+      name: name,
+      priority: priority,
+      condition: function(R) {
+        const context = this.prophecy.context;
 
-      R.when(context.dentist_step);
-    },
-    consequence: function(R) {
-      const context = this.prophecy.context;
-      const position = 'dentist';
-      const size = 10;
+        R.when(context.dentist_step);
+      },
+      consequence: function(R) {
+        const context = this.prophecy.context;
 
-      Employee.findEmployees(position, size)
-        .then(employees => {
-          const textReply = new TextReply(
-            this.prophecy.recipientId,
-            this.prophecy.message
-          );
+        conversationManager.findConversationByUserId(context.recipient.id)
+          .then(conversation => {
+            const size = 10;
+            const page = conversation.metadata.page;
 
-          const suggestions = new DentistsGallery(
-            this.prophecy.recipientId,
-            employees
-          );
+            Employee.findEmployeesByBusinessId(page._business, size)
+              .then(employees => {
+                const textReply = new TextReply(
+                  this.prophecy.recipientId,
+                  this.prophecy.message
+                );
 
-          this.replies = [textReply, suggestions];
+                const suggestions = new DentistsGallery(
+                  this.prophecy.recipientId,
+                  employees
+                );
 
-          R.stop();
-        });
+                this.replies = [textReply, suggestions];
+
+                R.stop();
+              });
+            });
+      }
     }
   }
 }

@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 const conversationManager = new ConversationManager();
-const messenger = new Messenger(new ProphecyInterpreter(formulas));
+const messenger = new Messenger(new ProphecyInterpreter(conversationManager, formulas));
 const oracle = new Oracle(spells, messenger, conversationManager);
 
 const {
