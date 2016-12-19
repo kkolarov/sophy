@@ -38,6 +38,8 @@ function fbRouter(oracle, conversationManager) {
     const pageId = event.recipient.id;
     const userId = event.sender.id;
 
+    console.log(payload);
+
     this.loadConversation(userId, pageId)
       .then(conversation => {
         setTimeout(() => {
