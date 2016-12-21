@@ -6,8 +6,7 @@
   "author": "kamen.kolarov",
   "license": "ISC",
   "cacheDirectories": [
-    "node_modules",
-    "public/vendor"
+
   ],
   "engines": {
     "node": "6.0.0",
