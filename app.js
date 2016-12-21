@@ -11,7 +11,7 @@ const Messenger = require('@fanatic/messenger').Messenger;
 
 const { Oracle, ProphecyInterpreter } = require('@fanatic/oracle');
 const formulas = require('./src/oracle/formulas');
-const spells = require('./src/oracle/spells');
+const capabilities = require('./src/oracle/capabilities');
 
 const app = express();
 
@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 
 const conversationManager = new ConversationManager();
 const messenger = new Messenger(new ProphecyInterpreter(conversationManager, formulas));
-const oracle = new Oracle(spells, messenger, conversationManager);
+const oracle = new Oracle(capabilities, messenger, conversationManager);
 
 const {
   fbRouter,
