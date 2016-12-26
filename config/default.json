@@ -19,11 +19,25 @@
   "messenger_templates": {
     "picker": {
       "time": {
-        "title": "Избери удобен за вас час.",
+        "title": "Посещение на кабинета",
         "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg",
         "description": "",
         "button": {
           "text": "Избери час"
+        },
+        "screen": {
+          "size": "tall"
+        }
+      },
+      "day": {
+        "title": "Календар",
+        "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg",
+        "description": "Всички свободни дни в рамките на 1 месец спрямо указания от вас час.",
+        "button": {
+          "text": "Отвори"
+        },
+        "screen": {
+          "size": "compact"
         }
       }
     },

@@ -46,7 +46,7 @@ gulp.task('watch-scripts', () => {
 gulp.task('watch-app', () => {
   nodemon({
     script: 'app.js',
-    ext: 'html css js',
+    ext: 'html css js ejs',
     env: config.get('environment')
   });
 });

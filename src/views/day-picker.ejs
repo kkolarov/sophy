@@ -5,13 +5,14 @@
 
     <meta name="viewport" content="width=device-width">
 
-    <link rel="stylesheet" href="/vendor/pickadate/lib/themes/classic.css" />
-    <link rel="stylesheet" href="/vendor/pickadate/lib/themes/classic.date.css" />
+    <link rel="stylesheet" href="/css/picker/classic.css" />
+    <link rel="stylesheet" href="/css/picker/classic.date.css" />
 
     <style>
       body {
         margin: 0;
       }
+
       .hidden {
         display: none;
       }
@@ -28,6 +29,39 @@
     <script "text/javascript">
       $(document).ready(function() {
         var response = {};
+
+        $('#day_picker').pickadate({
+          onSet: function(context) {
+            console.log(context);
+
+            // response.text = $('#day_picker').val()
+            //
+            // console.log(response);
+            //
+            // MessengerExtensions.requestCloseBrowser(function success() {
+            //   $.ajax({
+            //     method: 'POST',
+            //     url: '/api/oracle/predict',
+            //     data: response
+            //   });
+            // }).done(function(res) {
+            //   console.log(res);
+            // }).fail(function(err) {
+            //   console.log(err);
+            // });
+          },
+          monthsFull: ['Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември'],
+          weekdaysShort: ['Нед', 'Пон', 'Вто', 'Сря', 'Чет', 'Пет', 'Съб'],
+          today: '',
+          clear: '',
+          close: '',
+          format: 'mm/dd/yyyy',
+          disable: [
+            { from: new Date('12/01/2016'), to: new Date('12/20/2016') }
+          ]
+        });
+
+        $('#day_picker').click();
 
         window.extAsyncInit = function() {
           MessengerExtensions.getUserID(function success(uids) {

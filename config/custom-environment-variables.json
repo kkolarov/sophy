@@ -9,6 +9,11 @@
         "webview": {
           "url": "TIME_PICKER_WEBVIEW"
         }
+      },
+      "day": {
+        "webview": {
+          "url": "DAY_PICKER_WEBVIEW"
+        }
       }
     }
   },
