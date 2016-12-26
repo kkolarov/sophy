@@ -26,6 +26,33 @@
     <script type="" src="/vendor/pickadate/lib/picker.time.js"></script>
 
     <script "text/javascript">
+
+      $(document).ready(function() {
+        $('#time_picker').pickatime({
+          onSet: function(context) {
+            MessengerExtensions.requestCloseBrowser(function success() {
+              $.ajax({
+                url: '/predictions/' + encodeURIComponent(response.id),
+                method: 'POST',
+                data: {
+                  text: $('#time_picker').val()
+                }
+              });
+            }, function error(err) {
+
+            });
+          },
+          min: '09:00',
+          max: '18:00',
+          clear: '',
+          interval: 15,
+          format: 'HH:i',
+          formatLabel: '<b>HH</b>:i'
+        });
+
+        $('#time_picker').click();
+      });
+
       window.extAsyncInit = function() {
         var response = {};
 
