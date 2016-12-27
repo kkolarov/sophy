@@ -29,77 +29,87 @@
     <script "text/javascript">
       $(document).ready(function() {
         var response = {};
+        var fbUserId = 1092096170901736;
 
-        $('#day_picker').pickadate({
-          onSet: function(context) {
-            console.log(context);
+        $.ajax({
+          url: '/suggestions/' + fbUserId
+        })
+        .done(function(reservedDays) {
+          var days = [];
 
-            // response.text = $('#day_picker').val()
-            //
-            // console.log(response);
-            //
-            // MessengerExtensions.requestCloseBrowser(function success() {
-            //   $.ajax({
-            //     method: 'POST',
-            //     url: '/api/oracle/predict',
-            //     data: response
-            //   });
-            // }).done(function(res) {
-            //   console.log(res);
-            // }).fail(function(err) {
-            //   console.log(err);
-            // });
-          },
-          monthsFull: ['Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември'],
-          weekdaysShort: ['Нед', 'Пон', 'Вто', 'Сря', 'Чет', 'Пет', 'Съб'],
-          today: '',
-          clear: '',
-          close: '',
-          format: 'mm/dd/yyyy',
-          disable: [
-            { from: new Date('12/01/2016'), to: new Date('12/20/2016') }
-          ]
-        });
+          for(var i = 0; i < reservedDays.length; ++i) {
+            days.push(new Date(reservedDays[i]));
+          }
 
-        $('#day_picker').click();
+          $('#day_picker').pickadate({
+            onSet: function(context) {
+              response.text = $('#day_picker').val()
 
-        window.extAsyncInit = function() {
-          MessengerExtensions.getUserID(function success(uids) {
-            var psid = uids.psid;
+              console.log(response);
 
-            response.clientId = psid;
-          }, function error(err) {
-
-          });
-        };
-
-        $('#day_picker').pickadate({
-          onSet: function(context) {
-            response.text = $('#day_picker').val()
-
-            console.log(response);
-
-            MessengerExtensions.requestCloseBrowser(function success() {
-              $.ajax({
-                method: 'POST',
-                url: '/api/oracle/predict',
-                data: response
+              MessengerExtensions.requestCloseBrowser(function success() {
+                $.ajax({
+                  url: '/predictions',
+                  method: 'POST',
+                  data: response
+                });
               });
-            }).done(function(res) {
-              console.log(res);
-            }).fail(function(err) {
-              console.log(err);
-            });
-          },
-          monthsFull: ['Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември'],
-          weekdaysShort: ['Нед', 'Пон', 'Вто', 'Сря', 'Чет', 'Пет', 'Съб'],
-          today: '',
-          clear: '',
-          close: '',
-          format: 'mm/dd/yyyy',
+            },
+            monthsFull: ['Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември'],
+            weekdaysShort: ['Нед', 'Пон', 'Вто', 'Сря', 'Чет', 'Пет', 'Съб'],
+            today: '',
+            clear: '',
+            close: '',
+            format: 'mm/dd/yyyy',
+            disable: days
+          });
+
+          $('#day_picker').click();
+        })
+        .fail(function(err) {
+
         });
 
-        $('#day_picker').click();
+        // window.extAsyncInit = function() {
+        //   MessengerExtensions.getUserID(function success(uids) {
+        //     var psid = uids.psid;
+        //     $('#day_picker').pickadate({
+        //       onSet: function(context) {
+        //         console.log(context);
+        //
+        //         response.text = $('#day_picker').val()
+        //
+        //         console.log(response);
+        //
+        //         MessengerExtensions.requestCloseBrowser(function success() {
+        //           $.ajax({
+        //             method: 'POST',
+        //             url: '/api/oracle/predict',
+        //             data: response
+        //           });
+        //         }).done(function(res) {
+        //           console.log(res);
+        //         }).fail(function(err) {
+        //           console.log(err);
+        //         });
+        //       },
+        //       monthsFull: ['Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември'],
+        //       weekdaysShort: ['Нед', 'Пон', 'Вто', 'Сря', 'Чет', 'Пет', 'Съб'],
+        //       today: '',
+        //       clear: '',
+        //       close: '',
+        //       format: 'mm/dd/yyyy',
+        //       disable: [
+        //         { from: new Date('12/01/2016'), to: new Date('12/20/2016') }
+        //       ]
+        //     });
+        //
+        //     $('#day_picker').click();
+        //     response.clientId = psid;
+        //   }, function error(err) {
+        //
+        //   });
+        // };
       }
     );
 
