@@ -3,12 +3,8 @@
 const config = require('config');
 const _ = require('lodash');
 
-const Assistant = require('@fanatic/reservation').Assistant;
-const { GoogleCalendar } = require('@fanatic/reservation').calendars;
-const { DentalVisitEstimator } = require('../../reservation/estimators');
-
-const Employee = require('../../models/Employee');
 const EntityExtractor = require('./utilities/EntityExtractor');
+const DentalVisitEstimator = require('../../reservation/estimators').DentalVisitEstimator;
 
 const estimator = new DentalVisitEstimator();
 const extractor = new EntityExtractor({
@@ -30,17 +26,7 @@ const extractor = new EntityExtractor({
   }
 });
 
-const calendar = new GoogleCalendar(
-  config.services.google.appId,
-  config.services.google.appSecret,
-  config.services.google.appAuthUri
-);
-
-calendar.setToken(config.get('services').get('google').get('users').get('sophy'));
-
-const assistant = new Assistant(Employee, calendar);
-
-const contextManager = (() => {
+const contextManager = (assistant) => {
 
   const dentistStep = (() => {
     const obligateClientToAddDentist = (context) => {
@@ -183,15 +169,19 @@ const contextManager = (() => {
       });
     }
   };
-})();
+}
 
-module.exports = ({context, entities}) => {
-  return new Promise(function(resolve, reject) {
-    const extractedEntities = extractor.extract(entities);
-    const mergedContext = _.merge(context, extractedEntities);
+const book = (assistant) => {
+  return ({context, entities}) => {
+    return new Promise(function(resolve, reject) {
+      const extractedEntities = extractor.extract(entities);
+      const mergedContext = _.merge(context, extractedEntities);
 
-    contextManager.update(mergedContext).then(context => {
-      resolve(context);
+      contextManager(assistant).update(mergedContext).then(context => {
+        resolve(context);
+      });
     });
-  });
-};
+  }
+}
+
+module.exports = book;
