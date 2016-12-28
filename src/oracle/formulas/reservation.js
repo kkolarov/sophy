@@ -18,7 +18,7 @@ module.exports = ({ name, priority }) => {
         this.prophecy.recipientId,
         "Записан час",
         [],
-        context.dentist.pictureUrl,
+        "http://sophy.ngrok.io/images/reservation.jpg",
         this.prophecy.message
       );
 

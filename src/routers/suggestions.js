@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const config = require('config');
 const moment = require('moment');
 const _ = require('lodash');
 
@@ -8,9 +9,11 @@ const { DentalVisitEstimator } = require('../reservation/estimators');
 const estimator = new DentalVisitEstimator();
 
 const getAllDatesArray = () => {
+  const maxDays = config.reservation.suggester.maxDays;
+
   let allDatesArray = [];
 
-  for (let i = 0; i < 20; ++i) {
+  for (let i = 0; i < maxDays; ++i) {
     allDatesArray.push(moment().add(i, 'day').format('MM-DD-YYYY'));
   }
 
@@ -23,6 +26,13 @@ const getFreeDatesArray = (suggestions) => {
   });
 }
 
+/**
+*
+* @param @fanatic/reservation/Assistant assistant
+* @param @fanatic/conversations/NativeConversationManager manager
+*
+* @return Router
+*/
 const suggestionsRouter = (assistant, manager) => {
   const router = express.Router();
 
@@ -31,32 +41,7 @@ const suggestionsRouter = (assistant, manager) => {
 
     manager.findConversationByUserId(userId)
       .then(conversation => {
-        const context = {
-          "recipient": {
-            "id": 1092096170901736,
-            "name": "Kamen Kolarov"
-          },
-          "page": {
-            "id": 1235981259820368
-          },
-          "dentist": {
-            "name":"Д-р Йонов",
-            "pictureUrl":"http://yonov.eu/wp-content/uploads/2016/08/DSCN1465-1.jpg",
-            "calendarId": "fetfjslqogof3759gph1krs0a4@group.calendar.google.com",
-            "workingTime": {
-              "start": "09:00",
-              "end": "18:00"
-            }
-          },
-          "reason": {
-            "duration": {
-              "hours": 0,
-              "minutes": 30
-            },
-            "value":"Профилактичен преглед"
-          },
-          "hour": "15:00"
-        };
+        const context = conversation.context;
 
         estimator.estimate(context)
           .then(duration => {
@@ -70,20 +55,19 @@ const suggestionsRouter = (assistant, manager) => {
               duration: duration
             };
 
-            assistant.suggest(request, {
-              maxResult: 20
-            }, (err, suggestions) => {
-              if (!err) {
+            assistant.suggest(request, { })
+              .then(suggestions => {
                 const allDates = getAllDatesArray();
                 const freeDates = getFreeDatesArray(suggestions);
 
                 const reservedDates = _.difference(allDates, freeDates);
 
                 res.json(reservedDates);
-              }
-            });
-          }).
-          catch(err => {
+              }).catch(err => {
+                console.log(err);
+              });
+
+          }).catch(err => {
             console.log(err);
           });
       });

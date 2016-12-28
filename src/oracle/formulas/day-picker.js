@@ -23,7 +23,7 @@ module.exports = ({ name, priority }) => {
         configuration1.get('imageUrl'),
         configuration1.get('webview').get('url'),
         configuration1.get('button').get('text'),
-        configuration1.get('screen').get('size')
+        configuration1.get('webview').get('screen')
       );
 
       const picker2 = new Picker(
@@ -33,7 +33,7 @@ module.exports = ({ name, priority }) => {
         configuration2.get('imageUrl'),
         configuration2.get('webview').get('url'),
         configuration2.get('button').get('text'),
-        configuration2.get('screen').get('size')
+        configuration2.get('webview').get('screen')
       );
 
       this.replies = [picker1, picker2];

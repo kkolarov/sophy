@@ -4,10 +4,10 @@ const oo = -987654321;
 
 module.exports = (conversationManager) => {
   return [
-    require('./day-picker')({
-      name: "When the bot delivers a day picker from which a client can choose a preferred hour.",
-      priority: 1024
-    }),
+    // require('./day-picker')({
+    //   name: "When the bot delivers a day picker from which a client can choose a preferred hour.",
+    //   priority: 1024
+    // }),
     require('./response-processing')({
       name: "When the bot processes a client's response.",
       priority: 512

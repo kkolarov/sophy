@@ -21,7 +21,8 @@ module.exports = ({ name, priority }) => {
         configuration.get('description'),
         configuration.get('imageUrl'),
         configuration.get('webview').get('url'),
-        configuration.get('button').get('text')
+        configuration.get('button').get('text'),
+        configuration.get('webview').get('screen')
       );
 
       this.replies = [picker];

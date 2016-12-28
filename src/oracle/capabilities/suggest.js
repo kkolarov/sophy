@@ -2,7 +2,6 @@
 
 const config = require('config');
 const moment = require('moment');
-const _ = require('lodash');
 
 const { DentalVisitEstimator } = require('../../reservation/estimators');
 const estimator = new DentalVisitEstimator();
@@ -21,17 +20,16 @@ const suggest = (assistant) => {
             duration: duration
           };
 
-          assistant.suggest(request, {
-            maxResult: 5
-          }, (err, suggestions) => {
-            if (!err) {
-              context.suggestions = _.flatMap(suggestions, (suggestion) => {
-                return moment(suggestion.start).format('MM/DD/YYYY HH:mm')
+          assistant.suggest(request, { maxResult: 5 })
+            .then(suggestions => {
+              context.suggestions = suggestions.map(suggestion => {
+                return moment(suggestion.start).format('MM/DD/YYYY HH:mm');
               });
-            }
 
-            resolve(context);
-          });
+              resolve(context);
+            }).catch(err => {
+              reject(err);
+            });
         })
         .catch(err => {
           reject(err);
