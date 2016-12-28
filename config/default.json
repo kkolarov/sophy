@@ -20,13 +20,13 @@
     "picker": {
       "time": {
         "title": "Посещение на кабинета",
-        "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg",
+        "imageUrl": "https://sophy.ngrok.io/images/time-changing.jpg",
         "description": "",
         "button": {
           "text": "Избери час"
         },
-        "screen": {
-          "size": "tall"
+        "webview": {
+          "screen": "tall"
         }
       },
       "day": {
@@ -36,8 +36,8 @@
         "button": {
           "text": "Отвори"
         },
-        "screen": {
-          "size": "compact"
+        "webview": {
+          "screen": "compact"
         }
       }
     },
@@ -45,7 +45,7 @@
       {
         "title": "Профилактичен преглед",
         "subtitle": "",
-        "image_url": "http://sophy.ngrok.io/images/15310573_10211211129333510_2132849533_n.jpg",
+        "image_url": "https://sophy.ngrok.io/images/15310573_10211211129333510_2132849533_n.jpg",
         "buttons": [
           {
             "type": "postback",
@@ -57,7 +57,7 @@
       {
         "title": "Лека болка в зъба",
         "subtitle": "",
-        "image_url": "http://sophy.ngrok.io/images/15417080_10211234849246493_1156245693_n.jpg",
+        "image_url": "https://sophy.ngrok.io/images/15417080_10211234849246493_1156245693_n.jpg",
         "buttons": [
           {
             "type": "postback",
@@ -69,7 +69,7 @@
       {
         "title": "Счупен зъб",
         "subtitle": "",
-        "image_url": "http://sophy.ngrok.io/images/15416940_10211234849566501_1633643311_n.jpg",
+        "image_url": "https://sophy.ngrok.io/images/15416940_10211234849566501_1633643311_n.jpg",
         "buttons": [
           {
             "type": "postback",
@@ -82,10 +82,10 @@
     "suggestions": {
       "days": {
         "Понеделник": {
-          "imageUrl": "http://sophy.ngrok.io/images/cover1.png"
+          "imageUrl": "https://sophy.ngrok.io/images/monday.jpg"
         },
         "Вторник": {
-          "imageUrl": "http://sophy.ngrok.io/images/cover2.png"
+          "imageUrl": "https://sophy.ngrok.io/images/cover2.png"
         },
         "Сряда": {
           "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
@@ -94,7 +94,7 @@
           "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
         },
         "Петък": {
-          "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
+          "imageUrl": "https://sophy.ngrok.io/images/friday.jpg"
         },
         "Събота": {
           "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
@@ -105,21 +105,35 @@
       },
       "mandatoryCards" : [
         {
-          "title": "Промяна на часа",
-          "subtitle": "Тази опция ви позволява да промените часа на посещение при зъболекаря.",
-          "image_url": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg",
+          "title": "Календар",
+          "subtitle": "Всички свободни дни в рамките на 1 месец спрямо указания от вас час.",
+          "image_url": "https://sophy.ngrok.io/images/time-changing.jpg",
+          "buttons": [
+            {
+              "type": "web_url",
+              "url": "https://sophy.ngrok.io/pickers/day",
+              "title": "Отвори",
+              "webview_height_ratio": "compact",
+              "messenger_extensions": true
+            }
+          ]
+        },
+        {
+          "title": "Посещение на кабинета",
+          "subtitle": "",
+          "image_url": "https://sophy.ngrok.io/images/time-changing.jpg",
           "buttons": [
             {
               "type": "postback",
-              "title": "Промени часа",
+              "title": "Промени час",
               "payload": "Искам да променя часа на посещение при зъболекаря."
             }
           ]
         },
         {
-          "title": "Обаждане",
-          "subtitle": "Тази опция ви позволява да се обадите на зъболекаря по телефона.",
-          "image_url": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg",
+          "title": "Д-р Йонов",
+          "subtitle": "",
+          "image_url": "https://sophy.ngrok.io/images/calling.jpg",
           "buttons": [
             {
               "type": "phone_number",
@@ -141,8 +155,7 @@
       }
     },
     "suggester": {
-      "maxDays": 30,
-      "maxSuggestions": 7
+      "maxDays": 30
     }
   }
 }
