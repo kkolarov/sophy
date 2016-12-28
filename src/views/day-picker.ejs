@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="/css/picker/classic.css" />
     <link rel="stylesheet" href="/css/picker/classic.date.css" />
 
+    <!-- <link rel="stylesheet" href="/vendor/pickadate/lib/themes/classic.css" />
+    <link rel="stylesheet" href="/vendor/pickadate/lib/themes/classic.date.css" /> -->
+
     <style>
       body {
         margin: 0;
@@ -49,15 +52,17 @@
 
             $('#day_picker').pickadate({
               onSet: function(context) {
-                MessengerExtensions.requestCloseBrowser(function success() {
-                  $.ajax({
-                    url: '/predictions/' + + encodeURIComponent(fbUserId),
-                    method: 'POST',
-                    data: {
-                      text: $('#day_picker').val()
-                    }
+                if (context.select) {
+                  MessengerExtensions.requestCloseBrowser(function success() {
+                    $.ajax({
+                      url: '/predictions/' + + encodeURIComponent(fbUserId),
+                      method: 'POST',
+                      data: {
+                        text: $('#day_picker').val()
+                      }
+                    });
                   });
-                });
+                }
               },
               monthsFull: ['Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември'],
               weekdaysShort: ['Нед', 'Пон', 'Вто', 'Сря', 'Чет', 'Пет', 'Съб'],
