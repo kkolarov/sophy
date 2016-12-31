@@ -157,5 +157,25 @@
     "suggester": {
       "maxDays": 30
     }
+  },
+  "loggers": {
+    "oracle": {
+      "console": {
+        "colorize": true,
+        "label": "oracle"
+      }
+    },
+    "assistant": {
+      "console": {
+        "colorize": true,
+        "label": "assistant"
+      }
+    },
+    "conversation": {
+      "console": {
+        "colorize": true,
+        "label": "conversation"
+      }
+    }
   }
 }
