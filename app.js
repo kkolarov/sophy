@@ -49,6 +49,7 @@ const prophecyInterpreter = new ProphecyInterpreter(formulas);
 const messenger = new Messenger(prophecyInterpreter);
 
 const capabilities = require('./src/oracle/capabilities')(conversationManager, messenger, assistant);
+
 const oracle = new Oracle(capabilities, messenger, conversationManager, oracleLogger);
 
 const {
