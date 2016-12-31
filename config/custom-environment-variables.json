@@ -44,5 +44,22 @@
   },
   "paths": {
     "ConversationManager": "CONVERSATION_MANAGER_PATH"
+  },
+  "loggers": {
+    "oracle": {
+      "console": {
+        "level": "ORACLE_LOG_LEVEL"
+      }
+    },
+    "assistant": {
+      "console": {
+        "level": "ASSISTANT_LOG_LEVEL"
+      }
+    },
+    "conversation": {
+      "console": {
+        "level": "CONVERSATION_LOG_LEVEL"
+      }
+    }
   }
 }
