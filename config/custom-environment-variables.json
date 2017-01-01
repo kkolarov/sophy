@@ -46,19 +46,29 @@
     "ConversationManager": "CONVERSATION_MANAGER_PATH"
   },
   "loggers": {
-    "oracle": {
+    "prediction": {
       "console": {
-        "level": "ORACLE_LOG_LEVEL"
+        "level": "PREDICTION_LOG_LEVEL"
       }
     },
-    "assistant": {
+    "reservation": {
       "console": {
-        "level": "ASSISTANT_LOG_LEVEL"
+        "level": "RESERVATION_LOG_LEVEL"
       }
     },
     "conversation": {
       "console": {
         "level": "CONVERSATION_LOG_LEVEL"
+      }
+    },
+    "app": {
+      "console": {
+        "level": "APP_LOG_LEVEL"
+      }
+    },
+    "message": {
+      "console": {
+        "level": "MESSAGE_LOG_LEVEL"
       }
     }
   }

@@ -8,7 +8,7 @@ const suggestionsRouter = require('./suggestions');
 
 function Routers(oracle, conversationManager) {
   return {
-      fbRouter: fbRouter(oracle, conversationManager),
+      fbRouter: fbRouter,
       pickersRouter: pickersRouter,
       conversationsRouter: conversationsRouter(conversationManager),
       predictionsRouter: predictionsRouter(oracle, conversationManager),

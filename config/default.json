@@ -159,22 +159,34 @@
     }
   },
   "loggers": {
-    "oracle": {
+    "prediction": {
       "console": {
         "colorize": true,
-        "label": "oracle"
+        "label": "Oracle"
       }
     },
-    "assistant": {
+    "reservation": {
       "console": {
         "colorize": true,
-        "label": "assistant"
+        "label": "Assistant"
       }
     },
     "conversation": {
       "console": {
         "colorize": true,
-        "label": "conversation"
+        "label": "Conversation Manager"
+      }
+    },
+    "app": {
+      "console": {
+        "colorize": true,
+        "label": "Sophy"
+      }
+    },
+    "message": {
+      "console": {
+        "colorize": true,
+        "label": "Messenger"
       }
     }
   }
