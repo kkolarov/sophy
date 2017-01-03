@@ -9,7 +9,7 @@ module.exports = ({ name, priority }) => {
     condition: function(R) {
         let context = this.prophecy.context;
 
-        R.when(context.hour_step && context.hour);
+        R.when((context.hour_step && context.hour) || (context.day_step && context.day));
     },
     consequence: function(R) {
         const quickReply = new QuickReply(

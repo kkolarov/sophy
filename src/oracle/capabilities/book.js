@@ -81,11 +81,18 @@ const contextManager = (assistant) => {
       context.hour_step = true;
     }
 
+    const cleanUp = (context) => {
+      delete context.hour_step;
+      delete context.yes_no;
+    }
+
     return {
       update: (context) => {
         return new Promise((resolve, reject) => {
           if (context.hour) {
-            suggestionStep.update(context).then(context => {
+            cleanUp(context);
+
+            dayStep.update(context).then(context => {
               resolve(context);
             });
           } else {
@@ -98,13 +105,14 @@ const contextManager = (assistant) => {
     }
   })();
 
-  const suggestionStep = (() => {
+  const dayStep = (() => {
     const cleanUp = (context) => {
-      delete context.suggestion_step;
+      delete context.day_step;
+      delete context.yes_no;
     }
 
     const obligateClientToAddDay = (context) => {
-      context.suggestion_step = true;
+      context.day_step = true;
     }
 
     return {
@@ -116,7 +124,7 @@ const contextManager = (assistant) => {
             book.update(context)
               .then(context => {
                 resolve(context);
-              })
+              });
           } else {
             obligateClientToAddDay(context);
 

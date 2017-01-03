@@ -31,8 +31,8 @@
       },
       "day": {
         "title": "Календар",
-        "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg",
-        "description": "Всички свободни дни в рамките на 1 месец спрямо указания от вас час.",
+        "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/calendar.jpg",
+        "description": "",
         "button": {
           "text": "Отвори"
         },
@@ -45,7 +45,7 @@
       {
         "title": "Профилактичен преглед",
         "subtitle": "",
-        "image_url": "https://sophy.ngrok.io/images/15310573_10211211129333510_2132849533_n.jpg",
+        "image_url": "https://dl.dropboxusercontent.com/u/108059564/complain1.jpg",
         "buttons": [
           {
             "type": "postback",
@@ -57,7 +57,7 @@
       {
         "title": "Лека болка в зъба",
         "subtitle": "",
-        "image_url": "https://sophy.ngrok.io/images/15417080_10211234849246493_1156245693_n.jpg",
+        "image_url": "https://dl.dropboxusercontent.com/u/108059564/complan2.jpg",
         "buttons": [
           {
             "type": "postback",
@@ -69,7 +69,7 @@
       {
         "title": "Счупен зъб",
         "subtitle": "",
-        "image_url": "https://sophy.ngrok.io/images/15416940_10211234849566501_1633643311_n.jpg",
+        "image_url": "https://dl.dropboxusercontent.com/u/108059564/complain3.jpg",
         "buttons": [
           {
             "type": "postback",
@@ -77,73 +77,20 @@
             "payload": "Счупен зъб"
           }
         ]
-      }
-    ],
-    "suggestions": {
-      "days": {
-        "Понеделник": {
-          "imageUrl": "https://sophy.ngrok.io/images/monday.jpg"
-        },
-        "Вторник": {
-          "imageUrl": "https://sophy.ngrok.io/images/cover2.png"
-        },
-        "Сряда": {
-          "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
-        },
-        "Четвъртък": {
-          "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
-        },
-        "Петък": {
-          "imageUrl": "https://sophy.ngrok.io/images/friday.jpg"
-        },
-        "Събота": {
-          "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
-        },
-        "Неделя": {
-          "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
-        }
       },
-      "mandatoryCards" : [
-        {
-          "title": "Календар",
-          "subtitle": "Всички свободни дни в рамките на 1 месец спрямо указания от вас час.",
-          "image_url": "https://sophy.ngrok.io/images/time-changing.jpg",
-          "buttons": [
-            {
-              "type": "web_url",
-              "url": "https://sophy.ngrok.io/pickers/day",
-              "title": "Отвори",
-              "webview_height_ratio": "compact",
-              "messenger_extensions": true
-            }
-          ]
-        },
-        {
-          "title": "Посещение на кабинета",
-          "subtitle": "",
-          "image_url": "https://sophy.ngrok.io/images/time-changing.jpg",
-          "buttons": [
-            {
-              "type": "postback",
-              "title": "Промени час",
-              "payload": "Искам да променя часа на посещение при зъболекаря."
-            }
-          ]
-        },
-        {
-          "title": "Д-р Йонов",
-          "subtitle": "",
-          "image_url": "https://sophy.ngrok.io/images/calling.jpg",
-          "buttons": [
-            {
-              "type": "phone_number",
-              "title": "Обади се",
-              "payload": "+359894416041"
-            }
-          ]
-        }
-      ]
-    }
+      {
+        "title": "Друго оплакване",
+        "subtitle": "",
+        "image_url": "https://dl.dropboxusercontent.com/u/108059564/call.jpg",
+        "buttons": [
+          {
+            "type": "phone_number",
+            "title": "Обади се",
+            "payload": "+359894416041"
+          }
+        ]
+      }
+    ]
   },
   "reservation": {
     "adapter": {

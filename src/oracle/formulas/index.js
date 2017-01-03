@@ -4,10 +4,6 @@ const oo = -987654321;
 
 module.exports = (conversationManager) => {
   return [
-    // require('./day-picker')({
-    //   name: "When the bot delivers a day picker from which a client can choose a preferred hour.",
-    //   priority: 1024
-    // }),
     require('./response-processing')({
       name: "When the bot processes a client's response.",
       priority: 512
@@ -28,16 +24,12 @@ module.exports = (conversationManager) => {
       name: "When the bot delivers a time picker from which a client can choose a preferred hour.",
       priority: 32
     }),
-    require('./hour-confirmation')({
-      name: "When the bot asks a client to confirm the hour specified by him.",
+    require('./confirmation')({
+      name: "When the bot asks a client to confirm the action selected by him.",
       priority: 16
     }),
-    require('./suggestions-waiting')({
-      name: "When the bot asks a client to wait for suggestions composed by free days.",
-      priority: 8
-    }),
-    require('./free-dates-gallery')({
-      name: "When the bot makes a suggestion for days that are free and can be reserved.",
+    require('./day-picker')({
+      name: "When the bot delivers a day picker from which a client can choose a preferred hour.",
       priority: 4
     }),
     require('./reservation')({

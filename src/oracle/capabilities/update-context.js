@@ -7,6 +7,9 @@ const EntityExtractor = require('./utilities/EntityExtractor');
 const extractor = new EntityExtractor({
   hour: {
     extract: true
+  },
+  day: {
+    extract: true
   }
 });
 
