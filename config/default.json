@@ -19,15 +19,15 @@
   "messenger_templates": {
     "picker": {
       "time": {
-        "title": "Посещение на кабинета",
-        "imageUrl": "https://sophy.ngrok.io/images/time-changing.jpg",
-        "description": "",
-        "button": {
-          "text": "Избери час"
-        },
-        "webview": {
-          "screen": "tall"
-        }
+        "buttons": [
+          {
+            "type": "web_url",
+            "url": "https://sophy.ngrok.io/pickers/time",
+            "title": "Избери час",
+            "webview_height_ratio": "tall",
+            "messenger_extensions": true
+          }
+        ]
       },
       "day": {
         "title": "Календар",

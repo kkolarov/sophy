@@ -34,7 +34,7 @@
       window.extAsyncInit = function() {
         MessengerExtensions.getUserID(function success(uids) {
           var fbUserId = uids.psid;
-
+          
           $.ajax({
             url: '/conversations/' + encodeURIComponent(fbUserId)
           })

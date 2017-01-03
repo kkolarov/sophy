@@ -10,6 +10,6 @@ module.exports = (conversationManager, messenger, assistant) => {
     change_hour: require('./change-hour'),
     confirm_hour: require('./confirm-hour'),
     validate_day: require('./validate-day'),
-    validate_hour: require('./validate-hour')
+    update_context: require('./update-context')
   }
 }

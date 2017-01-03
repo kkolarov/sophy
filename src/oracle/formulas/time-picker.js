@@ -1,7 +1,8 @@
 'use strict';
 
 const config = require('config');
-const Picker = require('../../messenger/templates').Picker;
+
+const ButtonReply = require('@fanatic/messenger').templates.ButtonReply;
 
 module.exports = ({ name, priority }) => {
   return {
@@ -13,16 +14,12 @@ module.exports = ({ name, priority }) => {
         R.when(context.hour_step && !context.hour);
     },
     consequence: function(R) {
-      let configuration = config.get('messenger_templates').get('picker').get('time');
+      const configuration = config.get('messenger_templates').get('picker').get('time');
 
-      const picker = new Picker(
+      const picker = new ButtonReply(
         this.prophecy.recipientId,
-        configuration.get('title'),
-        configuration.get('description'),
-        configuration.get('imageUrl'),
-        configuration.get('webview').get('url'),
-        configuration.get('button').get('text'),
-        configuration.get('webview').get('screen')
+        this.prophecy.message,
+        configuration.buttons
       );
 
       this.replies = [picker];

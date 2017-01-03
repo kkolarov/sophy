@@ -15,10 +15,6 @@ module.exports = ({context, entities}) => {
     const extractedEntities = extractor.extract(entities);
     const mergedContext = _.merge(context, extractedEntities);
 
-    if (mergedContext.hour) {
-      delete mergedContext.hour_step;
-    }
-
     resolve(mergedContext);
   });
 };
