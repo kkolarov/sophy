@@ -6,7 +6,9 @@
   "messenger_templates": {
     "picker": {
       "time": {
-
+        "button": {
+          "url": "TIME_PICKER_WEBVIEW"
+        }
       },
       "day": {
         "webview": {

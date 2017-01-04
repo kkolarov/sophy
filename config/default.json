@@ -19,15 +19,12 @@
   "messenger_templates": {
     "picker": {
       "time": {
-        "buttons": [
-          {
+        "button": {
             "type": "web_url",
-            "url": "https://sophy.ngrok.io/pickers/time",
             "title": "Избери час",
             "webview_height_ratio": "tall",
             "messenger_extensions": true
-          }
-        ]
+        }
       },
       "day": {
         "title": "Календар",

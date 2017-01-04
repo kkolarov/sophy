@@ -16,10 +16,12 @@ module.exports = ({ name, priority }) => {
     consequence: function(R) {
       const configuration = config.get('messenger_templates').get('picker').get('time');
 
+      const buttons = [configuration.button];
+      
       const picker = new ButtonReply(
         this.prophecy.recipientId,
         this.prophecy.message,
-        configuration.buttons
+        buttons
       );
 
       this.replies = [picker];
