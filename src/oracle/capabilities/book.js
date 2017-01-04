@@ -3,12 +3,8 @@
 const config = require('config');
 const _ = require('lodash');
 
-const Assistant = require('@fanatic/reservation').Assistant;
-const { GoogleCalendar } = require('@fanatic/reservation').calendars;
-const { DentalVisitEstimator } = require('../../reservation/estimators');
-
-const Employee = require('../../models/Employee');
 const EntityExtractor = require('./utilities/EntityExtractor');
+const DentalVisitEstimator = require('../../reservation/estimators').DentalVisitEstimator;
 
 const estimator = new DentalVisitEstimator();
 const extractor = new EntityExtractor({
@@ -30,17 +26,7 @@ const extractor = new EntityExtractor({
   }
 });
 
-const calendar = new GoogleCalendar(
-  config.services.google.appId,
-  config.services.google.appSecret,
-  config.services.google.appAuthUri
-);
-
-calendar.setToken(config.get('services').get('google').get('users').get('sophy'));
-
-const assistant = new Assistant(Employee, calendar);
-
-const contextManager = (() => {
+const contextManager = (assistant) => {
 
   const dentistStep = (() => {
     const obligateClientToAddDentist = (context) => {
@@ -95,11 +81,18 @@ const contextManager = (() => {
       context.hour_step = true;
     }
 
+    const cleanUp = (context) => {
+      delete context.hour_step;
+      delete context.yes_no;
+    }
+
     return {
       update: (context) => {
         return new Promise((resolve, reject) => {
           if (context.hour) {
-            suggestionStep.update(context).then(context => {
+            cleanUp(context);
+
+            dayStep.update(context).then(context => {
               resolve(context);
             });
           } else {
@@ -112,13 +105,14 @@ const contextManager = (() => {
     }
   })();
 
-  const suggestionStep = (() => {
+  const dayStep = (() => {
     const cleanUp = (context) => {
-      delete context.suggestion_step;
+      delete context.day_step;
+      delete context.yes_no;
     }
 
     const obligateClientToAddDay = (context) => {
-      context.suggestion_step = true;
+      context.day_step = true;
     }
 
     return {
@@ -130,7 +124,7 @@ const contextManager = (() => {
             book.update(context)
               .then(context => {
                 resolve(context);
-              })
+              });
           } else {
             obligateClientToAddDay(context);
 
@@ -183,15 +177,19 @@ const contextManager = (() => {
       });
     }
   };
-})();
+}
 
-module.exports = ({context, entities}) => {
-  return new Promise(function(resolve, reject) {
-    const extractedEntities = extractor.extract(entities);
-    const mergedContext = _.merge(context, extractedEntities);
+const book = (assistant) => {
+  return ({context, entities}) => {
+    return new Promise(function(resolve, reject) {
+      const extractedEntities = extractor.extract(entities);
+      const mergedContext = _.merge(context, extractedEntities);
 
-    contextManager.update(mergedContext).then(context => {
-      resolve(context);
+      contextManager(assistant).update(mergedContext).then(context => {
+        resolve(context);
+      });
     });
-  });
-};
+  }
+}
+
+module.exports = book;

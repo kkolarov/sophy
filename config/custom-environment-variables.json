@@ -6,8 +6,13 @@
   "messenger_templates": {
     "picker": {
       "time": {
-        "webview": {
+        "button": {
           "url": "TIME_PICKER_WEBVIEW"
+        }
+      },
+      "day": {
+        "webview": {
+          "url": "DAY_PICKER_WEBVIEW"
         }
       }
     }
@@ -39,5 +44,32 @@
   },
   "paths": {
     "ConversationManager": "CONVERSATION_MANAGER_PATH"
+  },
+  "loggers": {
+    "prediction": {
+      "console": {
+        "level": "PREDICTION_LOG_LEVEL"
+      }
+    },
+    "reservation": {
+      "console": {
+        "level": "RESERVATION_LOG_LEVEL"
+      }
+    },
+    "conversation": {
+      "console": {
+        "level": "CONVERSATION_LOG_LEVEL"
+      }
+    },
+    "app": {
+      "console": {
+        "level": "APP_LOG_LEVEL"
+      }
+    },
+    "message": {
+      "console": {
+        "level": "MESSAGE_LOG_LEVEL"
+      }
+    }
   }
 }

@@ -5,13 +5,17 @@
 
     <meta name="viewport" content="width=device-width">
 
-    <link rel="stylesheet" href="/vendor/pickadate/lib/themes/classic.css" />
-    <link rel="stylesheet" href="/vendor/pickadate/lib/themes/classic.date.css" />
+    <link rel="stylesheet" href="/css/picker/classic.css" />
+    <link rel="stylesheet" href="/css/picker/classic.date.css" />
+
+    <!-- <link rel="stylesheet" href="/vendor/pickadate/lib/themes/classic.css" />
+    <link rel="stylesheet" href="/vendor/pickadate/lib/themes/classic.date.css" /> -->
 
     <style>
       body {
         margin: 0;
       }
+
       .hidden {
         display: none;
       }
@@ -27,47 +31,57 @@
 
     <script "text/javascript">
       $(document).ready(function() {
-        var response = {};
 
-        window.extAsyncInit = function() {
-          MessengerExtensions.getUserID(function success(uids) {
-            var psid = uids.psid;
+      });
 
-            response.clientId = psid;
-          }, function error(err) {
+      window.extAsyncInit = function() {
+        MessengerExtensions.getUserID(function success(uids) {
+          var fbUserId = uids.psid;
+
+          // var fbUserId = 1092096170901736;
+
+          $.ajax({
+            url: '/suggestions/' + + encodeURIComponent(fbUserId)
+          })
+          .done(function(reservedDays) {
+            var days = [];
+
+            for(var i = 0; i < reservedDays.length; ++i) {
+              days.push(new Date(reservedDays[i]));
+            }
+
+            $('#day_picker').pickadate({
+              onSet: function(context) {
+                if (context.select) {
+                  MessengerExtensions.requestCloseBrowser(function success() {
+                    $.ajax({
+                      url: '/predictions/' + + encodeURIComponent(fbUserId),
+                      method: 'POST',
+                      data: {
+                        text: $('#day_picker').val()
+                      }
+                    });
+                  });
+                }
+              },
+              monthsFull: ['Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември'],
+              weekdaysShort: ['Нед', 'Пон', 'Вто', 'Сря', 'Чет', 'Пет', 'Съб'],
+              today: '',
+              clear: '',
+              close: '',
+              format: 'mm/dd/yyyy',
+              min: true,
+              max: false,
+              disable: days
+            });
+
+            $('#day_picker').click();
+          })
+          .fail(function(err) {
 
           });
-        };
-
-        $('#day_picker').pickadate({
-          onSet: function(context) {
-            response.text = $('#day_picker').val()
-
-            console.log(response);
-
-            MessengerExtensions.requestCloseBrowser(function success() {
-              $.ajax({
-                method: 'POST',
-                url: '/api/oracle/predict',
-                data: response
-              });
-            }).done(function(res) {
-              console.log(res);
-            }).fail(function(err) {
-              console.log(err);
-            });
-          },
-          monthsFull: ['Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември'],
-          weekdaysShort: ['Нед', 'Пон', 'Вто', 'Сря', 'Чет', 'Пет', 'Съб'],
-          today: '',
-          clear: '',
-          close: '',
-          format: 'mm/dd/yyyy',
         });
-
-        $('#day_picker').click();
       }
-    );
 
     </script>
 

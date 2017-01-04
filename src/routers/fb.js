@@ -8,10 +8,10 @@ const Bot = require('@fanatic/messenger').Bot;
 const User = require('../models/User');
 const Page = require('../models/Page');
 
-function fbRouter(oracle, conversationManager) {
+function fbRouter(oracle, conversationManager, logger) {
   const router = express.Router();
 
-  const bot = new Bot(conversationManager, User, Page);
+  const bot = new Bot(conversationManager, User, Page, logger);
 
   bot.settings({
     pageValidationToken: config.services.facebook.pageValidationToken,
@@ -25,11 +25,19 @@ function fbRouter(oracle, conversationManager) {
 
     this.loadConversation(userId, pageId)
       .then(conversation => {
-        oracle.think(userId, conversation);
+        oracle.think(userId, conversation)
+          .catch(err => {
+            if (err instanceof Error) {
+              logger.debug(err.stack);
+            }
+          });
+
         oracle.predict(userId, text, conversation);
       })
       .catch(err => {
-        console.log(err);
+        if (err instanceof Error) {
+          logger.debug(err.stack);
+        }
       });
   });
 
@@ -40,11 +48,19 @@ function fbRouter(oracle, conversationManager) {
 
     this.loadConversation(userId, pageId)
       .then(conversation => {
-        oracle.think(userId, conversation);
+        oracle.think(userId, conversation)
+          .catch(err => {
+            if (err instanceof Error) {
+              logger.debug(err.stack);
+            }
+          });
+
         oracle.predict(userId, payload, conversation);
       }).
       catch(err => {
-        console.log(err);
+        if (err instanceof Error) {
+          logger.debug(err.stack);
+        }
       });
   });
 

@@ -44,7 +44,8 @@
     "node-fetch": "^1.6.3",
     "node-rules": "^3.1.0",
     "node-wit": "^4.1.0",
-    "request": "^2.75.0"
+    "request": "^2.75.0",
+    "winston": "^2.3.0"
   },
   "devDependencies": {
     "gulp": "^3.9.1",

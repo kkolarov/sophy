@@ -19,11 +19,22 @@
   "messenger_templates": {
     "picker": {
       "time": {
-        "title": "Избери удобен за вас час.",
-        "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg",
+        "button": {
+            "type": "web_url",
+            "title": "Избери час",
+            "webview_height_ratio": "tall",
+            "messenger_extensions": true
+        }
+      },
+      "day": {
+        "title": "Календар",
+        "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/calendar.jpg",
         "description": "",
         "button": {
-          "text": "Избери час"
+          "text": "Отвори"
+        },
+        "webview": {
+          "screen": "compact"
         }
       }
     },
@@ -31,7 +42,7 @@
       {
         "title": "Профилактичен преглед",
         "subtitle": "",
-        "image_url": "http://sophy.ngrok.io/images/15310573_10211211129333510_2132849533_n.jpg",
+        "image_url": "https://dl.dropboxusercontent.com/u/108059564/complain1.jpg",
         "buttons": [
           {
             "type": "postback",
@@ -43,7 +54,7 @@
       {
         "title": "Лека болка в зъба",
         "subtitle": "",
-        "image_url": "http://sophy.ngrok.io/images/15417080_10211234849246493_1156245693_n.jpg",
+        "image_url": "https://dl.dropboxusercontent.com/u/108059564/complan2.jpg",
         "buttons": [
           {
             "type": "postback",
@@ -55,7 +66,7 @@
       {
         "title": "Счупен зъб",
         "subtitle": "",
-        "image_url": "http://sophy.ngrok.io/images/15416940_10211234849566501_1633643311_n.jpg",
+        "image_url": "https://dl.dropboxusercontent.com/u/108059564/complain3.jpg",
         "buttons": [
           {
             "type": "postback",
@@ -63,59 +74,20 @@
             "payload": "Счупен зъб"
           }
         ]
-      }
-    ],
-    "suggestions": {
-      "days": {
-        "Понеделник": {
-          "imageUrl": "http://sophy.ngrok.io/images/cover1.png"
-        },
-        "Вторник": {
-          "imageUrl": "http://sophy.ngrok.io/images/cover2.png"
-        },
-        "Сряда": {
-          "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
-        },
-        "Четвъртък": {
-          "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
-        },
-        "Петък": {
-          "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
-        },
-        "Събота": {
-          "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
-        },
-        "Неделя": {
-          "imageUrl": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg"
-        }
       },
-      "mandatoryCards" : [
-        {
-          "title": "Промяна на часа",
-          "subtitle": "Тази опция ви позволява да промените часа на посещение при зъболекаря.",
-          "image_url": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg",
-          "buttons": [
-            {
-              "type": "postback",
-              "title": "Промени часа",
-              "payload": "Искам да променя часа на посещение при зъболекаря."
-            }
-          ]
-        },
-        {
-          "title": "Обаждане",
-          "subtitle": "Тази опция ви позволява да се обадите на зъболекаря по телефона.",
-          "image_url": "https://4.bp.blogspot.com/-T_k03UFtS8k/U96RDVp8ebI/AAAAAAABF5E/4107zIbo29U/s0/Google+IO+Landscape_HD.jpg",
-          "buttons": [
-            {
-              "type": "phone_number",
-              "title": "Обади се",
-              "payload": "+359894416041"
-            }
-          ]
-        }
-      ]
-    }
+      {
+        "title": "Друго оплакване",
+        "subtitle": "",
+        "image_url": "https://dl.dropboxusercontent.com/u/108059564/call.jpg",
+        "buttons": [
+          {
+            "type": "phone_number",
+            "title": "Обади се",
+            "payload": "+359894416041"
+          }
+        ]
+      }
+    ]
   },
   "reservation": {
     "adapter": {
@@ -127,8 +99,39 @@
       }
     },
     "suggester": {
-      "maxDays": 30,
-      "maxSuggestions": 7
+      "maxDays": 30
+    }
+  },
+  "loggers": {
+    "prediction": {
+      "console": {
+        "colorize": true,
+        "label": "Oracle"
+      }
+    },
+    "reservation": {
+      "console": {
+        "colorize": true,
+        "label": "Assistant"
+      }
+    },
+    "conversation": {
+      "console": {
+        "colorize": true,
+        "label": "Conversation Manager"
+      }
+    },
+    "app": {
+      "console": {
+        "colorize": true,
+        "label": "Sophy"
+      }
+    },
+    "message": {
+      "console": {
+        "colorize": true,
+        "label": "Messenger"
+      }
     }
   }
 }

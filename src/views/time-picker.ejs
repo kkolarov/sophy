@@ -26,40 +26,44 @@
     <script type="" src="/vendor/pickadate/lib/picker.time.js"></script>
 
     <script "text/javascript">
+
+      $(document).ready(function() {
+
+      });
+
       window.extAsyncInit = function() {
-        var response = {};
-
         MessengerExtensions.getUserID(function success(uids) {
-          response.id = uids.psid;
-
+          var fbUserId = uids.psid;
+          
           $.ajax({
-            url: '/conversations/' + encodeURIComponent(response.id)
+            url: '/conversations/' + encodeURIComponent(fbUserId)
           })
           .done(function(context) {
+            if (context) {
+              $('#time_picker').pickatime({
+                onSet: function(context) {
+                  MessengerExtensions.requestCloseBrowser(function success() {
+                    $.ajax({
+                      url: '/predictions/' + encodeURIComponent(fbUserId),
+                      method: 'POST',
+                      data: {
+                        text: $('#time_picker').val()
+                      }
+                    });
+                  }, function error(err) {
 
-            $('#time_picker').pickatime({
-              onSet: function(context) {
-                MessengerExtensions.requestCloseBrowser(function success() {
-                  $.ajax({
-                    url: '/predictions/' + encodeURIComponent(response.id),
-                    method: 'POST',
-                    data: {
-                      text: $('#time_picker').val()
-                    }
                   });
-                }, function error(err) {
+                },
+                min: new Date('12-31-2016 ' + context.dentist.workingTime.start),
+                max: new Date('12-31-2016 ' + context.dentist.workingTime.end),
+                clear: '',
+                interval: 15,
+                format: 'HH:i',
+                formatLabel: '<b>HH</b>:i'
+              });
 
-                });
-              },
-              min: new Date('12-31-2016 ' + context.dentist.workingTime.start),
-              max: new Date('12-31-2016 ' + context.dentist.workingTime.end),
-              clear: '',
-              interval: 15,
-              format: 'HH:i',
-              formatLabel: '<b>HH</b>:i'
-            });
-
-            $('#time_picker').click();
+              $('#time_picker').click();
+            }
           });
 
         }, function error(err) {

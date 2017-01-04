@@ -39,6 +39,8 @@ module.exports = (conversationManager) => {
 
                 R.stop();
               });
+            }).catch(err => {
+              console.log(err);
             });
       }
     }

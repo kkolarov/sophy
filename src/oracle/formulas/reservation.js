@@ -18,7 +18,7 @@ module.exports = ({ name, priority }) => {
         this.prophecy.recipientId,
         "Записан час",
         [],
-        context.dentist.pictureUrl,
+        "https://dl.dropboxusercontent.com/u/108059564/reservation.jpg",
         this.prophecy.message
       );
 
