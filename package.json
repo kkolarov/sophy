@@ -1,6 +1,6 @@
 {
   "name": "sophy",
-  "version": "1.0.0",
+  "version": "0.0.10",
   "description": "It is a general-purpose bot that serves as an assistant for booking.",
   "main": "app.js",
   "author": "kamen.kolarov",
