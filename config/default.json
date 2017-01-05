@@ -17,6 +17,11 @@
     }
   },
   "messenger_templates": {
+    "reservation": {
+      "title": "Запазен час",
+      "replies": [],
+      "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/reservation.jpg"
+    },
     "picker": {
       "time": {
         "button": {
