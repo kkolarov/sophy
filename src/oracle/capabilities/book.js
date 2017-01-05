@@ -26,7 +26,7 @@ const extractor = new EntityExtractor({
   }
 });
 
-const contextManager = (assistant) => {
+const contextManager = (manager, assistant) => {
 
   const dentistStep = (() => {
     const obligateClientToAddDentist = (context) => {
@@ -141,24 +141,29 @@ const contextManager = (assistant) => {
         return new Promise((resolve, reject) => {
           estimator.estimate(context)
             .then(duration => {
-              const request = {
-                calendarId: context.dentist.calendarId,
-                sender: context.recipient.name,
-                description: {
-                  complaints: context.reason
-                },
-                day: context.day,
-                hour: context.hour,
-                duration: duration
-              };
+              manager.findConversationByUserId(context.recipient.id)
+                .then(conversation => {
+                  const request = {
+                    calendarId: context.dentist.calendarId,
+                    sender: context.recipient.name,
+                    description: {
+                      complaints: context.reason
+                    },
+                    day: conversation.metadata.day,
+                    hour: context.hour,
+                    duration: duration
+                  };
 
-              assistant.book(request, (exception, date) => {
-                if (!exception) {
-                  context.done = true;
-                }
+                  assistant.book(request, (err, date) => {
+                    if (!err) {
+                      context.done = true;
 
-                resolve(context);
-              });
+                      resolve(context);
+                    } else {
+                      reject(err);
+                    }
+                  });
+                });
             })
             .catch(err => {
               reject(err);
@@ -179,15 +184,18 @@ const contextManager = (assistant) => {
   };
 }
 
-const book = (assistant) => {
+const book = (manager, assistant) => {
   return ({context, entities}) => {
     return new Promise(function(resolve, reject) {
       const extractedEntities = extractor.extract(entities);
       const mergedContext = _.merge(context, extractedEntities);
 
-      contextManager(assistant).update(mergedContext).then(context => {
-        resolve(context);
-      });
+      contextManager(manager, assistant).update(mergedContext)
+        .then(context => {
+          resolve(context);
+        }).catch(err => {
+          console.log(err);
+        });
     });
   }
 }

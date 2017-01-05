@@ -98,8 +98,8 @@
     "adapter": {
       "date": {
         "format": {
-          "day": "MM/DD/YYYY",
-          "date": "MM-DD-YYYY HH:mm"
+          "day": "YYYY-MM-DD",
+          "date": "YYYY-MM-DD HH:mm"
         }
       }
     },
