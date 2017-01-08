@@ -58,15 +58,17 @@ const oracle = new Oracle(capabilities, messenger, conversationManager, predicti
 const {
   fbRouter,
   pickersRouter,
+  mapsRouter,
   predictionsRouter,
   conversationsRouter,
   suggestionsRouter
 } = require('./src/routers')(oracle, conversationManager);
 
 app.use('/fb', fbRouter(oracle, conversationManager, appLogger));
-app.use('/pickers', pickersRouter);
-app.use('/predictions', predictionsRouter);
-app.use('/conversations', conversationsRouter);
+app.use('/pickers', pickersRouter());
+app.use('/maps', mapsRouter());
+app.use('/predictions', predictionsRouter(oracle, conversationManager));
+app.use('/conversations', conversationsRouter(conversationManager));
 app.use('/suggestions', suggestionsRouter(assistant, conversationManager));
 
 mongoose.connect(config.get('database').get('mongoUri'));
