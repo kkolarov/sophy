@@ -62,7 +62,7 @@ const {
   predictionsRouter,
   conversationsRouter,
   suggestionsRouter
-} = require('./src/routers')(oracle, conversationManager);
+} = require('./src/routers');
 
 app.use('/fb', fbRouter(oracle, conversationManager, appLogger));
 app.use('/pickers', pickersRouter());
