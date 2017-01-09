@@ -8,6 +8,8 @@ const Bot = require('@fanatic/messenger').Bot;
 const User = require('../models/User');
 const Page = require('../models/Page');
 
+const BOT_START = config.bot.start;
+
 function fbRouter(oracle, conversationManager, logger) {
   const router = express.Router();
 
@@ -25,14 +27,12 @@ function fbRouter(oracle, conversationManager, logger) {
 
     this.loadConversation(userId, pageId)
       .then(conversation => {
-        oracle.think(userId, conversation)
-          .catch(err => {
-            if (err instanceof Error) {
-              logger.debug(err.stack);
-            }
-          });
-
-        oracle.predict(userId, text, conversation);
+        oracle.think(userId, conversation);
+        oracle.predict(userId, text, conversation).catch(err => {
+          if (err instanceof Error) {
+            logger.debug(err.stack);
+          }
+        });
       })
       .catch(err => {
         if (err instanceof Error) {
@@ -46,16 +46,19 @@ function fbRouter(oracle, conversationManager, logger) {
     const pageId = event.recipient.id;
     const userId = event.sender.id;
 
+    // TODO: Fix the methods calling when the conversation manager is instance of Redis.
+    if (BOT_START === payload) {
+      conversationManager.removeConversationByUserId(userId);
+    }
+
     this.loadConversation(userId, pageId)
       .then(conversation => {
-        oracle.think(userId, conversation)
-          .catch(err => {
-            if (err instanceof Error) {
-              logger.debug(err.stack);
-            }
-          });
-
-        oracle.predict(userId, payload, conversation);
+        oracle.think(userId, conversation);
+        oracle.predict(userId, payload, conversation).catch(err => {
+          if (err instanceof Error) {
+            logger.debug(err.stack);
+          }
+        });
       }).
       catch(err => {
         if (err instanceof Error) {

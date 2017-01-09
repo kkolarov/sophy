@@ -3,6 +3,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const Business = require('./Business');
+
 const employeeSchema = new Schema({
   name: {
     type: String,
@@ -63,15 +65,17 @@ const employeeSchema = new Schema({
 // TODO: This option has to be disabled on production environment.
 employeeSchema.set('autoIndex', true);
 
-employeeSchema.statics.findEmployeeByName = (name, cb) => {
+employeeSchema.statics.findEmployeeByName = (name) => {
   return new Promise((resolve, reject) => {
-    Employee.findOne({ name: name }, (err, employee) => {
-      if (!err) {
-        resolve(employee);
-      } else {
-        reject(err);
-      }
-    });
+    Employee.findOne({ name: name })
+      .populate('_business')
+      .exec(function (err, employee) {
+        if (!err) {
+          resolve(employee);
+        } else {
+          reject(err);
+        }
+      });
   });
 }
 

@@ -1,4 +1,7 @@
 {
+  "bot": {
+    "start": "Искам да си запиша час при зъболекар."
+  },
   "services": {
     "facebook": {
       "messenger": {
@@ -19,8 +22,13 @@
   "messenger_templates": {
     "reservation": {
       "title": "Запазен час",
-      "replies": [],
-      "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/reservation.jpg"
+      "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/reservation.jpg",
+      "button": {
+        "type": "web_url",
+        "title": "Карта",
+        "webview_height_ratio": "full",
+        "messenger_extensions": true
+      }
     },
     "picker": {
       "time": {
@@ -33,7 +41,7 @@
       },
       "day": {
         "title": "Календар",
-        "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/calendar.jpg",
+        "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/pic%207_00000.jpg",
         "description": "",
         "button": {
           "text": "Отвори"
@@ -47,7 +55,7 @@
       {
         "title": "Профилактичен преглед",
         "subtitle": "",
-        "image_url": "https://dl.dropboxusercontent.com/u/108059564/complain1.jpg",
+        "image_url": "https://dl.dropboxusercontent.com/u/108059564/pic%202%20white_00000.jpg",
         "buttons": [
           {
             "type": "postback",
@@ -57,9 +65,9 @@
         ]
       },
       {
-        "title": "Лека болка в зъба",
+        "title": "Болка в зъба",
         "subtitle": "",
-        "image_url": "https://dl.dropboxusercontent.com/u/108059564/complan2.jpg",
+        "image_url": "https://dl.dropboxusercontent.com/u/108059564/pic%201_00000.jpg",
         "buttons": [
           {
             "type": "postback",
@@ -71,7 +79,7 @@
       {
         "title": "Счупен зъб",
         "subtitle": "",
-        "image_url": "https://dl.dropboxusercontent.com/u/108059564/complain3.jpg",
+        "image_url": "https://dl.dropboxusercontent.com/u/108059564/pic%203_00000.jpg",
         "buttons": [
           {
             "type": "postback",

@@ -41,7 +41,7 @@
           // var fbUserId = 1092096170901736;
 
           $.ajax({
-            url: '/suggestions/' + + encodeURIComponent(fbUserId)
+            url: '/suggestions/' + encodeURIComponent(fbUserId)
           })
           .done(function(reservedDays) {
             var days = [];
@@ -55,7 +55,7 @@
                 if (context.select) {
                   MessengerExtensions.requestCloseBrowser(function success() {
                     $.ajax({
-                      url: '/predictions/' + + encodeURIComponent(fbUserId),
+                      url: '/predictions/' + encodeURIComponent(fbUserId),
                       method: 'POST',
                       data: {
                         text: $('#day_picker').val()

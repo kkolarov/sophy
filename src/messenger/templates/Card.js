@@ -6,16 +6,16 @@
 */
 class Card {
 
-  constructor(recipientId, message, replies, imageUrl, description) {
+  constructor(recipientId, message, buttons, imageUrl, description) {
     this._recipientId = recipientId;
     this._message = message;
-    this._replies = replies;
+    this._buttons = buttons;
     this._imageUrl = imageUrl;
     this._description = description;
   }
 
   getTemplate() {
-    let body = {
+    const body = {
       recipient: {
         id: this._recipientId
       },
@@ -27,26 +27,13 @@ class Card {
             elements: [{
               title: this._message,
               subtitle: this._description,
-              image_url: this._imageUrl
+              image_url: this._imageUrl,
+              buttons: this._buttons
             }]
           }
         }
       }
     };
-
-    if (this._replies.length !== 0) {
-      let replies = [];
-
-      for (let i = 0; i < this._replies.length; ++i) {
-        replies.push({
-          type: 'postback',
-          title: this._replies[i],
-          payload: this._replies[i]
-        })
-      }
-
-      body.message.attachment.payload.elements[0].buttons = replies;
-    }
 
     return body;
   }

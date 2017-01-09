@@ -15,6 +15,11 @@
           "url": "DAY_PICKER_WEBVIEW"
         }
       }
+    },
+    "reservation": {
+      "button": {
+        "url": "GOOGLE_MAPS_WEBVIEW"
+      }
     }
   },
   "services": {
