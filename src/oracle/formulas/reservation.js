@@ -18,22 +18,12 @@ module.exports = ({ name, priority }) => {
     consequence: function(R) {
       const configuration = config.messenger_templates.reservation;
 
-      // TODO: This requirement for template is temporarily postponed.
-
-      // const imageReply = new ImageReply(
-      //   this.prophecy.recipientId,
-      //   configuration.imageUrl
-      // );
-      //
-      // const textReply = new TextReply(
-      //   this.prophecy.recipientId,
-      //   this.prophecy.message
-      // );
+      const buttons = [configuration.button];
 
       const card = new Card(
         this.prophecy.recipientId,
         configuration.title,
-        configuration.replies,
+        buttons,
         configuration.imageUrl,
         this.prophecy.message
       )

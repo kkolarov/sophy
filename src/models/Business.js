@@ -12,6 +12,10 @@ const businessSchema = new Schema({
     type: String,
     required: true,
     enum: ['dentistry']
+  },
+  address: {
+    type: String,
+    required: true
   }
 }, {
   collection: 'businesses'

@@ -5,7 +5,7 @@ module.exports = (manager, messenger, assistant) => {
     send: require('./deliver')(manager, messenger),
     book: require('./book')(manager, assistant),
     suggest: require('./suggest')(assistant),
-    extend_dentist: require('./extend-dentist'),
+    extend_dentist: require('./expand-employee')(),
     validate_dentist: require('./validate-dentist'),
     change_hour: require('./change-hour'),
     confirmation: require('./confirmation'),
