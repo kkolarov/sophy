@@ -21,7 +21,7 @@ const getAllDatesArray = () => {
 }
 
 const getFreeDatesArray = (suggestions) => {
-  return suggestions.map((suggestion) => {
+  return suggestions.map(suggestion => {
     return moment(suggestion.start).format('MM-DD-YYYY');
   });
 }
@@ -55,7 +55,7 @@ const suggestionsRouter = (assistant, manager) => {
               duration: duration
             };
 
-            assistant.suggest(request, { })
+            assistant.suggest(request)
               .then(suggestions => {
                 const allDates = getAllDatesArray();
                 const freeDates = getFreeDatesArray(suggestions);

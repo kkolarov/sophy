@@ -1,15 +1,14 @@
 'use strict';
 
 const config = require('config');
-let mock = require('mock-require');
 
-let chai = require('chai');
-let expect = chai.expect;
-let sinon = require('sinon');
-let mongoose = require('mongoose');
-let mockgoose = require('mockgoose');
+const chai = require('chai');
+const expect = chai.expect;
 
+const mongoose = require('mongoose');
 const moment = require('moment');
+
+const logger = require('winston');
 
 const samples = require('./request-samples');
 
@@ -20,8 +19,6 @@ const {
   InvalidDayFormatError,
   InvalidHourFormatError
 } = require('@fanatic/reservation').errors;
-
-const { assertThatSuccessWith, assertThatFailWith } = require('../../assertion');
 
 const Assistant = require('@fanatic/reservation').Assistant;
 const { GoogleCalendar } = require('@fanatic/reservation').calendars;
@@ -45,7 +42,7 @@ describe("The bot suggests dates that are free for reservation", () => {
       if (!err) {
         const Employee = require('../../../models/Employee');
 
-        that.assistant = new Assistant(Employee, calendar);
+        that.assistant = new Assistant(Employee, calendar, logger);
 
         done();
       }
@@ -55,12 +52,14 @@ describe("The bot suggests dates that are free for reservation", () => {
   beforeEach("Clear up calendar's events.", (done) => {
     const calendarId = config.calendars.id;
 
+    const dayFormat = config.reservation.adapter.date.format.day;
+
     const date = {
       start: new Date(),
-      end: new Date(moment().add(1, 'months').format(config.reservation.adapter.date.format.day))
+      end: new Date(moment().add(1, 'months').format(dayFormat))
     };
 
-    calendar.deleteEvents(calendarId, date).then((flag) => {
+    calendar.deleteEvents(calendarId, date).then(() => {
       done();
     });
   });
@@ -70,43 +69,45 @@ describe("The bot suggests dates that are free for reservation", () => {
   });
 
   context("given that a request is invalid because", () => {
-    it("the day doesn't comply with the appropriate format.", (done) => {
+    it("the day doesn't comply with the appropriate format.", () => {
       const sample = samples.getSampleWithInvalidDay();
 
-      this.assistant.suggest(sample, assertThatFailWith(done, exception => {
-        expect(exception).instanceof(InvalidDayFormatError);
-      }));
+      return this.assistant.suggest(sample).catch(err => {
+          expect(err).instanceof(InvalidDayFormatError);
+        });
     });
 
-    it("the hour doesn't comply with the appropriate format.", (done) => {
+    it("the hour doesn't comply with the appropriate format.", () => {
       const sample = samples.getSampleWithInvalidHour();
 
-      this.assistant.suggest(sample, assertThatFailWith(done, exception => {
-        expect(exception).instanceof(InvalidHourFormatError);
-      }));
+      return this.assistant.suggest(sample).catch(err => {
+          expect(err).instanceof(InvalidHourFormatError);
+        });
     });
   });
 
   context("given that a request is valid", () => {
 
-    it("whether the number of returned suggestions responds to the number of suggestins described in the configuration.", (done) => {
+    it("whether the number of returned suggestions responds to the number of suggestins described in the configuration.", () => {
       const sample = samples.getSampleWithValidRequest();
 
-      const maxSuggestions = config.reservation.suggester.maxSuggestions;
+      const options = {
+        maxResult: 5
+      };
 
-      this.assistant.suggest(sample, assertThatSuccessWith(done, (response) => {
-        expect(response).to.have.lengthOf(maxSuggestions);
-      }));
+      return this.assistant.suggest(sample, options).then(response => {
+          expect(response).to.have.lengthOf(options.maxResult);
+        });
     });
 
-    it("whether the number of returned suggestions is 0 when the configuration property maxDays=0.", (done) => {
+    it("whether the number of returned suggestions is 0 when the configuration property maxDays=0.", () => {
       const sample = samples.getSampleWithValidRequest();
 
       config.reservation.suggester.maxDays = 0;
 
-      this.assistant.suggest(sample, assertThatSuccessWith(done, (response) => {
-        expect(response).to.have.lengthOf(config.reservation.suggester.maxDays);
-      }));
+      return this.assistant.suggest(sample).then(response => {
+          expect(response).to.have.lengthOf(config.reservation.suggester.maxDays);
+        });
     });
   });
 
