@@ -8,7 +8,7 @@ const Bot = require('@fanatic/messenger').Bot;
 const User = require('../models/User');
 const Page = require('../models/Page');
 
-const BOT_START = config.bot.start;
+const BOT_START = config.bot.conversation.start;
 
 function fbRouter(oracle, conversationManager, logger) {
   const router = express.Router();
@@ -17,7 +17,10 @@ function fbRouter(oracle, conversationManager, logger) {
 
   bot.settings({
     pageValidationToken: config.services.facebook.pageValidationToken,
-    fbGraphURI: config.services.facebook.API.graph
+    fbGraphURI: config.services.facebook.API.graph,
+    completedConversation: {
+      property: config.bot.conversation.completed.property
+    }
   });
 
   bot.on('message', function(event) {
@@ -25,20 +28,37 @@ function fbRouter(oracle, conversationManager, logger) {
     const userId = event.sender.id;
     const pageId = event.recipient.id;
 
-    this.loadConversation(userId, pageId)
-      .then(conversation => {
-        oracle.think(userId, conversation);
-        oracle.predict(userId, text, conversation).catch(err => {
+    if (BOT_START.indexOf(text) > -1) {
+      this.startConversation(userId, pageId)
+        .then(conversation => {
+          oracle.think(userId, conversation);
+          oracle.predict(userId, text, conversation).catch(err => {
+            if (err instanceof Error) {
+              logger.debug(err.stack);
+            }
+          });
+        }).
+        catch(err => {
           if (err instanceof Error) {
             logger.debug(err.stack);
           }
         });
-      })
-      .catch(err => {
-        if (err instanceof Error) {
-          logger.debug(err.stack);
-        }
-      });
+    } else {
+      this.loadConversation(userId, pageId)
+        .then(conversation => {
+          oracle.think(userId, conversation);
+          oracle.predict(userId, text, conversation).catch(err => {
+            if (err instanceof Error) {
+              logger.debug(err.stack);
+            }
+          });
+        }).
+        catch(err => {
+          if (err instanceof Error) {
+            logger.debug(err.stack);
+          }
+        });
+    }
   });
 
   bot.on('postback', function(event) {
@@ -46,25 +66,37 @@ function fbRouter(oracle, conversationManager, logger) {
     const pageId = event.recipient.id;
     const userId = event.sender.id;
 
-    // TODO: Fix the methods calling when the conversation manager is instance of Redis.
-    if (BOT_START === payload) {
-      conversationManager.removeConversationByUserId(userId);
-    }
-
-    this.loadConversation(userId, pageId)
-      .then(conversation => {
-        oracle.think(userId, conversation);
-        oracle.predict(userId, payload, conversation).catch(err => {
+    if (BOT_START.indexOf(payload) > -1) {
+      this.startConversation(userId, pageId)
+        .then(conversation => {
+          oracle.think(userId, conversation);
+          oracle.predict(userId, payload, conversation).catch(err => {
+            if (err instanceof Error) {
+              logger.debug(err.stack);
+            }
+          });
+        }).
+        catch(err => {
           if (err instanceof Error) {
             logger.debug(err.stack);
           }
         });
-      }).
-      catch(err => {
-        if (err instanceof Error) {
-          logger.debug(err.stack);
-        }
-      });
+    } else {
+      this.loadConversation(userId, pageId)
+        .then(conversation => {
+          oracle.think(userId, conversation);
+          oracle.predict(userId, payload, conversation).catch(err => {
+            if (err instanceof Error) {
+              logger.debug(err.stack);
+            }
+          });
+        }).
+        catch(err => {
+          if (err instanceof Error) {
+            logger.debug(err.stack);
+          }
+        });
+    }
   });
 
   router.get('/', (req, res) => {

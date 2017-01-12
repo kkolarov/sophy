@@ -1,6 +1,11 @@
 {
   "bot": {
-    "start": "Искам да си запиша час при зъболекар."
+    "conversation": {
+      "completed": {
+        "property": "done"
+      },
+      "start": ["Искам да си запиша час при зъболекар.", "Запазване на час"]
+    }
   },
   "services": {
     "facebook": {
@@ -25,8 +30,8 @@
       "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/reservation.jpg",
       "button": {
         "type": "web_url",
-        "title": "Карта",
-        "webview_height_ratio": "full",
+        "title": "Виж адреса",
+        "webview_height_ratio": "tall",
         "messenger_extensions": true
       }
     },
