@@ -44,15 +44,26 @@
             "messenger_extensions": true
         }
       },
-      "day": {
-        "title": "Календар",
-        "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/pic%207_00000.jpg",
-        "description": "",
-        "button": {
-          "text": "Отвори"
+      "calendar": {
+        "day": {
+          "title": "Календар",
+          "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/pic%207_00000.jpg",
+          "description": "",
+          "button": {
+            "text": "Отвори",
+            "webview_height_ratio": "tall"
+          }
         },
-        "webview": {
-          "screen": "compact"
+        "time": {
+          "title": "",
+          "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/pic%207_00000.jpg",
+          "description": "",
+          "button": {
+            "type": "web_url",
+            "title": "Промени часа",
+            "webview_height_ratio": "tall",
+            "messenger_extensions": true
+          }
         }
       }
     },

@@ -3,7 +3,7 @@
 const config = require('config');
 
 const Picker = require('../../messenger/templates').Picker;
-const TextReply = require('@fanatic/messenger').templates.TextReply;
+const ButtonReply = require('@fanatic/messenger').templates.ButtonReply;
 
 module.exports = ({ name, priority }) => {
   return {
@@ -15,24 +15,28 @@ module.exports = ({ name, priority }) => {
       R.when(context.day_step && !context.day);
     },
     consequence: function(R) {
-      const configuration = config.get('messenger_templates').get('picker').get('day');
+      const configuration = config.messenger_templates.picker.calendar;
 
-      const textReply = new TextReply(
+      const dayPicker = new Picker(
         this.prophecy.recipientId,
-        this.prophecy.message
+        configuration.day.title,
+        this.prophecy.message,
+        configuration.day.imageUrl,
+        configuration.day.button.url,
+        configuration.day.button.text,
+        configuration.day.button.webview_height_ratio
       );
 
-      const picker = new Picker(
+      const message = `Ако не можете да намерите свободен ден за ${this.prophecy.context.hour}, променете часа.`;
+      const buttons = [configuration.time.button];
+
+      const timePicker  = new ButtonReply(
         this.prophecy.recipientId,
-        configuration.title,
-        configuration.description,
-        configuration.imageUrl,
-        configuration.webview.url,
-        configuration.button.text,
-        configuration.webview.screen
+        message,
+        buttons
       );
 
-      this.replies = [textReply, picker];
+      this.replies = [dayPicker, timePicker];
 
       R.stop();
     }

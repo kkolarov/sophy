@@ -50,7 +50,11 @@ const assistant = new Assistant(Employee, calendar, reservationLogger);
 const formulas = require('./src/oracle/formulas')(conversationManager);
 const prophecyInterpreter = new ProphecyInterpreter(formulas);
 
+const messengerSettings = {
+  "endpoint": config.services.facebook.messenger.API.messages
+};
 const messenger = new Messenger(prophecyInterpreter, messageLogger);
+messenger.settings(messengerSettings);
 
 const capabilities = require('./src/oracle/capabilities')(conversationManager, messenger, assistant);
 const oracle = new Oracle(capabilities, messenger, conversationManager, predictionLogger);

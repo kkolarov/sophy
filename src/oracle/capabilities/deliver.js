@@ -19,16 +19,13 @@ function deliver(conversationManager, messenger) {
                 }
             };
 
-            messenger.deliver(prophecy, (err, flag) => {
-              if (!err) {
-                resolve();
-              } else {
-                reject(err);
-              }
-            });
-        }).
-        catch(err => {
-          console.log(err);
+            return messenger.deliver(prophecy);
+        })
+        .then(delivered => {
+          resolve();
+        })
+        .catch(err => {
+          reject(err);
         });
     });
   }
