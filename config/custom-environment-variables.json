@@ -10,9 +10,16 @@
           "url": "TIME_PICKER_WEBVIEW"
         }
       },
-      "day": {
-        "webview": {
-          "url": "DAY_PICKER_WEBVIEW"
+      "calendar": {
+        "day": {
+          "button": {
+            "url": "DAY_PICKER_WEBVIEW"
+          }
+        },
+        "time": {
+          "button": {
+            "url": "TIME_PICKER_WEBVIEW"
+          }
         }
       }
     },

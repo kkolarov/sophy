@@ -37,6 +37,11 @@ const updateContext = (manager) => {
           .catch(err => {
             reject(err);
           });
+      } else if (extractedEntities.hasOwnProperty('hour')) {
+        delete mergedContext.day_step;
+        mergedContext.hour_step = true;
+
+        resolve(mergedContext);
       } else {
         resolve(mergedContext);
       }
