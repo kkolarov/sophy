@@ -17,6 +17,8 @@ const expandEmployee = () => {
       const extractedEntities = extractor.extract(entities);
       const mergedContext = _.merge(context, extractedEntities);
 
+      // TODO: Make sure the dentist exists!
+
       if (!mergedContext.dentist.name) {
         Employee.findEmployeeByName(mergedContext.dentist)
           .then(employee => {
