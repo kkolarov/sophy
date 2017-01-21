@@ -16,7 +16,10 @@ function predictionsRouter(oracle, conversationManager) {
       conversationManager.findConversationByUserId(userId)
         .then(conversation => {
           oracle.think(userId, conversation);
-          oracle.predict(userId, text, conversation);
+          oracle.predict(userId, text, conversation)
+            .catch(err => {
+              console.log(err);
+            });
         });
     }
 

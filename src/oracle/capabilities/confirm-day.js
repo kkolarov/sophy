@@ -3,25 +3,24 @@
 const _ = require('lodash');
 
 const EntityExtractor = require('./utilities/EntityExtractor');
-
 const extractor = new EntityExtractor({
-  desire: {
+  day: {
+    extract: true
+  },
+  yes_no: {
     extract: true
   }
 });
 
-module.exports = ({context, entities}) => {
-  return new Promise(function(resolve, reject) {
+module.exports = ({ context, entities }) => {
+  return new Promise((resolve, reject) => {
     const extractedEntities = extractor.extract(entities);
     const mergedContext = _.merge(context, extractedEntities);
 
-    if (mergedContext.desire) {
-      delete mergedContext.suggestion_step;
-      delete mergedContext.suggestions;
-      delete mergedContext.desire;
-      delete mergedContext.hour;
+    if (mergedContext.yes_no === 'Не') {
+      delete mergedContext.day;
     }
 
     resolve(mergedContext);
   });
-};
+}

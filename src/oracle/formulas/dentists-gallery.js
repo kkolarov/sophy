@@ -40,6 +40,7 @@ module.exports = (conversationManager) => {
                 R.stop();
               });
             }).catch(err => {
+              //TODO: The error message has to be logged into a this object.
               console.log(err);
             });
       }
