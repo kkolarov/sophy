@@ -35,7 +35,7 @@ class DentistsGallery {
 
         let element = {
           title: dentist.name,
-          subtitle: dentist.aboutMe,
+          subtitle: "",
           image_url: dentist.pictureUrl,
           buttons: [{
             type: 'postback',

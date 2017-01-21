@@ -32,43 +32,12 @@
 
     <script "text/javascript">
       $(document).ready(function() {
-        // var now = new Date()
-        // var plus1Month = new Date(moment(now).add(1, 'month').format('MM-DD-YYYY'));
-        //
-        // console.log(plus1Month);
-        //
-        // $('#day_picker').pickadate({
-        //   onSet: function(context) {
-        //     if (context.select) {
-        //       // MessengerExtensions.requestCloseBrowser(function success() {
-        //       //   $.ajax({
-        //       //     url: '/predictions/' + encodeURIComponent(fbUserId),
-        //       //     method: 'POST',
-        //       //     data: {
-        //       //       text: $('#day_picker').val()
-        //       //     }
-        //       //   });
-        //       // });
-        //     }
-        //   },
-        //   monthsFull: ['Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември'],
-        //   weekdaysShort: ['Нед', 'Пон', 'Вто', 'Сря', 'Чет', 'Пет', 'Съб'],
-        //   today: '',
-        //   clear: '',
-        //   close: '',
-        //   format: 'yyyy-mm-dd',
-        //   min: now,
-        //   max: plus1Month,
-        // });
-        //
-        // $('#day_picker').click();
+        // var fbUserId = 1092096170901736;
       });
 
       window.extAsyncInit = function() {
         MessengerExtensions.getUserID(function success(uids) {
           var fbUserId = uids.psid;
-
-          // var fbUserId = 1092096170901736;
 
           $.ajax({
             url: '/suggestions/' + encodeURIComponent(fbUserId)
@@ -80,8 +49,8 @@
               days.push(new Date(reservedDays[i]));
             }
 
-            var now = new Date()
-            var plus1Month = new Date(moment(now).add(1, 'month').format('MM-DD-YYYY'));
+            var now = new Date();
+            var plus2Months = new Date(moment(now).add(2, 'months').format('YYYY-MM-DD'));
 
             $('#day_picker').pickadate({
               onSet: function(context) {
@@ -104,7 +73,7 @@
               close: '',
               format: 'yyyy-mm-dd',
               min: now,
-              max: plus1Month,
+              max: plus2Months,
               disable: days
             });
 

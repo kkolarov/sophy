@@ -5,11 +5,11 @@ module.exports = (manager, messenger, assistant) => {
     send: require('./deliver')(manager, messenger),
     book: require('./book')(manager, assistant),
     suggest: require('./suggest')(assistant),
-    extend_dentist: require('./expand-employee')(),
-    validate_dentist: require('./validate-dentist'),
-    change_hour: require('./change-hour'),
-    confirmation: require('./confirmation'),
-    validate_day: require('./validate-day'),
-    update_context: require('./update-context')(manager)
+    expand_employee: require('./expand-employee')(),
+    confirm_day: require('./confirm-day'),
+    confirm_hour: require('./confirm-hour'),
+    add_hour: require('./add-hour'),
+    add_day: require('./add-day')(manager),
+    update_hour: require('./update-hour')
   }
 }

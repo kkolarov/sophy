@@ -75,7 +75,7 @@
         "buttons": [
           {
             "type": "postback",
-            "title": "Избери",
+            "title": "Проф. преглед",
             "payload": "Профилактичен преглед"
           }
         ]
@@ -87,7 +87,7 @@
         "buttons": [
           {
             "type": "postback",
-            "title": "Избери",
+            "title": "Болка в зъба",
             "payload": "Лека болка в зъба"
           }
         ]
@@ -99,7 +99,7 @@
         "buttons": [
           {
             "type": "postback",
-            "title": "Избери",
+            "title": "Счупен зъб",
             "payload": "Счупен зъб"
           }
         ]
@@ -128,7 +128,7 @@
       }
     },
     "suggester": {
-      "maxDays": 30
+      "maxDays": 60
     }
   },
   "loggers": {

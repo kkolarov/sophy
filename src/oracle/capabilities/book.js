@@ -26,162 +26,43 @@ const extractor = new EntityExtractor({
   }
 });
 
-const contextManager = (manager, assistant) => {
+const dentistStep = (context) => {
+  if (context.dentist) {
+    delete context.dentist_step;
+    return true;
+  }
+  context.dentist_step = true;
+  return false;
+}
 
-  const dentistStep = (() => {
-    const obligateClientToAddDentist = (context) => {
-      context.dentist_step = true;
-    }
+const reasonStep = (context) => {
+  if (context.reason) {
+    delete context.reason_step;
+    return true;
+  }
 
-    return {
-      update: (context) => {
-        return new Promise((resolve, reject) => {
-          if (context.dentist) {
-            reasonStep.update(context).then(context => {
-              resolve(context);
-            });
-          } else {
-            obligateClientToAddDentist(context);
-            resolve(context);
-          }
-        });
-      }
-    }
-  })();
+  context.reason_step = true;
+  return false;
+}
 
-  const reasonStep = (() => {
-    const cleanUp = (context) => {
-      delete context.reason_step;
-    }
+const hourStep = (context) => {
+  if (context.hour) {
+    delete context.hour_step;
+    return true;
+  }
 
-    const obligateClientToAddReason = (context) => {
-      context.reason_step = true;
-    }
+  context.hour_step = true;
+  return false;
+}
 
-    return {
-      update: (context) => {
-        return new Promise((resolve, reject) => {
-          if (context.reason) {
-            cleanUp(context);
+const dayStep = (context) => {
+  if (context.day) {
+    delete context.day_step;
+    return true;
+  }
 
-            hourStep.update(context).then(context => {
-              resolve(context);
-            });
-          } else {
-            obligateClientToAddReason(context);
-            resolve(context);
-          }
-        });
-      }
-    }
-  })();
-
-  const hourStep = (() => {
-    const obligateClientToAddTime = (context) => {
-      context.hour_step = true;
-    }
-
-    const cleanUp = (context) => {
-      delete context.hour_step;
-      delete context.yes_no;
-    }
-
-    return {
-      update: (context) => {
-        return new Promise((resolve, reject) => {
-          if (context.hour) {
-            cleanUp(context);
-
-            dayStep.update(context).then(context => {
-              resolve(context);
-            });
-          } else {
-            obligateClientToAddTime(context);
-
-            resolve(context);
-          }
-        });
-      }
-    }
-  })();
-
-  const dayStep = (() => {
-    const cleanUp = (context) => {
-      delete context.day_step;
-      delete context.yes_no;
-    }
-
-    const obligateClientToAddDay = (context) => {
-      context.day_step = true;
-    }
-
-    return {
-      update: (context) => {
-        return new Promise((resolve, reject) => {
-          if (context.day) {
-            cleanUp(context);
-
-            book.update(context)
-              .then(context => {
-                resolve(context);
-              });
-          } else {
-            obligateClientToAddDay(context);
-
-            resolve(context);
-          }
-        });
-      }
-    }
-  })();
-
-  const book = (() => {
-    return {
-      update: (context) => {
-        return new Promise((resolve, reject) => {
-          estimator.estimate(context)
-            .then(duration => {
-              manager.findConversationByUserId(context.recipient.id)
-                .then(conversation => {
-                  const request = {
-                    calendarId: context.dentist.calendarId,
-                    sender: context.recipient.name,
-                    description: {
-                      complaints: context.reason
-                    },
-                    day: conversation.metadata.day,
-                    hour: context.hour,
-                    duration: duration
-                  };
-
-                  assistant.book(request, (err, date) => {
-                    if (!err) {
-                      context.done = true;
-
-                      resolve(context);
-                    } else {
-                      reject(err);
-                    }
-                  });
-                });
-            })
-            .catch(err => {
-              reject(err);
-            });
-        });
-      }
-    }
-  })();
-
-  return {
-    update: (context) => {
-      return new Promise((resolve, reject) => {
-        dentistStep.update(context).then((context) => {
-          resolve(context);
-        });
-      });
-    }
-  };
+  context.day_step = true;
+  return false;
 }
 
 const book = (manager, assistant) => {
@@ -190,12 +71,46 @@ const book = (manager, assistant) => {
       const extractedEntities = extractor.extract(entities);
       const mergedContext = _.merge(context, extractedEntities);
 
-      contextManager(manager, assistant).update(mergedContext)
-        .then(context => {
-          resolve(context);
-        }).catch(err => {
-          console.log(err);
-        });
+      const handlers = [dentistStep, reasonStep, hourStep, dayStep];
+
+      let currentHandler = 0;
+
+      for (let handler of handlers) {
+        if (!handler(mergedContext)) {
+          break;
+        }
+
+        currentHandler++;
+      }
+
+      if (currentHandler === handlers.length) {
+        estimator.estimate(mergedContext)
+          .then(duration => {
+            return manager.findConversationByUserId(mergedContext.recipient.id)
+              .then(conversation => {
+                const request = {
+                  calendarId: context.dentist.calendarId,
+                  sender: context.recipient.name,
+                  description: {
+                    complaints: context.reason
+                  },
+                  day: conversation.metadata.day,
+                  hour: context.hour,
+                  duration: duration
+                };
+
+                return assistant.book(request);
+              })
+              .then(() => {
+                mergedContext.done = true;
+
+                resolve(mergedContext);
+              });
+          })
+          .catch(err => reject(err));
+      } else {
+        resolve(mergedContext);
+      }
     });
   }
 }

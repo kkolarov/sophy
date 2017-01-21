@@ -8,9 +8,11 @@ function conversationsRouter(conversationManager) {
   const router = express.Router();
 
   router.get('/:userId', (req, res) => {
-    // res.json({
+    // A context object that plays role of a stub.
+
+    // const context = {
     //   "recipient": {
-    //     "id": 1092096170901736,
+    //     "id": 1213342445381976,
     //     "name": "Kamen Kolarov"
     //   },
     //   "page": {
@@ -34,7 +36,9 @@ function conversationsRouter(conversationManager) {
     //     "value":"Профилактичен преглед"
     //   },
     //   "hour": "15:00"
-    // });
+    // };
+    //
+    // res.json(context);
 
     conversationManager.findConversationByUserId(req.params.userId)
       .then(conversation => {
