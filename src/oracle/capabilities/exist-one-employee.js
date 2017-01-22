@@ -14,7 +14,7 @@ const existOneEmployee = (manager) => {
           return Employee.findEmployeesByBusinessId(page._business, 1);
         })
         .then(employees => {
-          if (employees) {
+          if (employees && employees.length === 1) {
             const employee = employees[0];
 
             context.dentist = {
