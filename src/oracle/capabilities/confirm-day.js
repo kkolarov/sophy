@@ -19,6 +19,8 @@ module.exports = ({ context, entities }) => {
 
     if (mergedContext.yes_no === 'Не') {
       delete mergedContext.day;
+    } else {
+      delete mergedContext.day_step;
     }
 
     resolve(mergedContext);
