@@ -11,41 +11,36 @@ const extractor = new EntityExtractor({
   }
 });
 
-const expandEmployee = () => {
-  return ({context, entities}) => {
+module.exports = ({context, entities}) => {
     return new Promise(function(resolve, reject) {
       const extractedEntities = extractor.extract(entities);
       const mergedContext = _.merge(context, extractedEntities);
 
-      // TODO: Make sure the dentist exists!
+      if (mergedContext.hasOwnProperty('dentist')) {
+        const dentist = mergedContext.dentist;
 
-      if (!mergedContext.dentist.name) {
-        Employee.findEmployeeByName(mergedContext.dentist)
-          .then(employee => {
-            mergedContext.dentist = {
-              name: employee.name,
-              pictureUrl: employee.pictureUrl,
-              calendarId: employee.calendarId,
-              workingTime: {
-                start: employee.workingTime.weekly.start,
-                end: employee.workingTime.weekly.end
-              },
-              address: employee._business.address
-            };
+        Employee.findEmployeeByName(dentist)
+          .then(employees => {
+            if (employees) {
+              const employee = employees[0];
 
-            delete mergedContext.dentist_step;
-            delete mergedContext.validated_dentist;
+              mergedContext.dentist = {
+                name: employee.name,
+                pictureUrl: employee.pictureUrl,
+                calendarId: employee.calendarId,
+                workingTime: {
+                  start: employee.workingTime.weekly.start,
+                  end: employee.workingTime.weekly.end
+                },
+                address: employee._business.address
+              };
+            }
 
             resolve(mergedContext);
           })
-          .catch(err => {
-            reject(err);
-          });
+          .catch(err => reject(err));
       } else {
         resolve(mergedContext);
       }
     });
   }
-}
-
-module.exports = expandEmployee;

@@ -67,7 +67,7 @@ employeeSchema.set('autoIndex', true);
 
 employeeSchema.statics.findEmployeeByName = (name) => {
   return new Promise((resolve, reject) => {
-    Employee.findOne({ name: name })
+    Employee.find({ name: name })
       .populate('_business')
       .exec(function (err, employee) {
         if (!err) {
