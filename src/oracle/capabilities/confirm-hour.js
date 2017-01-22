@@ -19,6 +19,8 @@ module.exports = ({ context, entities }) => {
 
     if (mergedContext.yes_no === 'Не') {
       delete mergedContext.hour;
+    } else {
+      delete mergedContext.hour_step;
     }
 
     resolve(mergedContext);
