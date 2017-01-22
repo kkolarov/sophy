@@ -11,7 +11,7 @@ const existOneEmployee = (manager) => {
         .then(conversation => {
           const page = conversation.metadata.page;
 
-          return Employee.findEmployeesByBusinessId(page._business, 1);
+          return Employee.findEmployeesByBusinessId(page._business, 2);
         })
         .then(employees => {
           if (employees && employees.length === 1) {
