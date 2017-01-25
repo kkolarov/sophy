@@ -66,60 +66,58 @@ describe("A client reserves time in a dentist's calendar", () => {
   });
 
   context("given that a request is invalid because", () => {
-    it("the day doesn't comply with the appropriate format.", (done) => {
+    it("the day doesn't comply with the appropriate format.", () => {
       const sample = samples.getSampleWithInvalidDay();
 
-      this.assistant.book(sample, assertThatFailWith(done, exception => {
-        expect(exception).instanceof(InvalidDayFormatError);
-      }));
-    });
-
-    it("the hour doesn't comply with the appropriate format.", (done) => {
-      const sample = samples.getSampleWithInvalidHour();
-
-      this.assistant.book(sample, assertThatFailWith(done, exception => {
-        expect(exception).instanceof(InvalidHourFormatError);
-      }));
-    });
-
-    it("the date is expired.", (done) => {
-      const sample = samples.getSampleWithRequestResidesInPast();
-
-      this.assistant.book(sample, assertThatFailWith(done, exception => {
-        expect(exception).instanceof(ExpiredDateError);
-      }));
-    });
-
-    it("the date is reserved by someone else.", (done) => {
-      const sample = samples.getSampleWithReservedHour();
-
-      this.assistant.book(sample, (exception, event) => {
-        if (!exception) {
-          this.assistant.book(sample, assertThatFailWith(done, exception2 => {
-            expect(exception2).instanceof(BusyTimeError);
-          }));
-        } else {
-          done(exception);
-        }
+      return this.assistant.book(sample).catch(err => {
+        expect(err).instanceof(InvalidDayFormatError);
       });
     });
 
-    it("the date resides in the outside working time.", (done) => {
+    it("the hour doesn't comply with the appropriate format.", () => {
+      const sample = samples.getSampleWithInvalidHour();
+
+      return this.assistant.book(sample).catch(err => {
+          expect(err).instanceof(InvalidHourFormatError);
+        });
+    });
+
+    it("the date is expired.", () => {
+      const sample = samples.getSampleWithRequestResidesInPast();
+
+      return this.assistant.book(sample).catch(err => {
+        expect(err).instanceof(ExpiredDateError);
+      });
+    });
+
+    it("the date is reserved by someone else.", () => {
+      const sample = samples.getSampleWithReservedHour();
+
+      return this.assistant.book(sample)
+        .then(appointment => {
+          return this.assistant.book(sample).catch(err => {
+            expect(err).instanceof(BusyTimeError);
+          });
+        });
+
+    });
+
+    it("the date resides in the outside working time.", () => {
       const sample = samples.getSampleWithRequestResidesOutsideWorkingTime();
 
-      this.assistant.book(sample, assertThatFailWith(done, exception => {
-        expect(exception).instanceof(OutsideWorkingTimeError);
-      }));
+      return this.assistant.book(sample).catch(err => {
+        expect(err).instanceof(OutsideWorkingTimeError);
+      });
     });
   });
 
 
-  it("given that a request is valid", (done) => {
+  it("given that a request is valid", () => {
     const sample = samples.getSampleWithValidRequest();
 
-    this.assistant.book(sample, assertThatSuccessWith(done, (response) => {
-      expect(response).to.have.property('id');
-    }));
+    return this.assistant.book(sample).then(appointment => {
+      expect(appointment).to.have.property('id');
+    });
   });
 
   after("Clean up", () => {
