@@ -2,26 +2,30 @@
 
 const TypingReply = require('@fanatic/messenger').templates.TypingReply;
 
-module.exports = ({ name, priority }) => {
-  return {
-    name: name,
-    priority: priority,
-    condition: function(R) {
-      let context = this.prophecy.context;
+module.exports = (logger) => {
+  return ({ name, priority }) => {
+    return {
+      name: name,
+      priority: priority,
+      condition: function(R) {
+        let context = this.prophecy.context;
 
-      R.when(context.thinking);
-    },
-    consequence: function(R) {
-      const context = this.prophecy.context;
+        R.when(context.thinking);
+      },
+      consequence: function(R) {
+        const context = this.prophecy.context;
 
-      const typingReply = new TypingReply(
-        this.prophecy.recipientId,
-        context.thinking ? 'typing_on' : 'typing_off'
-      );
+        const typingReply = new TypingReply(
+          this.prophecy.recipientId,
+          context.thinking ? 'typing_on' : 'typing_off'
+        );
 
-      this.replies = [typingReply];
+        this.replies = [typingReply];
 
-      R.stop();
-    }
-  };
+        logger.debug('The formula that informs a user for message processing has been executed.')
+
+        R.stop();
+      }
+    };
+  }
 }

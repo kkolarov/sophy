@@ -150,7 +150,7 @@
         "label": "Conversation Manager"
       }
     },
-    "app": {
+    "route": {
       "console": {
         "colorize": true,
         "label": "Sophy"
@@ -160,6 +160,12 @@
       "console": {
         "colorize": true,
         "label": "Messenger"
+      }
+    },
+    "interpretation": {
+      "console": {
+        "colorize": true,
+        "label": "Prophecy Interpreter"
       }
     }
   }

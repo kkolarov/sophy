@@ -73,7 +73,7 @@
         "level": "CONVERSATION_LOG_LEVEL"
       }
     },
-    "app": {
+    "route": {
       "console": {
         "level": "APP_LOG_LEVEL"
       }
@@ -81,6 +81,11 @@
     "message": {
       "console": {
         "level": "MESSAGE_LOG_LEVEL"
+      }
+    },
+    "interpretation": {
+      "console": {
+        "level": "INTERPRETATION_LOG_LEVEL"
       }
     }
   }
