@@ -4,7 +4,7 @@ const express = require('express');
 
 const User = require('../models/User');
 
-function predictionsRouter(oracle, conversationManager) {
+function predictionsRouter(oracle, manager, logger) {
   const router = express.Router();
 
   router.post('/:userId', (req, res) => {
@@ -13,13 +13,15 @@ function predictionsRouter(oracle, conversationManager) {
     if (req.xhr) {
       const userId = req.params.userId;
 
-      conversationManager.findConversationByUserId(userId)
+      manager.findConversationByUserId(userId)
         .then(conversation => {
-          oracle.think(userId, conversation);
-          oracle.predict(userId, text, conversation)
-            .catch(err => {
-              console.log(err);
-            });
+          return oracle.think(userId, conversation).then(() => {
+            return oracle.predict(userId, text, conversation);
+          });
+        }).catch(err => {
+          if (err instanceof Error) {
+            logger.error(err.stack);
+          }
         });
     }
 

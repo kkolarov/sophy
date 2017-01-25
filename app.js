@@ -68,9 +68,9 @@ const {
 app.use('/fb', fbRouter(oracle, conversationManager, routeLogger));
 app.use('/pickers', pickersRouter());
 app.use('/maps', mapsRouter());
-app.use('/predictions', predictionsRouter(oracle, conversationManager));
-app.use('/conversations', conversationsRouter(conversationManager));
-app.use('/suggestions', suggestionsRouter(assistant, conversationManager));
+app.use('/predictions', predictionsRouter(oracle, conversationManager, routeLogger));
+app.use('/conversations', conversationsRouter(conversationManager, routeLogger));
+app.use('/suggestions', suggestionsRouter(assistant, conversationManager, routeLogger));
 
 mongoose.connect(config.get('database').get('mongoUri'));
 

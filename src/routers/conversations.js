@@ -4,7 +4,7 @@ const express = require('express');
 
 const User = require('../models/User');
 
-function conversationsRouter(conversationManager) {
+function conversationsRouter(manager, logger) {
   const router = express.Router();
 
   router.get('/:userId', (req, res) => {
@@ -40,12 +40,16 @@ function conversationsRouter(conversationManager) {
     //
     // res.json(context);
 
-    conversationManager.findConversationByUserId(req.params.userId)
+    manager.findConversationByUserId(req.params.userId)
       .then(conversation => {
         if (conversation) {
           res.json(conversation.context);
         } else {
           res.json({});
+        }
+      }).catch(err => {
+        if (err instanceof Error) {
+          logger.error(err.stack)
         }
       });
   });
