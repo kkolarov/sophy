@@ -31,7 +31,7 @@ gulp.task('production-tests', () => {
   return gulp.src(path.devTests)
     .pipe(mocha({
       R: 'spec',
-      t: 5000
+      t: 30000
     }));
 });
 
