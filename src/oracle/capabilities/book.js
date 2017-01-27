@@ -61,6 +61,7 @@ const dayStep = (context) => {
     return true;
   }
 
+  delete context.yes_no;
   context.day_step = true;
   return false;
 }

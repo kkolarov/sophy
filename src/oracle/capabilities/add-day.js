@@ -22,16 +22,20 @@ module.exports = (manager) => {
       const extractedEntities = extractor.extract(entities);
       const mergedContext = _.merge(context, extractedEntities);
 
-      const metadata = extractedEntities.day;
+      if (extractedEntities.hasOwnProperty('day')) {
+        const metadata = extractedEntities.day;
 
-      manager.addMetadata(mergedContext.recipient.id, METADATA_KEY, metadata)
-        .then(() => {
-          //TODO: The appropriate date format has to loaded from a config file.
-          mergedContext.day = moment(metadata).format('DD.MM');
+        manager.addMetadata(mergedContext.recipient.id, METADATA_KEY, metadata)
+          .then(() => {
+            //TODO: The appropriate date format has to loaded from a config file.
+            mergedContext.day = moment(metadata).format('DD.MM');
 
-          resolve(mergedContext);
-        })
-        .catch(err => reject(err));
+            resolve(mergedContext);
+          })
+          .catch(err => reject(err));
+      } else {
+        resolve(context);
+      }
     });
   }
 }

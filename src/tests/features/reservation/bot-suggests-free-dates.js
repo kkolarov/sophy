@@ -8,8 +8,6 @@ const expect = chai.expect;
 const mongoose = require('mongoose');
 const moment = require('moment');
 
-const logger = require('winston');
-
 const samples = require('./request-samples');
 
 const {
@@ -37,6 +35,11 @@ describe("The bot suggests dates that are free for reservation", () => {
 
   before("Setup", (done) => {
     const that = this;
+
+    const logger = {
+      debug: (text, options) => {},
+      error: (text, options) => {}
+    };
 
     mongoose.connect(config.database.mongoUri, (err) => {
       if (!err) {

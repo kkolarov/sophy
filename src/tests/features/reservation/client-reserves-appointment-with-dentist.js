@@ -8,7 +8,6 @@ const sinon = require('sinon');
 const mongoose = require('mongoose');
 const mockgoose = require('mockgoose');
 const moment = require('moment');
-const winston = require('winston');
 
 const samples = require('./request-samples');
 
@@ -25,13 +24,15 @@ const { assertThatSuccessWith, assertThatFailWith } = require('../../assertion')
 const Assistant = require('@fanatic/reservation').Assistant;
 const { GoogleCalendar } = require('@fanatic/reservation').calendars;
 
-winston.loggers.add('reservation', config.loggers.reservation);
-const logger = winston.loggers.get('reservation');
-
 describe("A client reserves time in a dentist's calendar", () => {
 
   before("Setup", (done) => {
     const that = this;
+
+    const logger = {
+      debug: (text, options) => {},
+      error: (text, options) => {}
+    };
 
     mongoose.connect(config.get('database').get('mongoUri'), (err) => {
       if (!err) {
