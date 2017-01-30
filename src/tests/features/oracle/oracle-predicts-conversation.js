@@ -75,7 +75,11 @@ describe("The oracle predicts a conversation", () => {
         that.conversationManager = new ConversationManager(logger());
 
         that.estimator = new DentalVisitEstimator();
-        that.assistant = new Assistant(Employee, that.calendar, logger());
+        that.assistant = new Assistant(Employee, that.calendar, logger(), {
+          dateFormat: config.reservation.dateFormat,
+          dayFormat: config.reservation.dayFormat,
+          maxDays: config.reservation.maxDays
+        });
 
         const formulas = require('../../../oracle/formulas')(that.conversationManager, logger());
         const prophecyInterpreter = new ProphecyInterpreter(formulas);
@@ -122,7 +126,7 @@ describe("The oracle predicts a conversation", () => {
 
     const date = {
       start: new Date(),
-      end: new Date(moment().add(2, 'months').format(config.reservation.adapter.date.format.day))
+      end: new Date(moment().add(2, 'months').format(config.reservation.dayFormat))
     };
 
     this.calendar.deleteEvents(calendarId, date).then(() => {

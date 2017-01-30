@@ -42,7 +42,11 @@ const calendar = new GoogleCalendar(
 calendar.setToken(config.services.google.users.sophy);
 
 const conversationManager = new ConversationManager(conversationLogger);
-const assistant = new Assistant(Employee, calendar, reservationLogger);
+const assistant = new Assistant(Employee, calendar, reservationLogger, {
+  dateFormat: config.reservation.dateFormat,
+  dayFormat: config.reservation.dayFormat,
+  maxDays: config.reservation.maxDays
+});
 
 const formulas = require('./src/oracle/formulas')(conversationManager, interpretationLogger);
 const prophecyInterpreter = new ProphecyInterpreter(formulas);

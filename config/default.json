@@ -119,17 +119,9 @@
     ]
   },
   "reservation": {
-    "adapter": {
-      "date": {
-        "format": {
-          "day": "YYYY-MM-DD",
-          "date": "YYYY-MM-DD HH:mm"
-        }
-      }
-    },
-    "suggester": {
-      "maxDays": 60
-    }
+    "dayFormat": "YYYY-MM-DD",
+    "dateFormat": "YYYY-MM-DD HH:mm",
+    "maxDays": 60
   },
   "loggers": {
     "prediction": {

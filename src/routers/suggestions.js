@@ -9,7 +9,7 @@ const { DentalVisitEstimator } = require('../reservation/estimators');
 const estimator = new DentalVisitEstimator();
 
 const getAllDatesArray = () => {
-  const maxDays = config.reservation.suggester.maxDays;
+  const maxDays = config.reservation.maxDays;
 
   let allDatesArray = [];
 
