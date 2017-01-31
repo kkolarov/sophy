@@ -50,8 +50,10 @@
           "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/pic%207_00000.jpg",
           "description": "",
           "button": {
+            "type": "web_url",
             "text": "Отвори",
-            "webview_height_ratio": "tall"
+            "webview_height_ratio": "tall",
+            "messenger_extensions": true
           }
         },
         "time": {
