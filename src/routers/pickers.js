@@ -10,11 +10,11 @@ const pickersRouter = () => {
   });
 
   router.get('/day', (req, res) => {
-    if (req.query.hasOwnProperty('mobile')) {
-      res.render('day-picker');
-    } else {
-      res.render('day-picker-web');
-    }
+    res.render('day-picker');
+  });
+
+  router.get('/support', (req, res) => {
+    res.render('messenger-webview-support');
   });
 
   return router;

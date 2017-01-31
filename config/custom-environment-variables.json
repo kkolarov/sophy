@@ -7,18 +7,21 @@
     "picker": {
       "time": {
         "button": {
-          "url": "TIME_PICKER_WEBVIEW"
+          "url": "TIME_PICKER_WEBVIEW",
+          "fallback_url": "FALLBACK_URL"
         }
       },
       "calendar": {
         "day": {
           "button": {
-            "url": "DAY_PICKER_WEBVIEW"
+            "url": "DAY_PICKER_WEBVIEW",
+            "fallback_url": "FALLBACK_URL"
           }
         },
         "time": {
           "button": {
-            "url": "TIME_PICKER_WEBVIEW"
+            "url": "TIME_PICKER_WEBVIEW",
+            "fallback_url": "FALLBACK_URL"
           }
         }
       }

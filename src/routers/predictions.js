@@ -13,6 +13,8 @@ function predictionsRouter(oracle, manager, logger) {
     if (req.xhr) {
       const userId = req.params.userId;
 
+      //TODO: Check if the conversation exists.
+
       manager.findConversationByUserId(userId)
         .then(conversation => {
           return oracle.think(userId, conversation).then(() => {
