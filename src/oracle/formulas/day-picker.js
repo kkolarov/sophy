@@ -18,8 +18,6 @@ module.exports = (logger) => {
       consequence: function(R) {
         const configuration = config.messenger_templates.picker.calendar;
 
-        console.log([configuration.day.button]);
-
         const dayPicker = new Picker(
           this.prophecy.recipientId,
           configuration.day.title,
