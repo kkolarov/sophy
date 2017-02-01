@@ -51,7 +51,7 @@
           "description": "",
           "button": {
             "type": "web_url",
-            "text": "Отвори",
+            "title": "Отвори",
             "webview_height_ratio": "tall",
             "messenger_extensions": true
           }

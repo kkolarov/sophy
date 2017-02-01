@@ -22,9 +22,9 @@ module.exports = (logger) => {
         const card = new Card(
           this.prophecy.recipientId,
           configuration.title,
-          buttons,
           configuration.imageUrl,
-          this.prophecy.message
+          this.prophecy.message,
+          buttons
         )
 
         this.replies = [card];

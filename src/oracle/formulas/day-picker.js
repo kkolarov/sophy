@@ -18,24 +18,20 @@ module.exports = (logger) => {
       consequence: function(R) {
         const configuration = config.messenger_templates.picker.calendar;
 
+        console.log([configuration.day.button]);
+
         const dayPicker = new Picker(
           this.prophecy.recipientId,
           configuration.day.title,
-          this.prophecy.message,
           configuration.day.imageUrl,
-          configuration.day.button.url,
-          configuration.day.button.text,
-          configuration.day.button.webview_height_ratio
+          this.prophecy.message,
+          [configuration.day.button]
         );
 
         const message = `Ако не можете да намерите свободен ден за ${this.prophecy.context.hour}, променете часа.`;
         const buttons = [configuration.time.button];
 
-        const timePicker = new ButtonReply(
-          this.prophecy.recipientId,
-          message,
-          buttons
-        );
+        const timePicker = new ButtonReply(this.prophecy.recipientId, message, buttons);
 
         this.replies = [dayPicker, timePicker];
 
