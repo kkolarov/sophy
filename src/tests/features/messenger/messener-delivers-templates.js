@@ -27,8 +27,8 @@ const ConversationManager = require('@fanatic/conversations/NativeConversationMa
 const Messenger = require('@fanatic/messenger/Messenger');
 const ProphecyInterpreter = require('@fanatic/oracle/ProphecyInterpreter');
 
-const USER_ID = 1405183346161408;
-const PAGE_ID = 1235981259820368;
+const USER_ID = config.page.user.id;
+const PAGE_ID = config.page.id;
 
 const samples = require('./prophecy-samples')(USER_ID);
 

@@ -3,6 +3,12 @@
   "database": {
     "mongoUri": "MONGO_URI"
   },
+  "page": {
+    "id": "PAGE_ID",
+    "user": {
+      "id": "USER_ID"
+    }
+  },
   "messenger_templates": {
     "picker": {
       "time": {
