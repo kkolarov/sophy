@@ -6,13 +6,13 @@
 */
 class ReasonsGallery {
 
-  constructor(recipientId, reasons) {
+  constructor(recipientId, reasons = []) {
     this._recipientId = recipientId;
     this._reasons = reasons;
   }
 
   getTemplate() {
-    let body = {
+    return {
       recipient: {
         id: this._recipientId
       },
@@ -21,17 +21,11 @@ class ReasonsGallery {
           type: 'template',
           payload: {
             template_type: 'generic',
-            elements: []
+            elements: this._reasons
           }
         }
       }
     };
-
-    if (this._reasons.length !== 0) {
-      body.message.attachment.payload.elements = this._reasons;
-    }
-
-    return body;
   }
 }
 

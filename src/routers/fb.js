@@ -10,10 +10,10 @@ const Page = require('../models/Page');
 
 const BOT_START = config.bot.conversation.start;
 
-function fbRouter(oracle, conversationManager, logger) {
+function fbRouter(oracle, manager, logger) {
   const router = express.Router();
 
-  const bot = new Bot(conversationManager, User, Page, logger);
+  const bot = new Bot(manager, User, Page, logger);
 
   bot.settings({
     pageValidationToken: config.services.facebook.pageValidationToken,
@@ -31,31 +31,25 @@ function fbRouter(oracle, conversationManager, logger) {
     if (BOT_START.indexOf(text) > -1) {
       this.startConversation(userId, pageId)
         .then(conversation => {
-          oracle.think(userId, conversation);
-          oracle.predict(userId, text, conversation).catch(err => {
-            if (err instanceof Error) {
-              logger.debug(err.stack);
-            }
+          return oracle.think(userId, conversation).then(() => {
+            return oracle.predict(userId, text, conversation);
           });
         }).
         catch(err => {
           if (err instanceof Error) {
-            logger.debug(err.stack);
+            logger.error(err.stack);
           }
         });
     } else {
       this.loadConversation(userId, pageId)
         .then(conversation => {
-          oracle.think(userId, conversation);
-          oracle.predict(userId, text, conversation).catch(err => {
-            if (err instanceof Error) {
-              logger.debug(err.stack);
-            }
+          return oracle.think(userId, conversation).then(() => {
+            return oracle.predict(userId, text, conversation);
           });
         }).
         catch(err => {
           if (err instanceof Error) {
-            logger.debug(err.stack);
+            logger.error(err.stack);
           }
         });
     }
@@ -69,31 +63,25 @@ function fbRouter(oracle, conversationManager, logger) {
     if (BOT_START.indexOf(payload) > -1) {
       this.startConversation(userId, pageId)
         .then(conversation => {
-          oracle.think(userId, conversation);
-          oracle.predict(userId, payload, conversation).catch(err => {
-            if (err instanceof Error) {
-              logger.debug(err.stack);
-            }
+          return oracle.think(userId, conversation).then(() => {
+            return oracle.predict(userId, payload, conversation);
           });
         }).
         catch(err => {
           if (err instanceof Error) {
-            logger.debug(err.stack);
+            logger.error(err.stack);
           }
         });
     } else {
       this.loadConversation(userId, pageId)
         .then(conversation => {
-          oracle.think(userId, conversation);
-          oracle.predict(userId, payload, conversation).catch(err => {
-            if (err instanceof Error) {
-              logger.debug(err.stack);
-            }
+          return oracle.think(userId, conversation).then(() => {
+            return oracle.predict(userId, payload, conversation);
           });
         }).
         catch(err => {
           if (err instanceof Error) {
-            logger.debug(err.stack);
+            logger.error(err.stack);
           }
         });
     }

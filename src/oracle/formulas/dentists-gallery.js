@@ -5,20 +5,16 @@ const DentistsGallery = require('../../messenger/templates').DentistsGallery;
 
 const Employee = require('../../models/Employee');
 
-module.exports = (conversationManager) => {
+module.exports = (manager, logger) => {
   return ({ name, priority }) => {
     return {
       name: name,
       priority: priority,
       condition: function(R) {
-        const context = this.prophecy.context;
-
-        R.when(context.dentist_step);
+        R.when(this.prophecy.context.dentist_step);
       },
       consequence: function(R) {
-        const context = this.prophecy.context;
-
-        conversationManager.findConversationByUserId(context.recipient.id)
+        manager.findConversationByUserId(this.prophecy.recipientId)
           .then(conversation => {
             const size = 10;
             const page = conversation.metadata.page;
@@ -36,6 +32,8 @@ module.exports = (conversationManager) => {
                 );
 
                 this.replies = [textReply, suggestions];
+
+                logger.debug('The formula that provides a gallery of dentists has been executed.');
 
                 R.stop();
               });

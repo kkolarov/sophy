@@ -5,8 +5,8 @@
 
     <meta name="viewport" content="width=device-width">
 
-    <link rel="stylesheet" href="/vendor/pickadate/lib/themes/classic.css" />
-    <link rel="stylesheet" href="/css/picker/classic.time.css" />
+    <link rel="stylesheet" href="/vendor/pickadate/lib/themes/default.css" />
+    <link rel="stylesheet" href="/vendor/pickadate/lib/themes/default.time.css" />
 
     <style>
       body {
@@ -19,7 +19,7 @@
     </style>
   </head>
   <body>
-    <input id="time_picker" class="hidden" type="text" />
+    <input id="time-picker" class="hidden" type="text" />
 
     <script type="" src="/vendor/jquery/dist/jquery.min.js"></script>
     <script type="" src="/vendor/pickadate/lib/picker.js"></script>
@@ -34,20 +34,20 @@
       window.extAsyncInit = function() {
         MessengerExtensions.getUserID(function success(uids) {
           var fbUserId = uids.psid;
-          
+
           $.ajax({
             url: '/conversations/' + encodeURIComponent(fbUserId)
           })
           .done(function(context) {
             if (context) {
-              $('#time_picker').pickatime({
+              $('#time-picker').pickatime({
                 onSet: function(context) {
                   MessengerExtensions.requestCloseBrowser(function success() {
                     $.ajax({
                       url: '/predictions/' + encodeURIComponent(fbUserId),
                       method: 'POST',
                       data: {
-                        text: $('#time_picker').val()
+                        text: $('#time-picker').val()
                       }
                     });
                   }, function error(err) {
@@ -62,7 +62,7 @@
                 formatLabel: '<b>HH</b>:i'
               });
 
-              $('#time_picker').click();
+              $('#time-picker').click();
             }
           });
 

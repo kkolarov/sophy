@@ -50,8 +50,10 @@
           "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/pic%207_00000.jpg",
           "description": "",
           "button": {
-            "text": "Отвори",
-            "webview_height_ratio": "tall"
+            "type": "web_url",
+            "title": "Отвори",
+            "webview_height_ratio": "tall",
+            "messenger_extensions": true
           }
         },
         "time": {
@@ -119,17 +121,9 @@
     ]
   },
   "reservation": {
-    "adapter": {
-      "date": {
-        "format": {
-          "day": "YYYY-MM-DD",
-          "date": "YYYY-MM-DD HH:mm"
-        }
-      }
-    },
-    "suggester": {
-      "maxDays": 60
-    }
+    "dayFormat": "YYYY-MM-DD",
+    "dateFormat": "YYYY-MM-DD HH:mm",
+    "maxDays": 60
   },
   "loggers": {
     "prediction": {
@@ -150,16 +144,22 @@
         "label": "Conversation Manager"
       }
     },
-    "app": {
+    "route": {
       "console": {
         "colorize": true,
-        "label": "Sophy"
+        "label": "Router"
       }
     },
     "message": {
       "console": {
         "colorize": true,
         "label": "Messenger"
+      }
+    },
+    "interpretation": {
+      "console": {
+        "colorize": true,
+        "label": "Prophecy Interpreter"
       }
     }
   }

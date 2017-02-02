@@ -4,29 +4,33 @@ const config = require('config');
 
 const ButtonReply = require('@fanatic/messenger').templates.ButtonReply;
 
-module.exports = ({ name, priority }) => {
-  return {
-    name: name,
-    priority: priority,
-    condition: function(R) {
-        let context = this.prophecy.context;
+module.exports = (logger) => {
+  return ({ name, priority }) => {
+    return {
+      name: name,
+      priority: priority,
+      condition: function(R) {
+        const context = this.prophecy.context;
 
         R.when(context.hour_step && !context.hour);
-    },
-    consequence: function(R) {
-      const configuration = config.get('messenger_templates').get('picker').get('time');
+      },
+      consequence: function(R) {
+        const configuration = config.get('messenger_templates').get('picker').get('time');
 
-      const buttons = [configuration.button];
-      
-      const picker = new ButtonReply(
-        this.prophecy.recipientId,
-        this.prophecy.message,
-        buttons
-      );
+        const buttons = [configuration.button];
 
-      this.replies = [picker];
+        const picker = new ButtonReply(
+          this.prophecy.recipientId,
+          this.prophecy.message,
+          buttons
+        );
 
-      R.stop();
+        this.replies = [picker];
+
+        logger.debug('The formula that provides a time picker has been executed.')
+
+        R.stop();
+      }
     }
   }
 }

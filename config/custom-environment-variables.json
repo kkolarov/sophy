@@ -3,22 +3,31 @@
   "database": {
     "mongoUri": "MONGO_URI"
   },
+  "page": {
+    "id": "PAGE_ID",
+    "user": {
+      "id": "USER_ID"
+    }
+  },
   "messenger_templates": {
     "picker": {
       "time": {
         "button": {
-          "url": "TIME_PICKER_WEBVIEW"
+          "url": "TIME_PICKER_WEBVIEW",
+          "fallback_url": "FALLBACK_URL"
         }
       },
       "calendar": {
         "day": {
           "button": {
-            "url": "DAY_PICKER_WEBVIEW"
+            "url": "DAY_PICKER_WEBVIEW",
+            "fallback_url": "FALLBACK_URL"
           }
         },
         "time": {
           "button": {
-            "url": "TIME_PICKER_WEBVIEW"
+            "url": "TIME_PICKER_WEBVIEW",
+            "fallback_url": "FALLBACK_URL"
           }
         }
       }
@@ -73,14 +82,19 @@
         "level": "CONVERSATION_LOG_LEVEL"
       }
     },
-    "app": {
+    "route": {
       "console": {
-        "level": "APP_LOG_LEVEL"
+        "level": "ROUTE_LOG_LEVEL"
       }
     },
     "message": {
       "console": {
         "level": "MESSAGE_LOG_LEVEL"
+      }
+    },
+    "interpretation": {
+      "console": {
+        "level": "INTERPRETATION_LOG_LEVEL"
       }
     }
   }

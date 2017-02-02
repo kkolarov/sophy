@@ -13,6 +13,10 @@ const pickersRouter = () => {
     res.render('day-picker');
   });
 
+  router.get('/support', (req, res) => {
+    res.render('messenger-webview-support');
+  });
+
   return router;
 }
 

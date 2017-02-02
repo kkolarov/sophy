@@ -42,6 +42,18 @@ userSchema.statics.findUserByRecipientId = (recipientId) => {
   });
 }
 
+userSchema.statics.findUsers = () => {
+  return new Promise((resolve, reject) => {
+    User.find().populate('_page').exec((err, users) => {
+      if (!err) {
+        resolve(users);
+      } else {
+        reject(err);
+      }
+    });
+  });
+}
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

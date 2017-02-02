@@ -6,16 +6,16 @@
 */
 class Card {
 
-  constructor(recipientId, message, buttons, imageUrl, description) {
+  constructor(recipientId, message, imageUrl, description, buttons) {
     this._recipientId = recipientId;
     this._message = message;
-    this._buttons = buttons;
     this._imageUrl = imageUrl;
     this._description = description;
+    this._buttons = buttons;
   }
 
   getTemplate() {
-    const body = {
+    return {
       recipient: {
         id: this._recipientId
       },
@@ -24,18 +24,18 @@ class Card {
           type: 'template',
           payload: {
             template_type: 'generic',
-            elements: [{
-              title: this._message,
-              subtitle: this._description,
-              image_url: this._imageUrl,
-              buttons: this._buttons
-            }]
+            elements: [
+              {
+                title: this._message,
+                subtitle: this._description,
+                image_url: this._imageUrl,
+                buttons: this._buttons
+              }
+            ]
           }
         }
       }
     };
-
-    return body;
   }
 }
 

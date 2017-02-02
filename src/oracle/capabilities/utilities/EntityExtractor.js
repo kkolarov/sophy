@@ -34,8 +34,9 @@ class EntityExtractor {
       if (this._isPermittedEntityKey(key)) {
         if (this._haveToParseEntityMetadata(key)) {
           const metadataEntities = JSON.parse(values[0].metadata);
-            permittedEntities[key] = metadataEntities;
-            permittedEntities.value = values[0].value;
+
+          permittedEntities[key] = metadataEntities;
+          permittedEntities[key].value = values[0].value;
         } else {
           permittedEntities[key] = values[0].value;
         }

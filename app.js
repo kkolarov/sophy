@@ -13,6 +13,15 @@ const GoogleCalendar = require('@fanatic/reservation').calendars.GoogleCalendar;
 const ConversationManager = require(config.paths.ConversationManager);
 const { Oracle, ProphecyInterpreter } = require('@fanatic/oracle');
 
+const {
+  predictionLogger,
+  reservationLogger,
+  conversationLogger,
+  routeLogger,
+  messageLogger,
+  interpretationLogger
+} = require('./loggers');
+
 const app = express();
 
 app.set('views', __dirname + '/src/views');
@@ -24,18 +33,6 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-winston.loggers.add('prediction', config.loggers.prediction);
-winston.loggers.add('reservation', config.loggers.reservation);
-winston.loggers.add('conversation', config.loggers.conversation);
-winston.loggers.add('app', config.loggers.app);
-winston.loggers.add('message', config.loggers.message);
-
-const predictionLogger = winston.loggers.get('prediction');
-const reservationLogger = winston.loggers.get('reservation');
-const conversationLogger = winston.loggers.get('conversation');
-const appLogger = winston.loggers.get('app');
-const messageLogger = winston.loggers.get('message');
-
 const calendar = new GoogleCalendar(
   config.services.google.appId,
   config.services.google.appSecret,
@@ -45,9 +42,13 @@ const calendar = new GoogleCalendar(
 calendar.setToken(config.services.google.users.sophy);
 
 const conversationManager = new ConversationManager(conversationLogger);
-const assistant = new Assistant(Employee, calendar, reservationLogger);
+const assistant = new Assistant(Employee, calendar, reservationLogger, {
+  dateFormat: config.reservation.dateFormat,
+  dayFormat: config.reservation.dayFormat,
+  maxDays: config.reservation.maxDays
+});
 
-const formulas = require('./src/oracle/formulas')(conversationManager);
+const formulas = require('./src/oracle/formulas')(conversationManager, interpretationLogger);
 const prophecyInterpreter = new ProphecyInterpreter(formulas);
 
 const messengerSettings = {
@@ -68,12 +69,12 @@ const {
   suggestionsRouter
 } = require('./src/routers');
 
-app.use('/fb', fbRouter(oracle, conversationManager, appLogger));
+app.use('/fb', fbRouter(oracle, conversationManager, routeLogger));
 app.use('/pickers', pickersRouter());
 app.use('/maps', mapsRouter());
-app.use('/predictions', predictionsRouter(oracle, conversationManager));
-app.use('/conversations', conversationsRouter(conversationManager));
-app.use('/suggestions', suggestionsRouter(assistant, conversationManager));
+app.use('/predictions', predictionsRouter(oracle, conversationManager, routeLogger));
+app.use('/conversations', conversationsRouter(conversationManager, routeLogger));
+app.use('/suggestions', suggestionsRouter(assistant, conversationManager, routeLogger));
 
 mongoose.connect(config.get('database').get('mongoUri'));
 
