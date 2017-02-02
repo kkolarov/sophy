@@ -2,23 +2,25 @@
 
 const config = require('config');
 const moment = require('moment');
+
 const mongoose = require('mongoose');
+mongoose.Promise = Promise;
 
 const chai = require('chai');
 const expect = chai.expect;
 const sinon = require('sinon');
 
-const Assistant = require('@fanatic/reservation').Assistant;
-const BusyTimeError = require('@fanatic/reservation').errors.BusyTimeError;
+const Assistant = require('@fanatic/reservation/Assistant');
+const BusyTimeError = require('@fanatic/reservation/errors/BusyTimeError');
 
-const Messenger = require('@fanatic/messenger').Messenger;
-const GoogleCalendar = require('@fanatic/reservation').calendars.GoogleCalendar;
-const ConversationManager = require(config.paths.ConversationManager);
+const Messenger = require('@fanatic/messenger/Messenger');
+const GoogleCalendar = require('@fanatic/reservation/calendars/GoogleCalendar');
+const ConversationManager = require('@fanatic/conversations/NativeConversationManager');
 const { Oracle, ProphecyInterpreter } = require('@fanatic/oracle');
 
-const DentalVisitEstimator = require('../../../reservation/estimators').DentalVisitEstimator;
+const DentalVisitEstimator = require('../../../reservation/estimators/DentalVisitEstimator');
 
-const Bot = require('@fanatic/messenger').Bot;
+const Bot = require('@fanatic/messenger/Bot');
 
 const tomorrow = moment().add(1, 'day');
 const dayAfterTomorrow = moment().add(2, 'days');
@@ -42,8 +44,6 @@ const userTexts = {
 describe("The oracle predicts a conversation", () => {
 
   before("Setup", () => {
-    mongoose.Promise = Promise;
-
     const that = this;
 
     const logger = sinon.stub();

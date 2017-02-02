@@ -11,14 +11,10 @@ module.exports = (manager, logger) => {
       name: name,
       priority: priority,
       condition: function(R) {
-        const context = this.prophecy.context;
-
-        R.when(context.dentist_step);
+        R.when(this.prophecy.context.dentist_step);
       },
       consequence: function(R) {
-        const context = this.prophecy.context;
-
-        manager.findConversationByUserId(context.recipient.id)
+        manager.findConversationByUserId(this.prophecy.recipientId)
           .then(conversation => {
             const size = 10;
             const page = conversation.metadata.page;
