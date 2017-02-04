@@ -5,20 +5,58 @@
 
     <style>
       body {
-        font-family: ff-clan-web-pro,"Helvetica Neue",Helvetica,sans-serif !important;
+        font-family: 'San Francisco', -apple-system, BlinkMacSystemFont, '.SFNSText-Regular', Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif !importants;
+        background-color: #fcfcfc;
       }
 
       h1, h2, h3 {
         font-weight: 400;
+      }
+
+      .navbar {
+        height: 66px !important;
+        box-shadow: 0px 2px 40px 0px rgba(0,0,0,0.08) !important;
+      }
+
+      .navbar-default {
+        background-color: white !important;
+      }
+
+      .logo {
+        font-weight: 200;
+        font-size: 18px;
+        color: #90949C;
+
+        -webkit-transition: opacity 0.2s ease;
+        -moz-transition: opacity 0.2s ease;
+        -ms-transition: opacity 0.2s ease;
+        -o-transition: opacity 0.2s ease;
+        transition: opacity 0.2s ease;
+      }
+
+      .navbar-default a {
+        font: inherit;
+        color: inherit;
+      }
+
+      a, a:hover, a:active, a:visited {
+        text-decoration: none !important;
+      }
+
+      .logo:hover {
+        opacity: 0.5;
       }
     </style>
   </head>
   <body>
     <nav class="navbar navbar-default">
       <div class="container">
-          <div class="col-md-6 col-md-offset-5">
-            <img src="/images/github.png" width=50 height=50 />
-          </div>
+          <div class="col-md-2 logo">
+            <a href="#">
+              <img id="brand-icon" src="/images/github.png" width=65 height=65 />
+              <span id="employee-name">Sophy</span>
+            </div>
+          </a>
       </div>
     </nav>
 
