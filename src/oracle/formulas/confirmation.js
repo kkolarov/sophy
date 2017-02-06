@@ -8,9 +8,9 @@ module.exports = (logger) => {
       name: name,
       priority: priority,
       condition: function(R) {
-          let context = this.prophecy.context;
+        const context = this.prophecy.context;
 
-          R.when((context.hour_step && context.hour) || (context.day_step && context.day));
+        R.when((context.hour_step && context.hour) || (context.day_step && context.day));
       },
       consequence: function(R) {
           const quickReply = new QuickReply(

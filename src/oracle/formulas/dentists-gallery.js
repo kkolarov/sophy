@@ -30,7 +30,7 @@ module.exports = (manager, logger) => {
                   this.prophecy.recipientId,
                   employees
                 );
-
+                
                 this.replies = [textReply, suggestions];
 
                 logger.debug('The formula that provides a gallery of dentists has been executed.');
@@ -38,8 +38,8 @@ module.exports = (manager, logger) => {
                 R.stop();
               });
             }).catch(err => {
-              //TODO: The error message has to be logged into a this object.
-              console.log(err);
+              this.err = err;
+              R.stop();
             });
       }
     }

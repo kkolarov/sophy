@@ -11,13 +11,9 @@ module.exports = (logger) => {
       name: name,
       priority: priority,
       condition: function(R) {
-        const context = this.prophecy.context;
-
-        R.when(context.reason_step);
+        R.when(this.prophecy.context.reason_step);
       },
       consequence: function(R) {
-        const context = this.prophecy.context;
-
         const textReply = new TextReply(
           this.prophecy.recipientId,
           this.prophecy.message
