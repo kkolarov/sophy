@@ -19,7 +19,7 @@ module.exports = (manager, logger) => {
             const size = 10;
             const page = conversation.metadata.page;
 
-            Employee.findEmployeesByBusinessId(page._business, size)
+            return Employee.findEmployeesByBusinessId(page._business, size)
               .then(employees => {
                 const textReply = new TextReply(
                   this.prophecy.recipientId,
@@ -30,7 +30,7 @@ module.exports = (manager, logger) => {
                   this.prophecy.recipientId,
                   employees
                 );
-                
+
                 this.replies = [textReply, suggestions];
 
                 logger.debug('The formula that provides a gallery of dentists has been executed.');
