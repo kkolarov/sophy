@@ -7,20 +7,15 @@ const config = require('config');
 const winston = require('winston');
 
 const Employee = require('./src/models/Employee');
+const User = require('./src/models/User');
+const Page = require('./src//models/Page');
+
 const Assistant = require('@fanatic/reservation').Assistant;
 const Messenger = require('@fanatic/messenger').Messenger;
 const GoogleCalendar = require('@fanatic/reservation').calendars.GoogleCalendar;
 const ConversationManager = require(config.paths.ConversationManager);
 const { Oracle, ProphecyInterpreter } = require('@fanatic/oracle');
-
-const {
-  predictionLogger,
-  reservationLogger,
-  conversationLogger,
-  routeLogger,
-  messageLogger,
-  interpretationLogger
-} = require('./loggers');
+const MessengerBot = require('@fanatic/messenger/MessengerBot');
 
 const app = express();
 
@@ -33,6 +28,13 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+winston.loggers.add('oracle', config.loggers.oracle);
+winston.loggers.add('assistant', config.loggers.assistant);
+winston.loggers.add('manager', config.loggers.manager);
+winston.loggers.add('router', config.loggers.router);
+winston.loggers.add('messenger', config.loggers.messenger);
+winston.loggers.add('interpreter', config.loggers.interpreter);
+
 const calendar = new GoogleCalendar(
   config.services.google.appId,
   config.services.google.appSecret,
@@ -41,24 +43,31 @@ const calendar = new GoogleCalendar(
 
 calendar.setToken(config.services.google.users.sophy);
 
-const conversationManager = new ConversationManager(conversationLogger);
-const assistant = new Assistant(Employee, calendar, reservationLogger, {
+const conversationManager = new ConversationManager(winston.loggers.get('manager'));
+const assistant = new Assistant(Employee, calendar, winston.loggers.get('assistant'), {
   dateFormat: config.reservation.dateFormat,
   dayFormat: config.reservation.dayFormat,
   maxDays: config.reservation.maxDays
 });
 
-const formulas = require('./src/oracle/formulas')(conversationManager, interpretationLogger);
+const formulas = require('./src/oracle/formulas')(conversationManager, winston.loggers.get('interpreter'));
 const prophecyInterpreter = new ProphecyInterpreter(formulas);
 
 const messengerSettings = {
-  "endpoint": config.services.facebook.messenger.API.messages
+  endpoint: config.services.facebook.messenger.API.messages
 };
-const messenger = new Messenger(prophecyInterpreter, messageLogger);
+const messenger = new Messenger(prophecyInterpreter, winston.loggers.get('messenger'));
 messenger.settings(messengerSettings);
 
 const capabilities = require('./src/oracle/capabilities')(conversationManager, messenger, assistant);
-const oracle = new Oracle(capabilities, messenger, conversationManager, predictionLogger);
+const oracle = new Oracle(capabilities, messenger, conversationManager, winston.loggers.get('oracle'));
+
+const sophy = new MessengerBot(oracle, conversationManager, User, Page, winston.loggers.get('router'));
+sophy.settings({
+  pageValidationToken: config.services.facebook.pageValidationToken,
+  fbGraphURI: config.services.facebook.API.graph,
+  status: config.bot.conversation.status
+});
 
 const {
   fbRouter,
@@ -69,12 +78,12 @@ const {
   suggestionsRouter
 } = require('./src/routers');
 
-app.use('/fb', fbRouter(oracle, conversationManager, routeLogger));
+app.use('/fb', fbRouter(sophy, winston.loggers.get('router')));
 app.use('/pickers', pickersRouter());
 app.use('/maps', mapsRouter());
-app.use('/predictions', predictionsRouter(oracle, conversationManager, routeLogger));
-app.use('/conversations', conversationsRouter(conversationManager, routeLogger));
-app.use('/suggestions', suggestionsRouter(assistant, conversationManager, routeLogger));
+app.use('/predictions', predictionsRouter(oracle, conversationManager, winston.loggers.get('router')));
+app.use('/conversations', conversationsRouter(conversationManager, winston.loggers.get('router')));
+app.use('/suggestions', suggestionsRouter(assistant, conversationManager, winston.loggers.get('router')));
 
 mongoose.connect(config.get('database').get('mongoUri'));
 

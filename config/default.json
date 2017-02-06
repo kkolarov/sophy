@@ -1,7 +1,7 @@
 {
   "bot": {
     "conversation": {
-      "completed": {
+      "status": {
         "property": "done"
       },
       "start": ["Искам да си запиша час при зъболекар.", "Запазване на час"]
@@ -126,37 +126,43 @@
     "maxDays": 60
   },
   "loggers": {
-    "prediction": {
+    "bot": {
+      "console": {
+        "colorize": true,
+        "label": "Bot"
+      }
+    },
+    "oracle": {
       "console": {
         "colorize": true,
         "label": "Oracle"
       }
     },
-    "reservation": {
+    "assistant": {
       "console": {
         "colorize": true,
         "label": "Assistant"
       }
     },
-    "conversation": {
+    "manager": {
       "console": {
         "colorize": true,
         "label": "Conversation Manager"
       }
     },
-    "route": {
+    "router": {
       "console": {
         "colorize": true,
         "label": "Router"
       }
     },
-    "message": {
+    "messenger": {
       "console": {
         "colorize": true,
         "label": "Messenger"
       }
     },
-    "interpretation": {
+    "interpreter": {
       "console": {
         "colorize": true,
         "label": "Prophecy Interpreter"

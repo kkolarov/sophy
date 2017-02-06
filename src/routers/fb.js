@@ -1,53 +1,32 @@
 'use strict';
 
-const express = require('express');
 const config = require('config');
 
-const Bot = require('@fanatic/messenger').Bot;
-
-const User = require('../models/User');
-const Page = require('../models/Page');
+const express = require('express');
 
 const BOT_START = config.bot.conversation.start;
 
-function fbRouter(oracle, manager, logger) {
+function fbRouter(sophy, logger) {
   const router = express.Router();
 
-  const bot = new Bot(manager, User, Page, logger);
-
-  bot.settings({
-    pageValidationToken: config.services.facebook.pageValidationToken,
-    fbGraphURI: config.services.facebook.API.graph,
-    completedConversation: {
-      property: config.bot.conversation.completed.property
-    }
-  });
-
-  bot.on('message', function(event) {
+  sophy.on('message', function(event) {
     const text = event.message.text;
     const userId = event.sender.id;
     const pageId = event.recipient.id;
 
     if (BOT_START.indexOf(text) > -1) {
-      this.startConversation(userId, pageId)
-        .then(conversation => {
-          return oracle.think(userId, conversation).then(() => {
-            return oracle.predict(userId, text, conversation);
-          });
-        }).
-        catch(err => {
-          if (err instanceof Error) {
-            logger.error(err.stack);
-          }
+      sophy.restartConversation(userId, pageId)
+        .then(() => {
+          sophy.respond(userId, text, pageId)
+            .catch(err => {
+              if (err instanceof Error) {
+                logger.error(err.stack);
+              }
+            });
         });
     } else {
-      this.loadConversation(userId, pageId)
-        .then(conversation => {
-          return oracle.think(userId, conversation).then(() => {
-            return oracle.predict(userId, text, conversation);
-          });
-        }).
-        catch(err => {
+      sophy.respond(userId, text, pageId)
+        .catch(err => {
           if (err instanceof Error) {
             logger.error(err.stack);
           }
@@ -55,31 +34,24 @@ function fbRouter(oracle, manager, logger) {
     }
   });
 
-  bot.on('postback', function(event) {
+  sophy.on('postback', function(event) {
     const payload = event.postback.payload;
     const pageId = event.recipient.id;
     const userId = event.sender.id;
 
     if (BOT_START.indexOf(payload) > -1) {
-      this.startConversation(userId, pageId)
-        .then(conversation => {
-          return oracle.think(userId, conversation).then(() => {
-            return oracle.predict(userId, payload, conversation);
-          });
-        }).
-        catch(err => {
-          if (err instanceof Error) {
-            logger.error(err.stack);
-          }
+      sophy.restartConversation(userId, pageId)
+        .then(() => {
+          sophy.respond(userId, payload, pageId)
+            .catch(err => {
+              if (err instanceof Error) {
+                logger.error(err.stack);
+              }
+            });
         });
     } else {
-      this.loadConversation(userId, pageId)
-        .then(conversation => {
-          return oracle.think(userId, conversation).then(() => {
-            return oracle.predict(userId, payload, conversation);
-          });
-        }).
-        catch(err => {
+      sophy.respond(userId, payload, pageId)
+        .catch(err => {
           if (err instanceof Error) {
             logger.error(err.stack);
           }
@@ -88,11 +60,15 @@ function fbRouter(oracle, manager, logger) {
   });
 
   router.get('/', (req, res) => {
-    bot.verify(req, res);
+    if (sophy.verify(req)) {
+      res.status(200).send(req.query['hub.challenge']);
+    } else {
+      res.sendStatus(403);
+    }
   });
 
   router.post('/', (req, res) => {
-    bot.handle(req.body);
+    sophy.handle(req.body);
 
     res.sendStatus(200);
   });

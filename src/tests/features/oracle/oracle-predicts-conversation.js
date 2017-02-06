@@ -20,7 +20,7 @@ const { Oracle, ProphecyInterpreter } = require('@fanatic/oracle');
 
 const DentalVisitEstimator = require('../../../reservation/estimators/DentalVisitEstimator');
 
-const Bot = require('@fanatic/messenger/Bot');
+const MessengerBot = require('@fanatic/messenger/MessengerBot');
 
 const tomorrow = moment().add(1, 'day');
 const dayAfterTomorrow = moment().add(2, 'days');
@@ -65,41 +65,41 @@ describe("The oracle predicts a conversation", () => {
         const User = require('../../../models/User');
         const Page = require('../../../models/Page');
 
-        that.calendar = new GoogleCalendar(
+        this.calendar = new GoogleCalendar(
           config.services.google.appId,
           config.services.google.appSecret,
           config.services.google.appAuthUri
         );
-        that.calendar.setToken(config.services.google.users.sophy);
+        this.calendar.setToken(config.services.google.users.sophy);
 
-        that.conversationManager = new ConversationManager(logger());
+        this.conversationManager = new ConversationManager(logger());
 
-        that.estimator = new DentalVisitEstimator();
-        that.assistant = new Assistant(Employee, that.calendar, logger(), {
+        this.estimator = new DentalVisitEstimator();
+        this.assistant = new Assistant(Employee, this.calendar, logger(), {
           dateFormat: config.reservation.dateFormat,
           dayFormat: config.reservation.dayFormat,
           maxDays: config.reservation.maxDays
         });
 
-        const formulas = require('../../../oracle/formulas')(that.conversationManager, logger());
+        const formulas = require('../../../oracle/formulas')(this.conversationManager, logger());
         const prophecyInterpreter = new ProphecyInterpreter(formulas);
 
-        const capabilities = require('../../../oracle/capabilities')(that.conversationManager, messenger(), that.assistant);
-        that.oracle = new Oracle(capabilities, messenger(), that.conversationManager, logger());
+        const capabilities = require('../../../oracle/capabilities')(this.conversationManager, messenger(), this.assistant);
+        this.oracle = new Oracle(capabilities, messenger(), this.conversationManager, logger());
 
-        that.bot = new Bot(that.conversationManager, User, Page, logger());
-        that.bot.settings({
+        this.sophy = new MessengerBot(this.oracle, this.conversationManager, User, Page, logger());
+        this.sophy.settings({
           pageValidationToken: config.services.facebook.pageValidationToken,
           fbGraphURI: config.services.facebook.API.graph,
           completedConversation: {
-            property: config.bot.conversation.completed.property
+            property: config.bot.conversation.status.completed
           }
         });
       })
       .catch(err => console.log(err));
   });
 
-  before("A random user will be loaded that have gone through the reservation procedure.", (done) => {
+  before("A random user will be loaded thishave gone through the reservation procedure.", (done) => {
     mongoose.connect(config.database.mongoUri, (err) => {
       const User = require('../../../models/User');
 
@@ -110,7 +110,7 @@ describe("The oracle predicts a conversation", () => {
 
             done();
           } else {
-            return Promise.reject(new Error('There are no users that has gone through the reservation procedure.'));
+            return Promise.reject(new Error('There are no users thishas gone through the reservation procedure.'));
           }
         })
         .catch(err => {
@@ -140,7 +140,7 @@ describe("The oracle predicts a conversation", () => {
       const userId = this.user.recipientId;
       const pageId = this.user._page.pageId;
 
-      return this.bot.startConversation(userId, pageId)
+      return this.sophy.startConversation(userId, pageId)
         .then(conversation => {
           return this.oracle.predict(userId, userTexts.START, conversation);
         })
@@ -206,7 +206,7 @@ describe("The oracle predicts a conversation", () => {
       const userId = this.user.recipientId;
       const pageId = this.user._page.pageId;
 
-      return this.bot.startConversation(userId, pageId)
+      return this.sophy.startConversation(userId, pageId)
         .then(conversation => {
           return this.oracle.predict(userId, userTexts.START, conversation);
         })
