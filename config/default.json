@@ -2,7 +2,7 @@
   "bot": {
     "conversation": {
       "status": {
-        "property": "done"
+        "completed": "done"
       },
       "start": ["Искам да си запиша час при зъболекар.", "Запазване на час"]
     }

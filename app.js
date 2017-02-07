@@ -66,7 +66,9 @@ const sophy = new MessengerBot(oracle, conversationManager, User, Page, winston.
 sophy.settings({
   pageValidationToken: config.services.facebook.pageValidationToken,
   fbGraphURI: config.services.facebook.API.graph,
-  status: config.bot.conversation.status
+  status: {
+    completed: config.bot.conversation.status.completed
+  }
 });
 
 const {
