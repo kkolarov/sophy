@@ -73,6 +73,7 @@ sophy.settings({
 
 const {
   fbRouter,
+  policyRouter,
   pickersRouter,
   mapsRouter,
   predictionsRouter,
@@ -81,6 +82,7 @@ const {
 } = require('./src/routers');
 
 app.use('/fb', fbRouter(sophy, winston.loggers.get('router')));
+app.use('/policies', policyRouter());
 app.use('/pickers', pickersRouter());
 app.use('/maps', mapsRouter());
 app.use('/predictions', predictionsRouter(oracle, conversationManager, winston.loggers.get('router')));
