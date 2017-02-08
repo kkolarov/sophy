@@ -14,14 +14,31 @@ module.exports = (logger) => {
         R.when(this.prophecy.context.reason_step);
       },
       consequence: function(R) {
+        const context = this.prophecy.context;
+
         const textReply = new TextReply(
           this.prophecy.recipientId,
           this.prophecy.message
         );
 
+        const reasons = config.messenger_templates.reasons;
+
+        for (let reason of reasons) {
+          if (reason.title == config.prophecyIntepreter.reasonGallery.callCard.title) {
+            if (context.hasOwnProperty('dentist') && context.dentist.phoneNumber) {
+              reason.buttons[0].payload = context.dentist.phoneNumber;
+            } else {
+              this.err = new Error("The employee's phone number hasn't been found.");
+              R.stop();
+
+              break;
+            }
+          }
+        }
+
         const gallery = new ReasonsGallery(
           this.prophecy.recipientId,
-          config.get('messenger_templates').get('reasons')
+          reasons
         );
 
         this.replies = [textReply, gallery];

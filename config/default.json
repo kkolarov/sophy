@@ -7,6 +7,13 @@
       "start": ["Искам да си запиша час при зъболекар.", "Запазване на час"]
     }
   },
+  "prophecyIntepreter": {
+    "reasonGallery": {
+      "callCard": {
+        "title": "Друго оплакване"
+      }
+    }
+  },
   "services": {
     "facebook": {
       "messenger": {
@@ -114,7 +121,7 @@
           {
             "type": "phone_number",
             "title": "Обади се",
-            "payload": "+359894416041"
+            "payload": ""
           }
         ]
       }
