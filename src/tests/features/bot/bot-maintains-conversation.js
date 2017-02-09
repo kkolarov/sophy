@@ -25,18 +25,21 @@ const DentalVisitEstimator = require('../../../reservation/estimators/DentalVisi
 
 const MessengerBot = require('@fanatic/messenger/MessengerBot');
 
+const yesterday = moment().subtract(1, 'day');
 const tomorrow = moment().add(1, 'day');
 const dayAfterTomorrow = moment().add(2, 'days');
 
 const userTexts = {
   START: "Искам да си запиша час при зъболекар.",
-  DENTIST: "Д-р Йонов",
-  WRONG_DENTIST: "Д-р Коларов",
+  DENTIST: "",
+  WRONG_DENTIST: "Д-р Радева",
   COMPLAINT: "Болка в зъба",
   WRONG_COMPLAINT: "Болка в стомаха",
   HOUR: "10:00",
   WRONG_HOUR: "100:000",
   NEW_HOUR: "15:00",
+  HOUR_THAT_IS_OUTSIDE_WORKING_TIME: "20:00",
+  OLD_DAY: yesterday.format("YYYY-MM-DD"),
   DAY: tomorrow.format("YYYY-MM-DD"),
   NEW_DAY: dayAfterTomorrow.format("YYYY-MM-DD"),
   WRONG_DAY: "10.200",
@@ -75,7 +78,8 @@ describe("The bot maintains a conversation", () => {
     const logger = sinon.stub();
     logger.returns({
       debug: function(text, options) {},
-      error: function(text, options) {}
+      error: function(text, options) {},
+      warn: function(text, options) {}
     });
 
     const messenger = sinon.stub();
@@ -121,8 +125,18 @@ describe("The bot maintains a conversation", () => {
             completed: config.bot.conversation.status.completed
           }
         });
-      })
-      .catch(err => console.log(err));
+      });
+  });
+
+  before("An employee will be loaded with a calendar specified in the config file.", () => {
+    const Employee = require('../../../models/Employee');
+
+    return Employee.findEmployeeByCalendarId(config.calendars.id)
+      .then(employee => {
+        this.employee = employee;
+
+        userTexts.DENTIST = employee.name;
+      });
   });
 
   before("A random user will be loaded that have gone through the reservation procedure.", () => {
@@ -147,10 +161,6 @@ describe("The bot maintains a conversation", () => {
     };
 
     return this.calendar.deleteEvents(calendarId, date);
-  });
-
-  context("that recognizes terms of the reservation cycle.", () => {
-
   });
 
   context("that ends up with a reservation given that", () => {
@@ -205,6 +215,9 @@ describe("The bot maintains a conversation", () => {
               const request = getRequest(conversation, duration);
 
               return this.assistant.validate(request)
+                .then(() => {
+                  expect(true).to.be.false;
+                })
                 .catch(err => {
                   expect(err).instanceof(BusyTimeError);
                 });
@@ -279,6 +292,9 @@ describe("The bot maintains a conversation", () => {
               const request = getRequest(conversation, duration);
 
               return this.assistant.validate(request)
+                .then(() => {
+                  expect(true).to.be.false;
+                })
                 .catch(err => {
                   expect(err).instanceof(BusyTimeError);
                 });
@@ -286,73 +302,210 @@ describe("The bot maintains a conversation", () => {
         });
     });
 
-    // it("in the middle of the reservation lifecycle the user decides to start again.", () => {
-    //   const userId = this.user.recipientId;
-    //   const pageId = this.user._page.pageId;
-    //
-    //   let prevConversation = null;
-    //
-    //   return this.sophy.startConversation(userId, pageId)
-    //     .then(() => {
-    //       return this.sophy.respond(userId, userTexts.START, pageId);
-    //     })
-    //     .then(() => {
-    //       return this.sophy.respond(userId, userTexts.DENTIST, pageId);
-    //     })
-    //     .then(() => {
-    //       return this.sophy.respond(userId, userTexts.COMPLAINT, pageId);
-    //     })
-    //     .then(conversation => {
-    //       prevConversation = conversation;
-    //
-    //       return this.sophy.respond(userId, userTexts.START, pageId);
-    //     })
-    //     .then(conversation => {
-    //       if (compareConverations(prevConversation, conversation)) {
-    //         expect(false).to.be.true;
-    //       }
-    //
-    //       return this.sophy.respond(userId, userTexts.DENTIST, pageId);
-    //     })
-    //     .then(() => {
-    //       return this.sophy.respond(userId, userTexts.COMPLAINT, pageId);
-    //     })
-    //     .then(() => {
-    //       return this.sophy.respond(userId, userTexts.HOUR, pageId);
-    //     })
-    //     .then(() => {
-    //       return this.sophy.respond(userId, userTexts.CONFIRMATION, pageId);
-    //     })
-    //     .then(() => {
-    //       return this.sophy.respond(userId, userTexts.DAY, pageId);
-    //     })
-    //     .then(conversation => {
-    //       const context = conversation.context;
-    //
-    //       return this.estimator.estimate(context)
-    //         .then(duration => {
-    //           const request = getRequest(conversation, duration);
-    //
-    //           return this.assistant.validate(request);
-    //         });
-    //     })
-    //     .then(() => {
-    //       return this.sophy.respond(userId, userTexts.CONFIRMATION, pageId);
-    //     })
-    //     .then(conversation => {
-    //       const context = conversation.context;
-    //
-    //       return this.estimator.estimate(context)
-    //         .then(duration => {
-    //           const request = getRequest(conversation, duration);
-    //
-    //           return this.assistant.validate(request)
-    //             .catch(err => {
-    //               expect(err).instanceof(BusyTimeError);
-    //             });
-    //         });
-    //     });
-    // });
+    it("the first selected date by an user has been reserved by someone else.", () => {
+      const userId = this.user.recipientId;
+      const pageId = this.user._page.pageId;
+
+      return this.estimator.estimate({ reason: { duration: { hours: 0, minutes: 30 } } })
+        .then(duration => {
+          const request = {
+            calendarId: config.calendars.id,
+            sender: this.user.name,
+            description: {},
+            day: userTexts.DAY,
+            hour: userTexts.HOUR,
+            duration: duration
+          };
+
+          return this.assistant.book(request);
+        })
+        .then(() => {
+          return this.sophy.startConversation(userId, pageId)
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.START, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.DENTIST, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.COMPLAINT, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.HOUR, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.CONFIRMATION, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.DAY, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.CONFIRMATION, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.NEW_HOUR, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.CONFIRMATION, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.NEW_DAY, pageId);
+        })
+        .then(conversation => {
+          const context = conversation.context;
+
+          return this.estimator.estimate(context)
+            .then(duration => {
+              const request = getRequest(conversation, duration);
+
+              return this.assistant.validate(request);
+            });
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.CONFIRMATION, pageId);
+        })
+        .then(conversation => {
+          const context = conversation.context;
+
+          return this.estimator.estimate(context)
+            .then(duration => {
+              const request = getRequest(conversation, duration);
+
+              return this.assistant.validate(request)
+                .then(() => {
+                  expect(true).to.be.false;
+                })
+                .catch(err => {
+                   expect(err).instanceof(BusyTimeError);
+                });
+            });
+        });
+    });
+
+    it("the first date selected by an user is expired.", () => {
+      const userId = this.user.recipientId;
+      const pageId = this.user._page.pageId;
+
+      return this.sophy.startConversation(userId, pageId)
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.START, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.DENTIST, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.COMPLAINT, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.HOUR, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.CONFIRMATION, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.OLD_DAY, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.CONFIRMATION, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.DAY, pageId);
+        })
+        .then(conversation => {
+          const context = conversation.context;
+
+          return this.estimator.estimate(context)
+            .then(duration => {
+              const request = getRequest(conversation, duration);
+
+              return this.assistant.validate(request);
+            });
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.CONFIRMATION, pageId);
+        })
+        .then(conversation => {
+          const context = conversation.context;
+
+          return this.estimator.estimate(context)
+            .then(duration => {
+              const request = getRequest(conversation, duration);
+
+              return this.assistant.validate(request)
+                .then(() => {
+                  expect(true).to.be.false;
+                })
+                .catch(err => {
+                  expect(err).instanceof(BusyTimeError);
+                });
+            });
+        });
+    });
+
+    it("the first date selected by an user resides outside the employee's working time.", () => {
+      const userId = this.user.recipientId;
+      const pageId = this.user._page.pageId;
+
+      return this.sophy.startConversation(userId, pageId)
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.START, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.DENTIST, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.COMPLAINT, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.HOUR_THAT_IS_OUTSIDE_WORKING_TIME, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.CONFIRMATION, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.DAY, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.CONFIRMATION, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.HOUR, pageId);
+        })
+        .then(conversation => {
+          const context = conversation.context;
+
+          return this.estimator.estimate(context)
+            .then(duration => {
+              const request = getRequest(conversation, duration);
+
+              return this.assistant.validate(request);
+            });
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.CONFIRMATION, pageId);
+        })
+        .then(conversation => {
+          const context = conversation.context;
+
+          return this.estimator.estimate(context)
+            .then(duration => {
+              const request = getRequest(conversation, duration);
+
+              return this.assistant.validate(request)
+                .then(() => {
+                  expect(true).to.be.false;
+                })
+                .catch(err => {
+                  expect(err).instanceof(BusyTimeError);
+                });
+            });
+        });
+    });
+
+    it("in the middle of the reservation lifecycle an user decides to start again.", () => {
+
+    });
   });
 
   context("that ends up with two reservations", () => {
@@ -401,10 +554,11 @@ describe("The bot maintains a conversation", () => {
               const request = getRequest(conversation, duration);
 
               return this.assistant.validate(request)
+                .then(() => {
+                  expect(true).to.be.false;
+                })
                 .catch(err => {
-                  if (err instanceof BusyTimeError) {
-                    return true;
-                  }
+                  expect(err).instanceof(BusyTimeError);
                 });
             });
         })
@@ -447,6 +601,9 @@ describe("The bot maintains a conversation", () => {
               const request = getRequest(conversation, duration);
 
               return this.assistant.validate(request)
+                .then(() => {
+                  expect(true).to.be.false;
+                })
                 .catch(err => {
                   expect(err).instanceof(BusyTimeError);
                 });
