@@ -26,6 +26,14 @@ const extractor = new EntityExtractor({
   }
 });
 
+const {
+  BusyTimeError,
+  OutsideWorkingTimeError,
+  ExpiredDateError,
+  InvalidDayFormatError,
+  InvalidHourFormatError
+} = require('@fanatic/reservation/errors');
+
 const dentistStep = (context) => {
   if (context.dentist) {
     delete context.dentist_step;
@@ -108,7 +116,23 @@ const book = (manager, assistant) => {
                 resolve(mergedContext);
               });
           })
-          .catch(err => reject(err));
+          .catch(err => {
+            if (err instanceof BusyTimeError) {
+              mergedContext.busy_time_error = true;
+
+              resolve(mergedContext);
+            } else if (err instanceof OutsideWorkingTimeError) {
+              mergedContext.outside_working_time_error = true;
+
+              resolve(mergedContext);
+            } else if (err instanceof ExpiredDateError) {
+              mergedContext.expired_date_error = true;
+
+              resolve(mergedContext);
+            } else {
+              reject(err);
+            }
+          });
       } else {
         resolve(mergedContext);
       }
