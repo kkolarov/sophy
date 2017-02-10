@@ -101,7 +101,7 @@ const book = (manager, assistant) => {
                   calendarId: context.dentist.calendarId,
                   sender: context.recipient.name,
                   description: {
-                    complaints: context.reason
+                    referral: conversation.metadata.referral || {}
                   },
                   day: conversation.metadata.day,
                   hour: context.hour,

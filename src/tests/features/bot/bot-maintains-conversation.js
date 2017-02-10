@@ -169,7 +169,7 @@ describe("The bot maintains a conversation", () => {
       const userId = this.user.recipientId;
       const pageId = this.user._page.pageId;
 
-      return this.sophy.startConversation(userId, pageId)
+      return this.sophy.start(userId, pageId)
         .then(() => {
           return this.sophy.respond(userId, userTexts.START, pageId);
         })
@@ -231,7 +231,7 @@ describe("The bot maintains a conversation", () => {
 
       let prevConversation = null;
 
-      return this.sophy.startConversation(userId, pageId)
+      return this.sophy.start(userId, pageId)
         .then(() => {
           return this.sophy.respond(userId, userTexts.WRONG_DENTIST, pageId);
         })
@@ -320,7 +320,7 @@ describe("The bot maintains a conversation", () => {
           return this.assistant.book(request);
         })
         .then(() => {
-          return this.sophy.startConversation(userId, pageId)
+          return this.sophy.start(userId, pageId)
         })
         .then(() => {
           return this.sophy.respond(userId, userTexts.START, pageId);
@@ -387,7 +387,7 @@ describe("The bot maintains a conversation", () => {
       const userId = this.user.recipientId;
       const pageId = this.user._page.pageId;
 
-      return this.sophy.startConversation(userId, pageId)
+      return this.sophy.start(userId, pageId)
         .then(() => {
           return this.sophy.respond(userId, userTexts.START, pageId);
         })
@@ -447,7 +447,7 @@ describe("The bot maintains a conversation", () => {
       const userId = this.user.recipientId;
       const pageId = this.user._page.pageId;
 
-      return this.sophy.startConversation(userId, pageId)
+      return this.sophy.start(userId, pageId)
         .then(() => {
           return this.sophy.respond(userId, userTexts.START, pageId);
         })
@@ -514,7 +514,7 @@ describe("The bot maintains a conversation", () => {
       const userId = this.user.recipientId;
       const pageId = this.user._page.pageId;
 
-      return this.sophy.startConversation(userId, pageId)
+      return this.sophy.start(userId, pageId)
         .then(() => {
           return this.sophy.respond(userId, userTexts.START, pageId);
         })

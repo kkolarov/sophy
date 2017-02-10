@@ -1,26 +1,56 @@
 'use strict';
 
 const config = require('config');
+const qs = require('querystring');
 
 const express = require('express');
 
-const BOT_START = config.bot.conversation.start;
+const START_CONVERSATION = config.bot.conversation.start;
 
 function fbRouter(sophy, logger) {
   const router = express.Router();
+
+  sophy.on('referral', function(event) {
+    const userId = event.sender.id;
+    const pageId = event.recipient.id;
+    const referral = event.referral.ref;
+
+    const data = {
+      metadata: {
+        referral: qs.parse(referral)
+      }
+    };
+
+    sophy.forget(userId, pageId)
+      .then(conversation => {
+        return sophy.store(userId, data);
+      })
+      .then(() => {
+        return sophy.respond(userId, START_CONVERSATION[0], pageId);
+      })
+      .catch(err => {
+        if (err instanceof Error) {
+          logger.error(err.stack);
+        } else {
+          logger.error(err);
+        }
+      });
+  });
 
   sophy.on('message', function(event) {
     const text = event.message.text;
     const userId = event.sender.id;
     const pageId = event.recipient.id;
 
-    if (BOT_START.indexOf(text) > -1) {
-      sophy.restartConversation(userId, pageId)
+    if (START_CONVERSATION.indexOf(text) > -1) {
+      sophy.forget(userId, pageId)
         .then(() => {
           sophy.respond(userId, text, pageId)
             .catch(err => {
               if (err instanceof Error) {
                 logger.error(err.stack);
+              } else {
+                logger.error(err);
               }
             });
         });
@@ -29,6 +59,8 @@ function fbRouter(sophy, logger) {
         .catch(err => {
           if (err instanceof Error) {
             logger.error(err.stack);
+          } else {
+            logger.error(err);
           }
         });
     }
@@ -39,13 +71,15 @@ function fbRouter(sophy, logger) {
     const pageId = event.recipient.id;
     const userId = event.sender.id;
 
-    if (BOT_START.indexOf(payload) > -1) {
-      sophy.restartConversation(userId, pageId)
+    if (START_CONVERSATION.indexOf(payload) > -1) {
+      sophy.forget(userId, pageId)
         .then(() => {
           sophy.respond(userId, payload, pageId)
             .catch(err => {
               if (err instanceof Error) {
                 logger.error(err.stack);
+              } else {
+                logger.error(err);
               }
             });
         });
@@ -54,6 +88,8 @@ function fbRouter(sophy, logger) {
         .catch(err => {
           if (err instanceof Error) {
             logger.error(err.stack);
+          } else {
+            logger.error(err);
           }
         });
     }
