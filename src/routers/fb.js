@@ -21,12 +21,12 @@ function fbRouter(sophy, logger) {
       }
     };
 
-    sophy.forget(userId, pageId)
-      .then(conversation => {
-        return sophy.store(userId, data);
-      })
+    sophy.forget(userId)
       .then(() => {
         return sophy.respond(userId, START_CONVERSATION[0], pageId);
+      })
+      .then(() => {
+        return sophy.store(userId, data);
       })
       .catch(err => {
         if (err instanceof Error) {
@@ -43,19 +43,24 @@ function fbRouter(sophy, logger) {
     const pageId = event.recipient.id;
 
     if (START_CONVERSATION.indexOf(text) > -1) {
-      sophy.forget(userId, pageId)
+      sophy.forget(userId)
         .then(() => {
-          sophy.respond(userId, text, pageId)
-            .catch(err => {
-              if (err instanceof Error) {
-                logger.error(err.stack);
-              } else {
-                logger.error(err);
-              }
-            });
+          return sophy.respond(userId, text, pageId);
+        })
+        .catch(err => {
+          if (err instanceof Error) {
+            logger.error(err.stack);
+          } else {
+            logger.error(err);
+          }
         });
     } else {
-      sophy.respond(userId, text, pageId)
+      sophy.hasMemento(userId)
+        .then(predicate => {
+          if (predicate) {
+            return sophy.respond(userId, text, pageId);
+          }
+        })
         .catch(err => {
           if (err instanceof Error) {
             logger.error(err.stack);
@@ -72,19 +77,24 @@ function fbRouter(sophy, logger) {
     const userId = event.sender.id;
 
     if (START_CONVERSATION.indexOf(payload) > -1) {
-      sophy.forget(userId, pageId)
+      sophy.forget(userId)
         .then(() => {
-          sophy.respond(userId, payload, pageId)
-            .catch(err => {
-              if (err instanceof Error) {
-                logger.error(err.stack);
-              } else {
-                logger.error(err);
-              }
-            });
+          return sophy.respond(userId, payload, pageId);
+        })
+        .catch(err => {
+          if (err instanceof Error) {
+            logger.error(err.stack);
+          } else {
+            logger.error(err);
+          }
         });
     } else {
-      sophy.respond(userId, payload, pageId)
+      sophy.hasMemento(userId, pageId)
+        .then(predicate => {
+          if (predicate) {
+            return sophy.respond(userId, payload, pageId);
+          }
+        })
         .catch(err => {
           if (err instanceof Error) {
             logger.error(err.stack);
