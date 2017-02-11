@@ -31,7 +31,7 @@
       "appTokenUri": ""
     }
   },
-  "messenger_templates": {
+  "messengerTemplates": {
     "reservation": {
       "title": "Запазен час",
       "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/reservation.jpg",
@@ -42,8 +42,8 @@
         "messenger_extensions": true
       }
     },
-    "picker": {
-      "time": {
+    "pickers": {
+      "addTime": {
         "button": {
             "type": "web_url",
             "title": "Избери час",
@@ -51,28 +51,26 @@
             "messenger_extensions": true
         }
       },
-      "calendar": {
-        "day": {
-          "title": "Календар",
-          "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/pic%207_00000.jpg",
-          "description": "",
-          "button": {
-            "type": "web_url",
-            "title": "Отвори",
-            "webview_height_ratio": "tall",
-            "messenger_extensions": true
-          }
-        },
-        "time": {
-          "title": "",
-          "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/pic%207_00000.jpg",
-          "description": "",
-          "button": {
-            "type": "web_url",
-            "title": "Промени часа",
-            "webview_height_ratio": "tall",
-            "messenger_extensions": true
-          }
+      "updateTime": {
+        "title": "",
+        "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/pic%207_00000.jpg",
+        "description": "",
+        "button": {
+          "type": "web_url",
+          "title": "Промени часа",
+          "webview_height_ratio": "tall",
+          "messenger_extensions": true
+        }
+      },
+      "day": {
+        "title": "Календар",
+        "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/pic%207_00000.jpg",
+        "description": "",
+        "button": {
+          "type": "web_url",
+          "title": "Отвори",
+          "webview_height_ratio": "tall",
+          "messenger_extensions": true
         }
       }
     },

@@ -1,6 +1,6 @@
 'use strict';
 
-const TypingReply = require('@fanatic/messenger').templates.TypingReply;
+const TypingReply = require('@fanatic/messenger/templates/TypingReply');
 
 module.exports = (logger) => {
   return ({ name, priority }) => {

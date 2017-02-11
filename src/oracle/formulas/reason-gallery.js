@@ -2,8 +2,8 @@
 
 const config = require('config');
 
-const TextReply = require('@fanatic/messenger').templates.TextReply;
-const ReasonsGallery = require('../../messenger/templates').ReasonsGallery;
+const TextReply = require('@fanatic/messenger/templates/TextReply');
+const ReasonGallery = require('../../messenger/templates/ReasonGallery');
 
 module.exports = (logger) => {
   return ({ name, priority }) => {
@@ -21,7 +21,7 @@ module.exports = (logger) => {
           this.prophecy.message
         );
 
-        const reasons = config.messenger_templates.reasons;
+        const reasons = config.messengerTemplates.reasons;
 
         for (let reason of reasons) {
           if (reason.title == config.prophecyIntepreter.reasonGallery.callCard.title) {
@@ -36,7 +36,7 @@ module.exports = (logger) => {
           }
         }
 
-        const gallery = new ReasonsGallery(
+        const gallery = new ReasonGallery(
           this.prophecy.recipientId,
           reasons
         );

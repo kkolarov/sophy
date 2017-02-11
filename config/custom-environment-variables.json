@@ -9,26 +9,24 @@
       "id": "USER_ID"
     }
   },
-  "messenger_templates": {
-    "picker": {
-      "time": {
+  "messengerTemplates": {
+    "pickers": {
+      "addTime": {
         "button": {
           "url": "TIME_PICKER_WEBVIEW",
           "fallback_url": "FALLBACK_URL"
         }
       },
-      "calendar": {
-        "day": {
-          "button": {
-            "url": "DAY_PICKER_WEBVIEW",
-            "fallback_url": "FALLBACK_URL"
-          }
-        },
-        "time": {
-          "button": {
-            "url": "TIME_PICKER_WEBVIEW",
-            "fallback_url": "FALLBACK_URL"
-          }
+      "updateTime": {
+        "button": {
+          "url": "TIME_PICKER_WEBVIEW",
+          "fallback_url": "FALLBACK_URL"
+        }
+      },
+      "day": {
+        "button": {
+          "url": "DAY_PICKER_WEBVIEW",
+          "fallback_url": "FALLBACK_URL"
         }
       }
     },

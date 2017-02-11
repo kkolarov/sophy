@@ -1,7 +1,7 @@
 'use strict';
 
-const TextReply = require('@fanatic/messenger').templates.TextReply;
-const DentistsGallery = require('../../messenger/templates').DentistsGallery;
+const TextReply = require('@fanatic/messenger/templates/TextReply');
+const DentistGallery = require('../../messenger/templates/DentistGallery');
 
 const Employee = require('../../models/Employee');
 
@@ -26,7 +26,7 @@ module.exports = (manager, logger) => {
                   this.prophecy.message
                 );
 
-                const suggestions = new DentistsGallery(
+                const suggestions = new DentistGallery(
                   this.prophecy.recipientId,
                   employees
                 );

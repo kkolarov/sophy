@@ -4,7 +4,7 @@
 *
 * @author Kamen Kolarov
 */
-class ReasonsGallery {
+class ReasonGallery {
 
   constructor(recipientId, reasons = []) {
     this._recipientId = recipientId;
@@ -29,4 +29,4 @@ class ReasonsGallery {
   }
 }
 
-module.exports = ReasonsGallery;
+module.exports = ReasonGallery;

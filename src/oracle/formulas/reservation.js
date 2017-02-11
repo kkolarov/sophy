@@ -2,7 +2,7 @@
 
 const config = require('config');
 
-const Card = require('../../messenger/templates').Card;
+const Card = require('../../messenger/templates/Card');
 
 module.exports = (logger) => {
   return ({ name, priority }) => {
@@ -15,7 +15,7 @@ module.exports = (logger) => {
         R.when(context.dentist && context.reason && context.day && context.hour);
       },
       consequence: function(R) {
-        const configuration = config.messenger_templates.reservation;
+        const configuration = config.messengerTemplates.reservation;
 
         const buttons = [configuration.button];
 

@@ -12,11 +12,11 @@ module.exports = (manager, logger) => {
       name: "When the bot processes a client's response.",
       priority: 512
     }),
-    require('./dentists-gallery')(manager, logger)({
+    require('./dentist-gallery')(manager, logger)({
       name: "When the bot suggests a collection of dentists.",
       priority: 128
     }),
-    require('./complaints-gallery')(logger)({
+    require('./reason-gallery')(logger)({
       name: "When the bot suggests a collection of complaints.",
       priority: 64
     }),

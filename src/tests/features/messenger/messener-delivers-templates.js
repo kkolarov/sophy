@@ -12,8 +12,8 @@ const sinon = require('sinon');
 const {
   Card,
   Picker,
-  ReasonsGallery,
-  DentistsGallery
+  ReasonGallery,
+  DentistGallery
 } = require('../../../messenger/templates');
 
 const {
@@ -80,7 +80,7 @@ describe("The messenger delivers templates", () => {
       .then(templates => {
         expect(templates).to.have.lengthOf(2);
         expect(templates[0]).instanceof(TextReply);
-        expect(templates[1]).instanceof(DentistsGallery);
+        expect(templates[1]).instanceof(DentistGallery);
       });
   });
 
@@ -92,7 +92,7 @@ describe("The messenger delivers templates", () => {
       .then(templates => {
         expect(templates).to.have.lengthOf(2);
         expect(templates[0]).instanceof(TextReply);
-        expect(templates[1]).instanceof(ReasonsGallery);
+        expect(templates[1]).instanceof(ReasonGallery);
       });
   });
 
