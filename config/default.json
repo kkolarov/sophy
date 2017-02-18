@@ -53,7 +53,7 @@
       },
       "updateTime": {
         "title": "",
-        "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/pic%207_00000.jpg",
+        "imageUrl": "",
         "description": "",
         "button": {
           "type": "web_url",
@@ -64,7 +64,7 @@
       },
       "day": {
         "title": "Календар",
-        "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/pic%207_00000.jpg",
+        "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/calendar.jpg",
         "description": "",
         "button": {
           "type": "web_url",
@@ -78,7 +78,7 @@
       {
         "title": "Профилактичен преглед",
         "subtitle": "",
-        "image_url": "https://dl.dropboxusercontent.com/u/108059564/pic%202%20white_00000.jpg",
+        "image_url": "https://dl.dropboxusercontent.com/u/108059564/medical_check.jpg",
         "buttons": [
           {
             "type": "postback",
@@ -88,9 +88,21 @@
         ]
       },
       {
+        "title": "Зъбен камък",
+        "subtitle": "",
+        "image_url": "https://dl.dropboxusercontent.com/u/108059564/tartar.jpg",
+        "buttons": [
+          {
+            "type": "postback",
+            "title": "Зъбен камък",
+            "payload": "Зъбен камък"
+          }
+        ]
+      },
+      {
         "title": "Болка в зъба",
         "subtitle": "",
-        "image_url": "https://dl.dropboxusercontent.com/u/108059564/pic%201_00000.jpg",
+        "image_url": "https://dl.dropboxusercontent.com/u/108059564/tooth_pain.jpg",
         "buttons": [
           {
             "type": "postback",
@@ -102,7 +114,7 @@
       {
         "title": "Счупен зъб",
         "subtitle": "",
-        "image_url": "https://dl.dropboxusercontent.com/u/108059564/pic%203_00000.jpg",
+        "image_url": "https://dl.dropboxusercontent.com/u/108059564/broken_tooth.jpg",
         "buttons": [
           {
             "type": "postback",
