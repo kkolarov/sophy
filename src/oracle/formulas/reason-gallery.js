@@ -23,6 +23,8 @@ module.exports = (logger) => {
 
         const reasons = config.messengerTemplates.reasons;
 
+        // console.log(context);
+
         for (let reason of reasons) {
           if (reason.title == config.prophecyIntepreter.reasonGallery.callCard.title) {
             if (context.hasOwnProperty('dentist') && context.dentist.phoneNumber) {
