@@ -19,6 +19,7 @@ const existOneEmployee = (manager) => {
 
             context.dentist = {
               name: employee.name,
+              phoneNumber: employee.phoneNumber,
               pictureUrl: employee.pictureUrl,
               calendarId: employee.calendarId,
               workingTime: {
