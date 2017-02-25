@@ -1,6 +1,6 @@
 'use strict';
 
-const TypingReply = require('@fanatic/messenger').templates.TypingReply;
+const TypingReply = require('@fanatic/messenger/templates/TypingReply');
 
 module.exports = (logger) => {
   return ({ name, priority }) => {
@@ -8,9 +8,7 @@ module.exports = (logger) => {
       name: name,
       priority: priority,
       condition: function(R) {
-        let context = this.prophecy.context;
-
-        R.when(context.thinking);
+        R.when(this.prophecy.context.thinking);
       },
       consequence: function(R) {
         const context = this.prophecy.context;

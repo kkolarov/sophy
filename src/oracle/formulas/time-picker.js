@@ -2,7 +2,7 @@
 
 const config = require('config');
 
-const ButtonReply = require('@fanatic/messenger').templates.ButtonReply;
+const ButtonReply = require('@fanatic/messenger/templates/ButtonReply');
 
 module.exports = (logger) => {
   return ({ name, priority }) => {
@@ -15,7 +15,7 @@ module.exports = (logger) => {
         R.when(context.hour_step && !context.hour);
       },
       consequence: function(R) {
-        const configuration = config.get('messenger_templates').get('picker').get('time');
+        const configuration = config.messengerTemplates.pickers.addTime;
 
         const buttons = [configuration.button];
 

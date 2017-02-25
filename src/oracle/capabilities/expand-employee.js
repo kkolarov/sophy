@@ -26,6 +26,7 @@ module.exports = ({context, entities}) => {
 
               mergedContext.dentist = {
                 name: employee.name,
+                phoneNumber: employee.phoneNumber,
                 pictureUrl: employee.pictureUrl,
                 calendarId: employee.calendarId,
                 workingTime: {

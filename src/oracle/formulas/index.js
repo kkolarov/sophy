@@ -4,15 +4,19 @@ const oo = -987654321;
 
 module.exports = (manager, logger) => {
   return [
+    require('./errors')(logger)({
+      name: "When the bot handles errors thrown by the Assistant.",
+      priority: 1028
+    }),
     require('./response-processing')(logger)({
       name: "When the bot processes a client's response.",
       priority: 512
     }),
-    require('./dentists-gallery')(manager, logger)({
+    require('./dentist-gallery')(manager, logger)({
       name: "When the bot suggests a collection of dentists.",
       priority: 128
     }),
-    require('./complaints-gallery')(logger)({
+    require('./reason-gallery')(logger)({
       name: "When the bot suggests a collection of complaints.",
       priority: 64
     }),
@@ -26,10 +30,10 @@ module.exports = (manager, logger) => {
     }),
     require('./day-picker')(logger)({
       name: "When the bot delivers a day picker from which a client can choose a preferred hour.",
-      priority: 4
+      priority: 8
     }),
     require('./reservation')(logger)({
-      name: "When the bot reserves time in a dentist's calendar.",
+      name: "When the bot makes a reservation in an employee's calendar.",
       priority: 2
     }),
     require('./default')(logger)({

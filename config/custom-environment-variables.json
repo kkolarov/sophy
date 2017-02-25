@@ -9,26 +9,24 @@
       "id": "USER_ID"
     }
   },
-  "messenger_templates": {
-    "picker": {
-      "time": {
+  "messengerTemplates": {
+    "pickers": {
+      "addTime": {
         "button": {
           "url": "TIME_PICKER_WEBVIEW",
           "fallback_url": "FALLBACK_URL"
         }
       },
-      "calendar": {
-        "day": {
-          "button": {
-            "url": "DAY_PICKER_WEBVIEW",
-            "fallback_url": "FALLBACK_URL"
-          }
-        },
-        "time": {
-          "button": {
-            "url": "TIME_PICKER_WEBVIEW",
-            "fallback_url": "FALLBACK_URL"
-          }
+      "updateTime": {
+        "button": {
+          "url": "TIME_PICKER_WEBVIEW",
+          "fallback_url": "FALLBACK_URL"
+        }
+      },
+      "day": {
+        "button": {
+          "url": "DAY_PICKER_WEBVIEW",
+          "fallback_url": "FALLBACK_URL"
         }
       }
     },
@@ -67,32 +65,37 @@
     "ConversationManager": "CONVERSATION_MANAGER_PATH"
   },
   "loggers": {
-    "prediction": {
+    "bot": {
+      "console": {
+        "level": "REPLY_LOG_LEVEL"
+      }
+    },
+    "oracle": {
       "console": {
         "level": "PREDICTION_LOG_LEVEL"
       }
     },
-    "reservation": {
+    "assistant": {
       "console": {
         "level": "RESERVATION_LOG_LEVEL"
       }
     },
-    "conversation": {
+    "manager": {
       "console": {
         "level": "CONVERSATION_LOG_LEVEL"
       }
     },
-    "route": {
+    "router": {
       "console": {
         "level": "ROUTE_LOG_LEVEL"
       }
     },
-    "message": {
+    "messenger": {
       "console": {
         "level": "MESSAGE_LOG_LEVEL"
       }
     },
-    "interpretation": {
+    "interpreter": {
       "console": {
         "level": "INTERPRETATION_LOG_LEVEL"
       }

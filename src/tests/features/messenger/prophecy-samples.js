@@ -24,7 +24,9 @@ const samples = (clientId) => {
           message: message,
           quickReplies: quickReplies,
           context: {
-            dentist: {},
+            dentist: {
+              phoneNumber: '3590894416041'
+            },
             reason_step: true
           },
           metadata: {

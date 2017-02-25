@@ -1,24 +1,75 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MN8W74G');</script>
+    <!-- End Google Tag Manager -->
+
     <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css" />
 
     <style>
       body {
-        font-family: ff-clan-web-pro,"Helvetica Neue",Helvetica,sans-serif !important;
+        font-family: 'San Francisco', -apple-system, BlinkMacSystemFont, '.SFNSText-Regular', Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif !importants;
+        background-color: #fcfcfc;
       }
 
       h1, h2, h3 {
         font-weight: 400;
       }
+
+      .navbar {
+        height: 66px !important;
+        box-shadow: 0px 2px 40px 0px rgba(0,0,0,0.08) !important;
+      }
+
+      .navbar-default {
+        background-color: white !important;
+      }
+
+      .logo {
+        font-weight: 200;
+        font-size: 18px;
+        color: #90949C;
+
+        -webkit-transition: opacity 0.2s ease;
+        -moz-transition: opacity 0.2s ease;
+        -ms-transition: opacity 0.2s ease;
+        -o-transition: opacity 0.2s ease;
+        transition: opacity 0.2s ease;
+      }
+
+      .navbar-default a {
+        font: inherit;
+        color: inherit;
+      }
+
+      a, a:hover, a:active, a:visited {
+        text-decoration: none !important;
+      }
+
+      .logo:hover {
+        opacity: 0.5;
+      }
     </style>
   </head>
   <body>
+      <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MN8W74G"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
     <nav class="navbar navbar-default">
       <div class="container">
-          <div class="col-md-6 col-md-offset-5">
-            <img src="/images/github.png" width=50 height=50 />
-          </div>
+          <div class="col-md-2 logo">
+            <a href="#">
+              <img id="brand-icon" src="/images/logo.png" width=55 height=55 />
+              <span id="employee-name">Sophy</span>
+            </div>
+          </a>
       </div>
     </nav>
 

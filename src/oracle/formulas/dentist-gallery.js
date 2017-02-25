@@ -1,7 +1,7 @@
 'use strict';
 
-const TextReply = require('@fanatic/messenger').templates.TextReply;
-const DentistsGallery = require('../../messenger/templates').DentistsGallery;
+const TextReply = require('@fanatic/messenger/templates/TextReply');
+const DentistGallery = require('../../messenger/templates/DentistGallery');
 
 const Employee = require('../../models/Employee');
 
@@ -19,14 +19,14 @@ module.exports = (manager, logger) => {
             const size = 10;
             const page = conversation.metadata.page;
 
-            Employee.findEmployeesByBusinessId(page._business, size)
+            return Employee.findEmployeesByBusinessId(page._business, size)
               .then(employees => {
                 const textReply = new TextReply(
                   this.prophecy.recipientId,
                   this.prophecy.message
                 );
 
-                const suggestions = new DentistsGallery(
+                const suggestions = new DentistGallery(
                   this.prophecy.recipientId,
                   employees
                 );
@@ -38,8 +38,8 @@ module.exports = (manager, logger) => {
                 R.stop();
               });
             }).catch(err => {
-              //TODO: The error message has to be logged into a this object.
-              console.log(err);
+              this.err = err;
+              R.stop();
             });
       }
     }

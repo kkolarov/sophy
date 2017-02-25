@@ -1,12 +1,7 @@
 'use strict';
 
-const _ = require('lodash');
-
 const EntityExtractor = require('./utilities/EntityExtractor');
 const extractor = new EntityExtractor({
-  day: {
-    extract: true
-  },
   yes_no: {
     extract: true
   }
@@ -15,14 +10,13 @@ const extractor = new EntityExtractor({
 module.exports = ({ context, entities }) => {
   return new Promise((resolve, reject) => {
     const extractedEntities = extractor.extract(entities);
-    const mergedContext = _.merge(context, extractedEntities);
 
-    if (mergedContext.yes_no === 'Не') {
-      delete mergedContext.day;
+    if (extractedEntities.yes_no === 'Не') {
+      delete context.day;
     } else {
-      delete mergedContext.day_step;
+      delete context.day_step;
     }
 
-    resolve(mergedContext);
+    resolve(context);
   });
 }

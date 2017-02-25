@@ -1,10 +1,17 @@
 {
   "bot": {
     "conversation": {
-      "completed": {
-        "property": "done"
+      "status": {
+        "completed": "done"
       },
       "start": ["Искам да си запиша час при зъболекар.", "Запазване на час"]
+    }
+  },
+  "prophecyIntepreter": {
+    "reasonGallery": {
+      "callCard": {
+        "title": "Друго оплакване"
+      }
     }
   },
   "services": {
@@ -24,7 +31,7 @@
       "appTokenUri": ""
     }
   },
-  "messenger_templates": {
+  "messengerTemplates": {
     "reservation": {
       "title": "Запазен час",
       "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/reservation.jpg",
@@ -35,8 +42,8 @@
         "messenger_extensions": true
       }
     },
-    "picker": {
-      "time": {
+    "pickers": {
+      "addTime": {
         "button": {
             "type": "web_url",
             "title": "Избери час",
@@ -44,28 +51,26 @@
             "messenger_extensions": true
         }
       },
-      "calendar": {
-        "day": {
-          "title": "Календар",
-          "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/pic%207_00000.jpg",
-          "description": "",
-          "button": {
-            "type": "web_url",
-            "title": "Отвори",
-            "webview_height_ratio": "tall",
-            "messenger_extensions": true
-          }
-        },
-        "time": {
-          "title": "",
-          "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/pic%207_00000.jpg",
-          "description": "",
-          "button": {
-            "type": "web_url",
-            "title": "Промени часа",
-            "webview_height_ratio": "tall",
-            "messenger_extensions": true
-          }
+      "updateTime": {
+        "title": "",
+        "imageUrl": "",
+        "description": "",
+        "button": {
+          "type": "web_url",
+          "title": "Промени часа",
+          "webview_height_ratio": "tall",
+          "messenger_extensions": true
+        }
+      },
+      "day": {
+        "title": "Календар",
+        "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/calendar.jpg",
+        "description": "",
+        "button": {
+          "type": "web_url",
+          "title": "Отвори",
+          "webview_height_ratio": "tall",
+          "messenger_extensions": true
         }
       }
     },
@@ -73,7 +78,7 @@
       {
         "title": "Профилактичен преглед",
         "subtitle": "",
-        "image_url": "https://dl.dropboxusercontent.com/u/108059564/pic%202%20white_00000.jpg",
+        "image_url": "https://dl.dropboxusercontent.com/u/108059564/medical_check.jpg",
         "buttons": [
           {
             "type": "postback",
@@ -83,9 +88,21 @@
         ]
       },
       {
+        "title": "Зъбен камък",
+        "subtitle": "",
+        "image_url": "https://dl.dropboxusercontent.com/u/108059564/tartar.jpg",
+        "buttons": [
+          {
+            "type": "postback",
+            "title": "Зъбен камък",
+            "payload": "Зъбен камък"
+          }
+        ]
+      },
+      {
         "title": "Болка в зъба",
         "subtitle": "",
-        "image_url": "https://dl.dropboxusercontent.com/u/108059564/pic%201_00000.jpg",
+        "image_url": "https://dl.dropboxusercontent.com/u/108059564/tooth_pain.jpg",
         "buttons": [
           {
             "type": "postback",
@@ -97,7 +114,7 @@
       {
         "title": "Счупен зъб",
         "subtitle": "",
-        "image_url": "https://dl.dropboxusercontent.com/u/108059564/pic%203_00000.jpg",
+        "image_url": "https://dl.dropboxusercontent.com/u/108059564/broken_tooth.jpg",
         "buttons": [
           {
             "type": "postback",
@@ -114,7 +131,7 @@
           {
             "type": "phone_number",
             "title": "Обади се",
-            "payload": "+359894416041"
+            "payload": ""
           }
         ]
       }
@@ -126,37 +143,43 @@
     "maxDays": 60
   },
   "loggers": {
-    "prediction": {
+    "bot": {
+      "console": {
+        "colorize": true,
+        "label": "Bot"
+      }
+    },
+    "oracle": {
       "console": {
         "colorize": true,
         "label": "Oracle"
       }
     },
-    "reservation": {
+    "assistant": {
       "console": {
         "colorize": true,
         "label": "Assistant"
       }
     },
-    "conversation": {
+    "manager": {
       "console": {
         "colorize": true,
         "label": "Conversation Manager"
       }
     },
-    "route": {
+    "router": {
       "console": {
         "colorize": true,
         "label": "Router"
       }
     },
-    "message": {
+    "messenger": {
       "console": {
         "colorize": true,
         "label": "Messenger"
       }
     },
-    "interpretation": {
+    "interpreter": {
       "console": {
         "colorize": true,
         "label": "Prophecy Interpreter"

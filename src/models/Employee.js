@@ -10,6 +10,10 @@ const employeeSchema = new Schema({
     type: String,
     required: true
   },
+  phoneNumber: {
+    type: String,
+    required: true
+  },
   position: {
     type: String,
     enum: ['dentist'],

@@ -1,98 +1,120 @@
 'use strict';
 
-const express = require('express');
 const config = require('config');
+const qs = require('querystring');
 
-const Bot = require('@fanatic/messenger').Bot;
+const express = require('express');
 
-const User = require('../models/User');
-const Page = require('../models/Page');
+const START_CONVERSATION = config.bot.conversation.start;
 
-const BOT_START = config.bot.conversation.start;
-
-function fbRouter(oracle, manager, logger) {
+function fbRouter(sophy, logger) {
   const router = express.Router();
 
-  const bot = new Bot(manager, User, Page, logger);
+  sophy.on('referral', function(event) {
+    const userId = event.sender.id;
+    const pageId = event.recipient.id;
+    const referral = event.referral.ref;
 
-  bot.settings({
-    pageValidationToken: config.services.facebook.pageValidationToken,
-    fbGraphURI: config.services.facebook.API.graph,
-    completedConversation: {
-      property: config.bot.conversation.completed.property
-    }
+    const data = {
+      metadata: {
+        referral: qs.parse(referral)
+      }
+    };
+
+    sophy.forget(userId)
+      .then(() => {
+        return sophy.respond(userId, START_CONVERSATION[0], pageId);
+      })
+      .then(() => {
+        return sophy.store(userId, data);
+      })
+      .catch(err => {
+        if (err instanceof Error) {
+          logger.error(err.stack);
+        } else {
+          logger.error(err);
+        }
+      });
   });
 
-  bot.on('message', function(event) {
+  sophy.on('message', function(event) {
     const text = event.message.text;
     const userId = event.sender.id;
     const pageId = event.recipient.id;
 
-    if (BOT_START.indexOf(text) > -1) {
-      this.startConversation(userId, pageId)
-        .then(conversation => {
-          return oracle.think(userId, conversation).then(() => {
-            return oracle.predict(userId, text, conversation);
-          });
-        }).
-        catch(err => {
+    if (START_CONVERSATION.indexOf(text) > -1) {
+      sophy.forget(userId)
+        .then(() => {
+          return sophy.respond(userId, text, pageId);
+        })
+        .catch(err => {
           if (err instanceof Error) {
             logger.error(err.stack);
+          } else {
+            logger.error(err);
           }
         });
     } else {
-      this.loadConversation(userId, pageId)
-        .then(conversation => {
-          return oracle.think(userId, conversation).then(() => {
-            return oracle.predict(userId, text, conversation);
-          });
-        }).
-        catch(err => {
+      sophy.hasMemento(userId)
+        .then(predicate => {
+          if (predicate) {
+            return sophy.respond(userId, text, pageId);
+          }
+        })
+        .catch(err => {
           if (err instanceof Error) {
             logger.error(err.stack);
+          } else {
+            logger.error(err);
           }
         });
     }
   });
 
-  bot.on('postback', function(event) {
+  sophy.on('postback', function(event) {
     const payload = event.postback.payload;
     const pageId = event.recipient.id;
     const userId = event.sender.id;
 
-    if (BOT_START.indexOf(payload) > -1) {
-      this.startConversation(userId, pageId)
-        .then(conversation => {
-          return oracle.think(userId, conversation).then(() => {
-            return oracle.predict(userId, payload, conversation);
-          });
-        }).
-        catch(err => {
+    if (START_CONVERSATION.indexOf(payload) > -1) {
+      sophy.forget(userId)
+        .then(() => {
+          return sophy.respond(userId, payload, pageId);
+        })
+        .catch(err => {
           if (err instanceof Error) {
             logger.error(err.stack);
+          } else {
+            logger.error(err);
           }
         });
     } else {
-      this.loadConversation(userId, pageId)
-        .then(conversation => {
-          return oracle.think(userId, conversation).then(() => {
-            return oracle.predict(userId, payload, conversation);
-          });
-        }).
-        catch(err => {
+      sophy.hasMemento(userId, pageId)
+        .then(predicate => {
+          if (predicate) {
+            return sophy.respond(userId, payload, pageId);
+          }
+        })
+        .catch(err => {
           if (err instanceof Error) {
             logger.error(err.stack);
+          } else {
+            logger.error(err);
           }
         });
     }
   });
 
   router.get('/', (req, res) => {
-    bot.verify(req, res);
+    if (sophy.verify(req)) {
+      res.status(200).send(req.query['hub.challenge']);
+    } else {
+      res.sendStatus(403);
+    }
   });
 
   router.post('/', (req, res) => {
-    bot.handle(req.body);
+    sophy.handle(req.body);
 
     res.sendStatus(200);
   });

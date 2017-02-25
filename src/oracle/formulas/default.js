@@ -1,6 +1,6 @@
 'use strict';
 
-const QuickReply = require('@fanatic/messenger').templates.QuickReply;
+const QuickReply = require('@fanatic/messenger/templates/QuickReply');
 
 module.exports = (logger) => {
   return ({ name, priority }) => {
@@ -8,7 +8,7 @@ module.exports = (logger) => {
       name: name,
       priority: priority,
       condition: function(R) {
-          R.when(true);
+        R.when(true);
       },
       consequence: function(R) {
         const context = this.prophecy.context;
