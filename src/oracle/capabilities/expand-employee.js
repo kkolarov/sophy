@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 
-const EntityExtractor = require('./utilities/EntityExtractor');
+const EntityExtractor = require('@fanatic/Oracle/utilities/EntityExtractor');
 const Employee = require('../../models/Employee');
 
 const extractor = new EntityExtractor({

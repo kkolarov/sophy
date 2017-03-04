@@ -3,8 +3,8 @@
 const config = require('config');
 const _ = require('lodash');
 
-const EntityExtractor = require('./utilities/EntityExtractor');
-const DentalVisitEstimator = require('../../reservation/estimators').DentalVisitEstimator;
+const EntityExtractor = require('@fanatic/Oracle/utilities/EntityExtractor');
+const DentalVisitEstimator = require('../../reservation/estimators/DentalVisitEstimator');
 
 const estimator = new DentalVisitEstimator();
 const extractor = new EntityExtractor({

@@ -2,8 +2,8 @@
 
 const config = require('config');
 
-const Picker = require('../../messenger/templates').Picker;
-const ButtonReply = require('@fanatic/messenger').templates.ButtonReply;
+const Picker = require('../../messenger/templates/Picker');
+const ButtonReply = require('@fanatic/messenger/templates/ButtonReply');
 
 module.exports = (logger) => {
   return ({ name, priority }) => {
