@@ -70,43 +70,19 @@ const employeeSchema = new Schema({
 employeeSchema.set('autoIndex', true);
 
 employeeSchema.statics.findEmployeeByName = (name) => {
-  return new Promise((resolve, reject) => {
-    Employee.find({ name: name })
-      .populate('_business')
-      .exec(function (err, employee) {
-        if (!err) {
-          resolve(employee);
-        } else {
-          reject(err);
-        }
-      });
-  });
+  return Employee.find({ name: name })
+    .populate('_business')
+    .exec();
 }
 
 employeeSchema.statics.findEmployeesByBusinessId = (businesId, size, order = 1) => {
-  return new Promise((resolve, reject) => {
-    Employee.find({ _business: businesId }, (err, employees) => {
-      if (!err) {
-        resolve(employees);
-      } else {
-        reject(err);
-      }
-    })
+  return Employee.find({ _business: businesId })
     .limit(size)
     .sort({ created_date: order });
-  });
 }
 
 employeeSchema.statics.findEmployeeByCalendarId = (calendarId) => {
-  return new Promise((resolve, reject) => {
-    Employee.findOne({ calendarId: calendarId }, (err, employee) => {
-      if (!err) {
-        resolve(employee);
-      } else {
-        reject(err);
-      }
-    });
-  });
+  return Employee.findOne({ calendarId: calendarId });
 }
 
 const Employee = mongoose.model('Employee', employeeSchema);

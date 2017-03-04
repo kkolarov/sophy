@@ -31,27 +31,11 @@ const userSchema = new Schema({
 });
 
 userSchema.statics.findUserByRecipientId = (recipientId) => {
-  return new Promise((resolve, reject) => {
-    User.findOne({ recipientId: recipientId }, (err, user) => {
-      if (!err) {
-        resolve(user);
-      } else {
-        reject(err);
-      }
-    });
-  });
+  return User.findOne({ recipientId: recipientId });
 }
 
 userSchema.statics.findUsers = () => {
-  return new Promise((resolve, reject) => {
-    User.find().populate('_page').exec((err, users) => {
-      if (!err) {
-        resolve(users);
-      } else {
-        reject(err);
-      }
-    });
-  });
+  return User.find().populate('_page').exec();
 }
 
 const User = mongoose.model('User', userSchema);
