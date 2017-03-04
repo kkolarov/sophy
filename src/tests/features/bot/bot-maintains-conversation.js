@@ -33,7 +33,10 @@ const userTexts = {
   START: "Искам да си запиша час при зъболекар.",
   DENTIST: "",
   WRONG_DENTIST: "Д-р Радева",
-  COMPLAINT: "Болка в зъба",
+  TOOTH_PAIN: "Болка в зъба",
+  MEDICAL_CHECK: "Профилактичен преглед",
+  TARTAR: "Зъбен камък",
+  BROKEN_TOOTH: "Счупен зъб",
   WRONG_COMPLAINT: "Болка в стомаха",
   HOUR: "10:00",
   WRONG_HOUR: "100:000",
@@ -139,7 +142,7 @@ describe("The bot maintains a conversation", () => {
       });
   });
 
-  before("A random user will be loaded that have gone through the reservation procedure.", () => {
+  before("A random user will be loaded that has gone through the reservation procedure.", () => {
     const User = require('../../../models/User');
 
     return User.findUsers()
@@ -152,7 +155,7 @@ describe("The bot maintains a conversation", () => {
       });
   });
 
-  beforeEach("All reservations within 2 months will be deleted from a calendar.", () => {
+  beforeEach("All reservations within 2 months will be deleted from the calendar.", () => {
     const calendarId = config.calendars.id;
 
     const date = {
@@ -164,6 +167,222 @@ describe("The bot maintains a conversation", () => {
   });
 
   context("that ends up with a reservation given that", () => {
+
+    it("the complain is a medical check.", () => {
+      const userId = this.user.recipientId;
+      const pageId = this.user._page.pageId;
+
+      return this.sophy.start(userId, pageId)
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.START, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.DENTIST, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.MEDICAL_CHECK, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.HOUR, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.CONFIRMATION, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.DAY, pageId);
+        })
+        .then(conversation => {
+          const context = conversation.context;
+
+          return this.estimator.estimate(context)
+            .then(duration => {
+              const request = getRequest(conversation, duration);
+
+              return this.assistant.validate(request);
+            });
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.CONFIRMATION, pageId);
+        })
+        .then(conversation => {
+          const context = conversation.context;
+
+          return this.estimator.estimate(context)
+            .then(duration => {
+              const request = getRequest(conversation, duration);
+
+              return this.assistant.validate(request)
+                .then(() => {
+                  return Promise.reject(new Error());
+                })
+                .catch(err => {
+                  expect(err).instanceof(BusyTimeError);
+                });
+            });
+        });
+    });
+
+    it("the complain is tartar.", () => {
+      const userId = this.user.recipientId;
+      const pageId = this.user._page.pageId;
+
+      return this.sophy.start(userId, pageId)
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.START, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.DENTIST, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.TARTAR, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.HOUR, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.CONFIRMATION, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.DAY, pageId);
+        })
+        .then(conversation => {
+          const context = conversation.context;
+
+          return this.estimator.estimate(context)
+            .then(duration => {
+              const request = getRequest(conversation, duration);
+
+              return this.assistant.validate(request);
+            });
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.CONFIRMATION, pageId);
+        })
+        .then(conversation => {
+          const context = conversation.context;
+
+          return this.estimator.estimate(context)
+            .then(duration => {
+              const request = getRequest(conversation, duration);
+
+              return this.assistant.validate(request)
+                .then(() => {
+                  return Promise.reject(new Error());
+                })
+                .catch(err => {
+                  expect(err).instanceof(BusyTimeError);
+                });
+            });
+        });
+    });
+
+    it("the complain is a tooth pain.", () => {
+      const userId = this.user.recipientId;
+      const pageId = this.user._page.pageId;
+
+      return this.sophy.start(userId, pageId)
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.START, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.DENTIST, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.TOOTH_PAIN, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.HOUR, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.CONFIRMATION, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.DAY, pageId);
+        })
+        .then(conversation => {
+          const context = conversation.context;
+
+          return this.estimator.estimate(context)
+            .then(duration => {
+              const request = getRequest(conversation, duration);
+
+              return this.assistant.validate(request);
+            });
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.CONFIRMATION, pageId);
+        })
+        .then(conversation => {
+          const context = conversation.context;
+
+          return this.estimator.estimate(context)
+            .then(duration => {
+              const request = getRequest(conversation, duration);
+
+              return this.assistant.validate(request)
+                .then(() => {
+                  return Promise.reject(new Error());
+                })
+                .catch(err => {
+                  expect(err).instanceof(BusyTimeError);
+                });
+            });
+        });
+    });
+
+    it("the complain is a broken tooth.", () => {
+      const userId = this.user.recipientId;
+      const pageId = this.user._page.pageId;
+
+      return this.sophy.start(userId, pageId)
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.START, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.DENTIST, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.BROKEN_TOOTH, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.HOUR, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.CONFIRMATION, pageId);
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.DAY, pageId);
+        })
+        .then(conversation => {
+          const context = conversation.context;
+
+          return this.estimator.estimate(context)
+            .then(duration => {
+              const request = getRequest(conversation, duration);
+
+              return this.assistant.validate(request);
+            });
+        })
+        .then(() => {
+          return this.sophy.respond(userId, userTexts.CONFIRMATION, pageId);
+        })
+        .then(conversation => {
+          const context = conversation.context;
+
+          return this.estimator.estimate(context)
+            .then(duration => {
+              const request = getRequest(conversation, duration);
+
+              return this.assistant.validate(request)
+                .then(() => {
+                  return Promise.reject(new Error());
+                })
+                .catch(err => {
+                  expect(err).instanceof(BusyTimeError);
+                });
+            });
+        });
+    });
 
     it("all steps are gone through without mistakes.", () => {
       const userId = this.user.recipientId;
@@ -177,7 +396,7 @@ describe("The bot maintains a conversation", () => {
           return this.sophy.respond(userId, userTexts.DENTIST, pageId);
         })
         .then(() => {
-          return this.sophy.respond(userId, userTexts.COMPLAINT, pageId);
+          return this.sophy.respond(userId, userTexts.MEDICAL_CHECK, pageId);
         })
         .then(() => {
           return this.sophy.respond(userId, userTexts.HOUR, pageId);
@@ -225,7 +444,7 @@ describe("The bot maintains a conversation", () => {
         });
     });
 
-    it("on each step the first user's response is wrong.", () => {
+    it("on each step the first user's reply is wrong.", () => {
       const userId = this.user.recipientId;
       const pageId = this.user._page.pageId;
 
@@ -250,7 +469,7 @@ describe("The bot maintains a conversation", () => {
           return this.sophy.respond(userId, userTexts.WRONG_COMPLAINT, pageId);
         })
         .then(() => {
-          return this.sophy.respond(userId, userTexts.COMPLAINT, pageId);
+          return this.sophy.respond(userId, userTexts.MEDICAL_CHECK, pageId);
         })
         .then(conversation => {
           if (compareConverations(prevConversation, conversation)) {
@@ -302,7 +521,7 @@ describe("The bot maintains a conversation", () => {
         });
     });
 
-    it("the first selected date by an user has been reserved by someone else.", () => {
+    it("the first selected date by the user has been reserved by someone else.", () => {
       const userId = this.user.recipientId;
       const pageId = this.user._page.pageId;
 
@@ -329,7 +548,7 @@ describe("The bot maintains a conversation", () => {
           return this.sophy.respond(userId, userTexts.DENTIST, pageId);
         })
         .then(() => {
-          return this.sophy.respond(userId, userTexts.COMPLAINT, pageId);
+          return this.sophy.respond(userId, userTexts.MEDICAL_CHECK, pageId);
         })
         .then(() => {
           return this.sophy.respond(userId, userTexts.HOUR, pageId);
@@ -383,7 +602,7 @@ describe("The bot maintains a conversation", () => {
         });
     });
 
-    it("the first date selected by an user is expired.", () => {
+    it("the first date selected by the user is expired.", () => {
       const userId = this.user.recipientId;
       const pageId = this.user._page.pageId;
 
@@ -395,7 +614,7 @@ describe("The bot maintains a conversation", () => {
           return this.sophy.respond(userId, userTexts.DENTIST, pageId);
         })
         .then(() => {
-          return this.sophy.respond(userId, userTexts.COMPLAINT, pageId);
+          return this.sophy.respond(userId, userTexts.MEDICAL_CHECK, pageId);
         })
         .then(() => {
           return this.sophy.respond(userId, userTexts.HOUR, pageId);
@@ -443,7 +662,7 @@ describe("The bot maintains a conversation", () => {
         });
     });
 
-    it("the first date selected by an user resides outside the employee's working time.", () => {
+    it("the first date selected by the user jumps over the employee's working time.", () => {
       const userId = this.user.recipientId;
       const pageId = this.user._page.pageId;
 
@@ -455,7 +674,7 @@ describe("The bot maintains a conversation", () => {
           return this.sophy.respond(userId, userTexts.DENTIST, pageId);
         })
         .then(() => {
-          return this.sophy.respond(userId, userTexts.COMPLAINT, pageId);
+          return this.sophy.respond(userId, userTexts.MEDICAL_CHECK, pageId);
         })
         .then(() => {
           return this.sophy.respond(userId, userTexts.HOUR_THAT_IS_OUTSIDE_WORKING_TIME, pageId);
@@ -503,7 +722,7 @@ describe("The bot maintains a conversation", () => {
         });
     });
 
-    it("in the middle of the reservation lifecycle an user decides to start again.", () => {
+    it("in the middle of the reservation lifecycle the user decides to start over.", () => {
 
     });
   });
@@ -522,7 +741,7 @@ describe("The bot maintains a conversation", () => {
           return this.sophy.respond(userId, userTexts.DENTIST, pageId);
         })
         .then(() => {
-          return this.sophy.respond(userId, userTexts.COMPLAINT, pageId);
+          return this.sophy.respond(userId, userTexts.MEDICAL_CHECK, pageId);
         })
         .then(() => {
           return this.sophy.respond(userId, userTexts.HOUR, pageId);
@@ -569,7 +788,7 @@ describe("The bot maintains a conversation", () => {
           return this.sophy.respond(userId, userTexts.DENTIST, pageId);
         })
         .then(() => {
-          return this.sophy.respond(userId, userTexts.COMPLAINT, pageId);
+          return this.sophy.respond(userId, userTexts.MEDICAL_CHECK, pageId);
         })
         .then(() => {
           return this.sophy.respond(userId, userTexts.NEW_HOUR, pageId);

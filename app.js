@@ -10,24 +10,26 @@ const Employee = require('./src/models/Employee');
 const User = require('./src/models/User');
 const Page = require('./src//models/Page');
 
-const Assistant = require('@fanatic/reservation').Assistant;
-const Messenger = require('@fanatic/messenger').Messenger;
-const GoogleCalendar = require('@fanatic/reservation').calendars.GoogleCalendar;
-const ConversationManager = require(config.paths.ConversationManager);
-const { Oracle, ProphecyInterpreter } = require('@fanatic/oracle');
+const Assistant = require('@fanatic/reservation/Assistant');
+const Messenger = require('@fanatic/messenger/Messenger');
+const GoogleCalendar = require('@fanatic/reservation/calendars/GoogleCalendar');
 const MessengerBot = require('@fanatic/messenger/MessengerBot');
+const { Oracle, ProphecyInterpreter } = require('@fanatic/oracle');
+const ConversationManager = require(config.paths.ConversationManager);
 
-const app = express();
+const {
+  fbRouter,
+  policyRouter,
+  pickersRouter,
+  mapsRouter,
+  predictionsRouter,
+  conversationsRouter,
+  suggestionsRouter
+} = require('./src/routers');
 
-app.set('views', __dirname + '/src/views');
-app.set('view engine', 'ejs');
+mongoose.Promise = Promise;
 
-app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-
+winston.loggers.add('bot', config.loggers.bot);
 winston.loggers.add('oracle', config.loggers.oracle);
 winston.loggers.add('assistant', config.loggers.assistant);
 winston.loggers.add('manager', config.loggers.manager);
@@ -40,7 +42,6 @@ const calendar = new GoogleCalendar(
   config.services.google.appSecret,
   config.services.google.appAuthUri
 );
-
 calendar.setToken(config.services.google.users.sophy);
 
 const conversationManager = new ConversationManager(winston.loggers.get('manager'));
@@ -62,7 +63,7 @@ messenger.settings(messengerSettings);
 const capabilities = require('./src/oracle/capabilities')(conversationManager, messenger, assistant);
 const oracle = new Oracle(capabilities, messenger, conversationManager, winston.loggers.get('oracle'));
 
-const sophy = new MessengerBot(oracle, conversationManager, User, Page, winston.loggers.get('router'));
+const sophy = new MessengerBot(oracle, conversationManager, User, Page, winston.loggers.get('bot'));
 sophy.settings({
   pageValidationToken: config.services.facebook.pageValidationToken,
   fbGraphURI: config.services.facebook.API.graph,
@@ -71,15 +72,14 @@ sophy.settings({
   }
 });
 
-const {
-  fbRouter,
-  policyRouter,
-  pickersRouter,
-  mapsRouter,
-  predictionsRouter,
-  conversationsRouter,
-  suggestionsRouter
-} = require('./src/routers');
+const app = express();
+
+app.set('views', __dirname + '/src/views');
+app.set('view engine', 'ejs');
+
+app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/fb', fbRouter(sophy, winston.loggers.get('router')));
 app.use('/policies', policyRouter());
