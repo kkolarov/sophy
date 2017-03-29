@@ -4,8 +4,6 @@
 
 *Sophy is a bot intended to make reservations through the FB Messenger.*
 
-![Image of Sherloc](https://dl.dropboxusercontent.com/u/108059564/medical_check.jpg)
-
 ### [Live](https://m.me/sophy.virtual.assistant)
 
 
