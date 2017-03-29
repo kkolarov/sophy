@@ -1,24 +1,51 @@
-# Sophy [![Build Status](https://travis-ci.com/fanatic42/sophy.svg?token=yiwT9utGSLvfkSnTbVXG&branch=master)](https://travis-ci.com/fanatic42/sophy)
+### <p align="center"><img width="150px" height="150px" src="https://scontent.fsof3-1.fna.fbcdn.net/v/t1.0-9/17553949_615473718638702_8401331221913396484_n.png?oh=38bf43137d3b173555ff3db4cc93e1a4&oe=59591393"></p>
 
-Sophy is a virtual assistant (bot) for booking.
+# [Sophy](https://m.me/sophy.virtual.assistant) [![Build Status](https://travis-ci.com/fanatic42/sophy.svg?token=yiwT9utGSLvfkSnTbVXG&branch=master)](https://travis-ci.com/fanatic42/sophy)
+
+*Sophy is a bot intended to make reservations through the FB Messenger.*
 
 ![Image of Sherloc](https://dl.dropboxusercontent.com/u/108059564/medical_check.jpg)
+
+### [Live](https://m.me/sophy.virtual.assistant)
 
 
 ## Requisite
 
-* Facebook page - The Facebook App contains the settings. This is where you will setup your webhook, retrieve your page access token and submit your app for approval.
-* [Facebook app](https://developers.facebook.com/apps) - A Facebook Page will be used as the identity of your VA. When people chat with your VA, they will see the Page name and the Page profile pic.
-* [Ngrok](https://ngrok.com) - Ngrok allows you to expose a web server running on your local machine to the internet.
-* [Wit](https://wit.ai) - Wit.ai helps you parse a message into structured data (Understand) or predict the next action your bot should perform (Converse). 
-* [Nodejs](https://nodejs.org) ~v6.0
-* [Mongodb](https://www.mongodb.com/download-center?jmp=nav#community) ~v3.2
+`Step 1` - A facebook page which serves as an identity of your bot. 
+
+`Step 2` - A facebook app that contains the settings especially those about the webhooks.
+
+`Step 3` - A [ngrok](https://ngrok.com) account
+
+`Step 4` - A [wit](https://wit.ai/) account
+
+`Step 5` - [Nodejs](https://nodejs.org/en/)
+
+`Step 6` - [Mongodb](https://www.mongodb.com/)
 
 ## Installation
 
-You have to install project dependencies via the commands:
+#### `Step 1` - clone the repo
+  
+```bash
+$ git clone https://github.com/fanatic42/sophy.git
+```
 
-`npm install` and `bower install`.
+#### `Step 2` - cd in the repo
+
+```bash
+$ cd sophy
+```
+
+#### `Step 3` - install dependencies
+
+```bash
+$ npm install 
+```
+
+```bash
+$ bower install 
+```
 
 ## Configuration
 
@@ -42,7 +69,7 @@ At your webhook URL, add code for verification. Your code should expect the Veri
 
 ### Sophy
 
-To run the project, you have to preprare a configuration file. You need development.json in the config folder with the following structure:
+To run the project, you have to prepare a configuration file. You need development.json in the config folder with the following structure:
 
 ```
 {
@@ -75,12 +102,11 @@ To run the project, you have to preprare a configuration file. You need developm
   }
 }
 ```
-To make appointments in your Google calendars, the VA should have access to them using the `GOOGLE_SOPHY_ACCESS_TOKEN` token.
 
-You can generate this kind of token using the script quickstart.js. If you cannot find it out, you can contact the project owner.
+You make appointments in your Google calendars using `GOOGLE_SOPHY_ACCESS_TOKEN` token. You can generate it as you run the script `quickstart.js` located at the top level of the project structure.
 
-The VA is capable to converse with clients using Wit's bot engine. After creating an app there, go to the settings section, get the access token and assign it to the `WIT_ACCESS_TOKEN` property.
+Sophy understands the user's response using Wit's bot engine. You can find the authorization token in the settings section. You have to copy and paste it in the `WIT_ACCESS_TOKEN` property.
 
-After creating a fb app, go to the dashboard section, copy the app secret and assign it to the `FACEBOOK_APP_SECRET` property.
+The last property you have to configure is `FACEBOOK_APP_SECRET`. You can find it out by visiting the dashboard section in the facebook app.
 
 ## Usage
