@@ -11,7 +11,7 @@
 
 `Step 1` - A facebook page which serves as an identity of your bot. 
 
-`Step 2` - A facebook app that contains the settings especially those about the webhooks.
+`Step 2` - A facebook app that contains the settings about the webhooks.
 
 `Step 3` - A [ngrok](https://ngrok.com) account
 
@@ -23,19 +23,19 @@
 
 ## Installation
 
-#### `Step 1` - clone the repo
+`Step 1` - clone the repo
   
 ```bash
 $ git clone https://github.com/fanatic42/sophy.git
 ```
 
-#### `Step 2` - cd in the repo
+`Step 2` - cd in the repo
 
 ```bash
 $ cd sophy
 ```
 
-#### `Step 3` - install dependencies
+`Step 3` - install dependencies
 
 ```bash
 $ npm install 
@@ -49,25 +49,46 @@ $ bower install
 
 ### Facebook app
 
-#### Subscribe the App to a Page
+`Step 1` - Create Secure Tunneling to Your Localhost
 
-In order for your webhook to receive events for a specific page, you must subscribe your app to the page. You can do this in the Webhooks section under the Messenger Tab.
+```bash
+$ ngrok http 3000
+```
+This command creates two public accessed URLs forwarding to your localhost on port 3000. Lets assume that the URLs are:
+- http://a63e0ca6.ngrok.io
+- https://a63e0ca6.ngrok.io
 
-![Image of Webhook](https://scontent.fsof3-1.fna.fbcdn.net/v/t39.2365-6/13503523_1380281451999079_606965217_n.png?oh=27144d208274773ad47513888374277a&oe=596D669C)
+For clarity, lets the https://a63e0ca6.ngrok.io URL be aliased with `YOUR_NGROK_URL`.
 
-#### Setup a Webhook
+`Step 2` - Setup a Webhook
 
-Webhooks are used to send you a variety of different events including messages, authentication events and callback events from messages.
+Webhook is a HTTP callback used to send you a variety of different events including messages, authentication events and callback events from messages. 
 
-In the Messenger Platform tab, find the Webhooks section and click Setup Webhooks. Enter a URL for a webhook, define a Verify Token and select message_deliveries, messages, messaging_postbacks, messaging_referrals.
+In the `Webhook` section, enter the `YOUR_NGROK_URL` at which your bot will receive messages. Also, add code verification, filling out the `fortestingpurposes` value.
+
+There are different kind of messages sent by the Messenger so lets select `message_deliveries`, `messages`, `messaging_postbacks` and `messaging_referrals`.
+
+Finally, click on `Verify and Save` button in the `New Page Subscription` to call the webhook with a GET request.
 
 ![Image of Webhook](https://scontent.fsof3-1.fna.fbcdn.net/v/t39.2365-6/13509161_1641776279476564_1943134593_n.png?oh=f47fd7125ebc77f5de9489d536e431f2&oe=596F73E3)
 
-At your webhook URL, add code for verification. Your code should expect the Verify Token you previously defined, and respond with the challenge sent back in the verification request. Click the "Verify and Save" button in the New Page Subscription to call your webhook with a GET request.
+At your webhook URL, add code for verification. Your code should look for the Verify Token and respond with the challenge sent in the verification request. 
 
-### Sophy
+`Step 3` - Subscribe the App to a Page
 
-To run the project, you have to prepare a configuration file. You need development.json in the config folder with the following structure:
+In the `Webhooks` section, you can subscribe the webhook for a specific page.
+
+![Image of Webhook](https://scontent.fsof3-1.fna.fbcdn.net/v/t39.2365-6/13503523_1380281451999079_606965217_n.png?oh=27144d208274773ad47513888374277a&oe=596D669C)
+
+`Step 4` - Get a Page Access Token
+
+In the `Token Generation` section, select your Page. A Page Access Token will be generated for you.
+
+Note: The generated token will NOT be saved in this UI. Each time you select that Page a new token will be generated. However, any previous tokens created will continue to function.
+
+`Step 5` - Sophy Configuration File
+
+Lets look at the structure of the `development.json` file:
 
 ```
 {
@@ -100,11 +121,8 @@ To run the project, you have to prepare a configuration file. You need developme
   }
 }
 ```
-
-You make appointments in your Google calendars using `GOOGLE_SOPHY_ACCESS_TOKEN` token. You can generate it as you run the script `quickstart.js` located at the top level of the project structure.
-
-Sophy understands the user's response using Wit's bot engine. You can find the authorization token in the settings section. You have to copy and paste it in the `WIT_ACCESS_TOKEN` property.
-
-The last property you have to configure is `FACEBOOK_APP_SECRET`. You can find it out by visiting the dashboard section in the facebook app.
+- `GOOGLE_SOPHY_ACCESS_TOKEN` token - This token helps you to make reservation in your Google calendars. You can generate it by running the script `quickstart.js`.
+- `WIT_ACCESS_TOKEN` token - This token helps you to access your bot model through Wit. You can find it out by visiting the `Settings` section in your Wit account.
+- `FACEBOOK_APP_SECRET` token - You can find it out by visiting the `Dashboard` section in your facebook app.
 
 ## Usage
