@@ -2,7 +2,7 @@
 
 # [Sophy](https://m.me/sophy.virtual.assistant) [![Build Status](https://travis-ci.com/fanatic42/sophy.svg?token=yiwT9utGSLvfkSnTbVXG&branch=master)](https://travis-ci.com/fanatic42/sophy)
 
-*Sophy is a bot intended to make reservations through the FB Messenger.*
+*Sophy is a personalized bot intended to make reservations through the FB Messenger.*
 
 ### [Live](https://m.me/sophy.virtual.assistant)
 
@@ -11,7 +11,7 @@
 
 `Step 1` - A facebook page which serves as an identity of your bot. 
 
-`Step 2` - A facebook app that contains the settings about the webhooks.
+`Step 2` - A facebook app that links a facebook page with your bot.
 
 `Step 3` - A [ngrok](https://ngrok.com) account
 
@@ -58,7 +58,7 @@ This command creates two public accessed URLs forwarding to your localhost on po
 - http://a63e0ca6.ngrok.io
 - https://a63e0ca6.ngrok.io
 
-For clarity, lets the https://a63e0ca6.ngrok.io URL be aliased with `YOUR_NGROK_URL`.
+For clarity, lets allow the https://a63e0ca6.ngrok.io URL being aliased with `YOUR_NGROK_URL`.
 
 `Step 2` - Setup a Webhook
 
@@ -66,13 +66,11 @@ Webhook is a HTTP callback used to send you a variety of different events includ
 
 In the `Webhook` section, enter the `YOUR_NGROK_URL` at which your bot will receive messages. Also, add code verification, filling out the `fortestingpurposes` value.
 
-There are different kind of messages sent by the Messenger so lets select `message_deliveries`, `messages`, `messaging_postbacks` and `messaging_referrals`.
+There are different types of messages sent by the Messenger so lets select `message_deliveries`, `messages`, `messaging_postbacks` and `messaging_referrals`.
 
 Finally, click on `Verify and Save` button in the `New Page Subscription` to call the webhook with a GET request.
 
 ![Image of Webhook](https://scontent.fsof3-1.fna.fbcdn.net/v/t39.2365-6/13509161_1641776279476564_1943134593_n.png?oh=f47fd7125ebc77f5de9489d536e431f2&oe=596F73E3)
-
-At your webhook URL, add code for verification. Your code should look for the Verify Token and respond with the challenge sent in the verification request. 
 
 `Step 3` - Subscribe the App to a Page
 
@@ -121,8 +119,30 @@ Lets look at the structure of the `development.json` file:
   }
 }
 ```
-- `GOOGLE_SOPHY_ACCESS_TOKEN` token - This token helps you to make reservation in your Google calendars. You can generate it by running the script `quickstart.js`.
+- `GOOGLE_SOPHY_ACCESS_TOKEN` token - This token helps you to make a reservation in your Google calendars. You can generate it by running the script `quickstart.js`.
 - `WIT_ACCESS_TOKEN` token - This token helps you to access your bot model through Wit. You can find it out by visiting the `Settings` section in your Wit account.
 - `FACEBOOK_APP_SECRET` token - You can find it out by visiting the `Dashboard` section in your facebook app.
 
 ## Usage
+
+Lets assume that you are in the root folder of the project. The command that bootstraps the bot is as simple as
+
+```bash
+$ gulp
+```
+
+Now your bot is listening on localhost:3000.
+
+## Main Features
+
+- [x] - making a reservation in a Google calendar.
+
+- [ ] - canceling a reservation in a Google calendar.
+
+- [ ] - reminder that notifies users when the upcoming hour comes.
+
+- [ ] - real time tracker that keep track of the location of users.
+
+<p align="center">
+  <sub>If you found a bug or some improvments, feel free to raise an issue and send a PR!</sub>
+</p>
