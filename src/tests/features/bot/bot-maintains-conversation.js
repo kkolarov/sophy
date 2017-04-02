@@ -1,7 +1,7 @@
 'use strict';
 
 const config = require('config');
-const moment = require('moment');
+const moment = require('moment-business-days');
 
 const hash = require('object-hash')
 const deepCopy = require('deepcopy');
@@ -13,11 +13,11 @@ const chai = require('chai');
 const expect = chai.expect;
 const sinon = require('sinon');
 
-const Assistant = require('@fanatic/reservation/Assistant');
-const BusyTimeError = require('@fanatic/reservation/errors/BusyTimeError');
+const Assistant = require('@fanatic/assistant/Assistant');
+const BusyTimeError = require('@fanatic/assistant/errors/BusyTimeError');
 
 const Messenger = require('@fanatic/messenger/Messenger');
-const GoogleCalendar = require('@fanatic/reservation/calendars/GoogleCalendar');
+const GoogleCalendar = require('@fanatic/assistant/calendars/GoogleCalendar');
 const ConversationManager = require('@fanatic/conversations/NativeConversationManager');
 const { Oracle, ProphecyInterpreter } = require('@fanatic/oracle');
 
@@ -25,9 +25,12 @@ const DentalVisitEstimator = require('../../../reservation/estimators/DentalVisi
 
 const MessengerBot = require('@fanatic/messenger/MessengerBot');
 
-const yesterday = moment().subtract(1, 'day');
-const tomorrow = moment().add(1, 'day');
-const dayAfterTomorrow = moment().add(2, 'days');
+const minus1BusinessDay = moment().businessSubtract(1);
+const plus1BusinessDay = moment().businessAdd(1);
+const plus2BusinessDays = moment().businessAdd(2);
+
+//TODO: has to be loaded from a config file.
+const DAY_FORMAT = "YYYY-MM-DD";
 
 const userTexts = {
   START: "Искам да си запиша час при зъболекар.",
@@ -42,9 +45,9 @@ const userTexts = {
   WRONG_HOUR: "100:000",
   NEW_HOUR: "15:00",
   HOUR_THAT_IS_OUTSIDE_WORKING_TIME: "20:00",
-  OLD_DAY: yesterday.format("YYYY-MM-DD"),
-  DAY: tomorrow.format("YYYY-MM-DD"),
-  NEW_DAY: dayAfterTomorrow.format("YYYY-MM-DD"),
+  OLD_DAY: minus1BusinessDay.format(DAY_FORMAT),
+  DAY: plus1BusinessDay.format(DAY_FORMAT),
+  NEW_DAY: plus2BusinessDays.format(DAY_FORMAT),
   WRONG_DAY: "10.200",
   CONFIRMATION: "Да",
   REJECTION: "Не"
@@ -720,10 +723,6 @@ describe("The bot maintains a conversation", () => {
                 });
             });
         });
-    });
-
-    it("in the middle of the reservation lifecycle the user decides to start over.", () => {
-
     });
   });
 

@@ -32,7 +32,7 @@ const {
   ExpiredDateError,
   InvalidDayFormatError,
   InvalidHourFormatError
-} = require('@fanatic/reservation/errors');
+} = require('@fanatic/assistant/errors');
 
 const dentistStep = (context) => {
   if (context.dentist) {

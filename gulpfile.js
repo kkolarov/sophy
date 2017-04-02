@@ -22,7 +22,7 @@ gulp.task('tests', () => {
   return gulp.src(path.devTests)
     .pipe(mocha({
       R: 'spec',
-      t: 60000 ,
+      t: 120000 ,
       env: config.get('environment')
     }));
 });
@@ -31,7 +31,7 @@ gulp.task('production-tests', () => {
   return gulp.src(path.devTests)
     .pipe(mocha({
       R: 'spec',
-      t: 60000
+      t: 120000
     }));
 });
 

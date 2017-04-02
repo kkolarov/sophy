@@ -34,7 +34,7 @@
   "messengerTemplates": {
     "reservation": {
       "title": "Запазен час",
-      "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/reservation.jpg",
+      "imageUrl": "http://res.cloudinary.com/hj8kc6fhu/image/upload/v1491162717/reservation_laciym.jpg",
       "button": {
         "type": "web_url",
         "title": "Виж адреса",
@@ -64,7 +64,7 @@
       },
       "day": {
         "title": "Календар",
-        "imageUrl": "https://dl.dropboxusercontent.com/u/108059564/calendar.jpg",
+        "imageUrl": "http://res.cloudinary.com/hj8kc6fhu/image/upload/v1491162717/calendar_k3pgxs.jpg",
         "description": "",
         "button": {
           "type": "web_url",
@@ -78,7 +78,7 @@
       {
         "title": "Профилактичен преглед",
         "subtitle": "",
-        "image_url": "https://dl.dropboxusercontent.com/u/108059564/medical_check.jpg",
+        "image_url": "http://res.cloudinary.com/hj8kc6fhu/image/upload/v1491162717/medical_check_hwzcbz.jpg",
         "buttons": [
           {
             "type": "postback",
@@ -90,7 +90,7 @@
       {
         "title": "Зъбен камък",
         "subtitle": "",
-        "image_url": "https://dl.dropboxusercontent.com/u/108059564/tartar.jpg",
+        "image_url": "http://res.cloudinary.com/hj8kc6fhu/image/upload/v1491162717/tartar_fitfjw.jpg",
         "buttons": [
           {
             "type": "postback",
@@ -102,7 +102,7 @@
       {
         "title": "Болка в зъба",
         "subtitle": "",
-        "image_url": "https://dl.dropboxusercontent.com/u/108059564/tooth_pain.jpg",
+        "image_url": "http://res.cloudinary.com/hj8kc6fhu/image/upload/v1491162717/tooth_pain_gldglv.jpg",
         "buttons": [
           {
             "type": "postback",
@@ -114,7 +114,7 @@
       {
         "title": "Счупен зъб",
         "subtitle": "",
-        "image_url": "https://dl.dropboxusercontent.com/u/108059564/broken_tooth.jpg",
+        "image_url": "http://res.cloudinary.com/hj8kc6fhu/image/upload/v1491162717/broken_tooth_cfn4lo.jpg",
         "buttons": [
           {
             "type": "postback",
@@ -126,7 +126,7 @@
       {
         "title": "Друго оплакване",
         "subtitle": "",
-        "image_url": "https://dl.dropboxusercontent.com/u/108059564/call.jpg",
+        "image_url": "http://res.cloudinary.com/hj8kc6fhu/image/upload/v1491162717/call_wvelxl.jpg",
         "buttons": [
           {
             "type": "phone_number",

@@ -10,9 +10,9 @@ const Employee = require('./src/models/Employee');
 const User = require('./src/models/User');
 const Page = require('./src//models/Page');
 
-const Assistant = require('@fanatic/reservation/Assistant');
+const Assistant = require('@fanatic/assistant/Assistant');
 const Messenger = require('@fanatic/messenger/Messenger');
-const GoogleCalendar = require('@fanatic/reservation/calendars/GoogleCalendar');
+const GoogleCalendar = require('@fanatic/assistant/calendars/GoogleCalendar');
 const MessengerBot = require('@fanatic/messenger/MessengerBot');
 const { Oracle, ProphecyInterpreter } = require('@fanatic/oracle');
 const ConversationManager = require(config.paths.ConversationManager);

@@ -26,7 +26,7 @@ const employeeSchema = new Schema({
   pictureUrl: String,
   aboutMe: String,
   workingTime: {
-    weekly: {
+    range: {
       start: {
         type: String,
         required: true
@@ -34,26 +34,92 @@ const employeeSchema = new Schema({
       end: {
         type: String,
         required: true
-      },
-      active: {
-        type: Boolean,
-        required: true
       }
     },
-    holiday: {
+    Monday: {
       start: {
-        type: String,
-        required: true
+        type: String
       },
       end: {
-        type: String,
-        required: true
+        type: String
       },
       active: {
         type: Boolean,
         required: true
       }
     },
+    Tuesday: {
+      start: {
+        type: String
+      },
+      end: {
+        type: String
+      },
+      active: {
+        type: Boolean,
+        required: true
+      }
+    },
+    Wednesday: {
+      start: {
+        type: String
+      },
+      end: {
+        type: String
+      },
+      active: {
+        type: Boolean,
+        required: true
+      }
+    },
+    Thursday: {
+      start: {
+        type: String
+      },
+      end: {
+        type: String
+      },
+      active: {
+        type: Boolean,
+        required: true
+      }
+    },
+    Friday: {
+      start: {
+        type: String
+      },
+      end: {
+        type: String
+      },
+      active: {
+        type: Boolean,
+        required: true
+      }
+    },
+    Saturday: {
+      start: {
+        type: String
+      },
+      end: {
+        type: String
+      },
+      active: {
+        type: Boolean,
+        required: true
+      }
+    },
+    Sunday: {
+      start: {
+        type: String
+      },
+      end: {
+        type: String
+      },
+      active: {
+        type: Boolean,
+        required: true
+      }
+    }
   },
   calendarId: {
     type: String
