@@ -1,6 +1,6 @@
 ### <p align="center"><img width="150px" height="150px" src="https://scontent.fsof3-1.fna.fbcdn.net/v/t1.0-9/17553949_615473718638702_8401331221913396484_n.png?oh=38bf43137d3b173555ff3db4cc93e1a4&oe=59591393"></p>
 
-# [Sophy](https://m.me/sophy.virtual.assistant) [![Build Status](https://travis-ci.com/fanatic42/sophy.svg?token=yiwT9utGSLvfkSnTbVXG&branch=master)](https://travis-ci.com/fanatic42/sophy)
+# [Sophy](https://m.me/sophy.virtual.assistant) [![Build Status](https://travis-ci.com/kkolarov/sophy.svg?token=yiwT9utGSLvfkSnTbVXG&branch=master)](https://travis-ci.com/kkolarov/sophy)
 
 *Sophy is a personalized bot intended to make reservations through the FB Messenger.*
 
@@ -9,7 +9,7 @@
 
 ## Requisite
 
-`Step 1` - A facebook page which serves as an identity of your bot. 
+`Step 1` - A facebook page which serves as an identity of your bot.
 
 `Step 2` - A facebook app that links a facebook page with your bot.
 
@@ -24,7 +24,7 @@
 ## Installation
 
 `Step 1` - clone the repo
-  
+
 ```bash
 $ git clone https://github.com/fanatic42/sophy.git
 ```
@@ -38,11 +38,11 @@ $ cd sophy
 `Step 3` - install dependencies
 
 ```bash
-$ npm install 
+$ npm install
 ```
 
 ```bash
-$ bower install 
+$ bower install
 ```
 
 ## Configuration
@@ -62,7 +62,7 @@ For clarity, lets allow the https://a63e0ca6.ngrok.io URL being aliased with `YO
 
 `Step 2` - Setup a Webhook
 
-Webhook is a HTTP callback used to send you a variety of different events including messages, authentication events and callback events from messages. 
+Webhook is a HTTP callback used to send you a variety of different events including messages, authentication events and callback events from messages.
 
 In the `Webhook` section, enter the `YOUR_NGROK_URL` at which your bot will receive messages. Also, add code verification, filling out the `fortestingpurposes` value.
 
