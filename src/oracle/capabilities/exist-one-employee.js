@@ -23,8 +23,8 @@ const existOneEmployee = (manager) => {
               pictureUrl: employee.pictureUrl,
               calendarId: employee.calendarId,
               workingTime: {
-                start: employee.workingTime.weekly.start,
-                end: employee.workingTime.weekly.end
+                start: employee.workingTime.range.start,
+                end: employee.workingTime.range.end
               },
               address: employee._business.address
             };

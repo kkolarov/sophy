@@ -23,17 +23,7 @@ const pageSchema = new Schema({
 });
 
 pageSchema.statics.findPageById = (id) => {
-  return new Promise((resolve, reject) => {
-    Page.findOne({
-      pageId: id
-    }, (err, page) => {
-      if (!err) {
-        resolve(page);
-      } else {
-        reject(err);
-      }
-    });
-  });
+  return Page.findOne({ pageId: id });
 }
 
 const Page = mongoose.model('Page', pageSchema);

@@ -3,7 +3,7 @@
 const _ = require('lodash');
 const moment = require('moment');
 
-const EntityExtractor = require('./utilities/EntityExtractor');
+const EntityExtractor = require('@fanatic/oracle/utilities/EntityExtractor');
 const extractor = new EntityExtractor({
   day: {
     extract: true

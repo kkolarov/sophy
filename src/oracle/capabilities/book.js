@@ -3,8 +3,8 @@
 const config = require('config');
 const _ = require('lodash');
 
-const EntityExtractor = require('./utilities/EntityExtractor');
-const DentalVisitEstimator = require('../../reservation/estimators').DentalVisitEstimator;
+const EntityExtractor = require('@fanatic/oracle/utilities/EntityExtractor');
+const DentalVisitEstimator = require('../../reservation/estimators/DentalVisitEstimator');
 
 const estimator = new DentalVisitEstimator();
 const extractor = new EntityExtractor({
@@ -32,7 +32,7 @@ const {
   ExpiredDateError,
   InvalidDayFormatError,
   InvalidHourFormatError
-} = require('@fanatic/reservation/errors');
+} = require('@fanatic/assistant/errors');
 
 const dentistStep = (context) => {
   if (context.dentist) {

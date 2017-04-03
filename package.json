@@ -22,7 +22,7 @@
     "@fanatic/conversations": "^1.0.1",
     "@fanatic/messenger": "^2.0.0",
     "@fanatic/oracle": "^1.0.12",
-    "@fanatic/reservation": "^1.0.7",
+    "@fanatic/assistant": "^1.0.7",
     "body-parser": "^1.15.2",
     "bower": "^1.8.0",
     "chai": "^3.5.0",

@@ -1,6 +1,6 @@
 'use strict';
 
-const EntityExtractor = require('./utilities/EntityExtractor');
+const EntityExtractor = require('@fanatic/oracle/utilities/EntityExtractor');
 const extractor = new EntityExtractor({
   yes_no: {
     extract: true
