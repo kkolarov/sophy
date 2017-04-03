@@ -1,4 +1,4 @@
-3### <p align="center"><img width="150px" height="150px" src="https://scontent.fsof3-1.fna.fbcdn.net/v/t1.0-9/17553949_615473718638702_8401331221913396484_n.png?oh=38bf43137d3b173555ff3db4cc93e1a4&oe=59591393"></p>
+### <p align="center"><img width="150px" height="150px" src="https://scontent.fsof3-1.fna.fbcdn.net/v/t1.0-9/17553949_615473718638702_8401331221913396484_n.png?oh=38bf43137d3b173555ff3db4cc93e1a4&oe=59591393"></p>
 
 # [Sophy](https://m.me/sophy.virtual.assistant) [![Build Status](https://travis-ci.com/kkolarov/sophy.svg?token=yiwT9utGSLvfkSnTbVXG&branch=master)](https://travis-ci.com/kkolarov/sophy)
 
